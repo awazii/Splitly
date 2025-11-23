@@ -3,12 +3,11 @@
 @theme {
     --font-poppins: 'Poppins', sans-serif;
     --color-primary: #ff6b35;
-    /* 🌞 LIGHT THEME */
     --color-background: #f8f8f8;
     --color-nav: #1e1e1e;
     --color-surface:#f5f5f5;
     --color-b-light: #c4cad1;
-    
+    --color-highlight:#eee;  
     --color-text-primary: #000000;
     --color-text-muted: #6B7280;
     --color-text-secondary: #484848;
@@ -21,7 +20,7 @@
 
     }
      ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -31,13 +30,18 @@
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     cursor: pointer;
-    background-color: #424040;
+    background-color: #dbdada;
   }
   .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 }
-
+@layer utilities {
+.recharts-surface:focus {
+  outline: none
+;
+}
+}
 @layer components {
     .active {
         @apply bg-background text-black border-primary border-b-5;
@@ -109,13 +113,22 @@
   transition: all .3s ease-in-out;
 }
 .Img-c{
-    @apply size-full object-cover rounded-full border border-b-light
+    @apply size-full object-cover rounded-full
+}
+.border-l{
+    @apply border-b-light border rounded-lg
+}
+.select-friend:active {
+    @apply scale-95;
 }
 }
-@keyframes glow-pulse {z
+@keyframes glow-pulse {
   0%   { box-shadow: 0 0 10px #ff6b35; }
   25%  { box-shadow: 0 0 20px #ff6b35; }
   50%  { box-shadow: 0 0 30px #ff6b35; }
   75%  { box-shadow: 0 0 20px #ff6b35; }
   100% { box-shadow: 0 0 10px #ff6b35; }
 }
+
+
+

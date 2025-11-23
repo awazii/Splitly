@@ -17,7 +17,7 @@ const Card = ({ img, name, bio }) => {
         <StyledWrapper>
             <div className="card ">
                 <div className={`content shadow-lg ${flip ? "rotate-y-180" : "rotate-y-0"}`}>
-                    <div className="front bg-[#dddddd]">
+                    <div className="front bg-b-light">
                         <div className="front-content center-flex flex-col gap-3 bg-surface">
                             <div className="profile size-30 rounded-full ">
                                 <img className='Img-c' src={img} alt="" />
@@ -31,7 +31,7 @@ const Card = ({ img, name, bio }) => {
                             }}>
                                 <RiFlipHorizontalLine className='size-5' />
                             </button>
-                            <button className='absolute top-0 left-0 m-2 p-1 text-black cursor-pointer hover:bg-neutral-200 rounded-md' onClick={() => {
+                            <button className='absolute top-0 left-0 m-2 p-1 text-black cursor-pointer hover:bg-highlight rounded-md' onClick={() => {
                                 setshow({...show,front:!show.front})
                             }}><BsThreeDots className='size-5' />
                             </button>
@@ -52,14 +52,14 @@ const Card = ({ img, name, bio }) => {
                         <div className="back-content flex flex-col items-center">
                             <div className='grid  h-50 w-full p-2 grid-rows-3 grid-cols-2 gap-1'>
                                 <div className=' row-span-2 place-items-center self-center'>
-                                    <div className='bg-[#e0eff5] size-15 rounded-full center-flex '><HiMiniUserGroup className='size-6 text-[#4fb1eb]' /></div>
+                                    <div className=' size-15 rounded-full center-flex ' style={{ background: "  linear-gradient(135deg, #FF9800 0%, #FF5722 50%, #F44336 100%)" }}><HiMiniUserGroup className='size-6 text-white' /></div>
                                     <h4 className='text-sm mt-2 font-bold'>Crews</h4>
                                     <h4 className='text-sm'>5 Groups</h4>
                                 </div>
                                 <div className='row-span-2 place-items-center self-center border-l-1 border-b-light'>
-                                    <div className='bg-[#ffece9] size-15 rounded-full center-flex '><MdOutlineMoneyOff className='size-6 text-[#d92d20]' /></div>
+                                    <div className='size-15 rounded-full center-flex ' style={{ background: " linear-gradient(135deg, #FF512F 0%, #DD2476 50%, #FF6E7F 100%)" }}><MdOutlineMoneyOff className='size-6 text-white' /></div>
                                     <h4 className='text-sm mt-2 font-bold'>Money Owe's</h4>
-                                    <h4 className='text-sm'>5000 Pkr</h4>
+                                    <h4 className='text-sm'>Rs.5000</h4>
 
                                 </div>
                                 <div className=' col-span-2 p-2 border-t-1 border-b-light'>
@@ -73,7 +73,7 @@ const Card = ({ img, name, bio }) => {
                             }}>
                                 < RiFlipHorizontalFill className='size-5' />
                             </button>
-                             <button className='absolute top-0 left-0 m-1 p-1 text-black cursor-pointer hover:bg-neutral-200 rounded-md' onClick={() => {
+                             <button className='absolute top-0 left-0 m-1 p-1 text-black cursor-pointer hover:bg-highlight rounded-md' onClick={() => {
                                 setshow({...show,back:!show.back})
                             }}><BsThreeDots className='size-5'/>
                             </button>

@@ -1,4 +1,4 @@
-import React ,{useRef} from 'react'
+import React, { useRef } from 'react'
 import Input from '../Input'
 import Button from '../searchbtn'
 import { TbPinnedFilled } from "react-icons/tb";
@@ -13,68 +13,74 @@ import sheda from "../../assets/sheda.jpg"
 import { FaChevronDown } from "react-icons/fa";
 import FriendCard from "./FriendCard"
 import { FaUserFriends } from "react-icons/fa";
+import { CiFilter } from "react-icons/ci";
+export const Friends = [
+  {
+    id: "001",
+    name: 'Awazii',
+    bio: 'Randi lover',
+    profilePic: awazii
+  },
+  {
+    id: "002",
+    name: 'Arshman',
+    bio: 'Gooner',
+    profilePic: arshman
+  },
+  {
+    id: "003",
+    name: 'Daud Khalid',
+    bio: 'Advocate',
+    profilePic: daud
+  },
+  {
+    id: "004",
+    name: 'Sheda',
+    bio: `Mama's Boy`,
+    profilePic: sheda
+  },
+  {
+    id: "005",
+    name: "Saad Khalid",
+    bio: "Gym Freak",
+    profilePic: saad
+  },
+  {
+    id: "006",
+    name: "Habib",
+    bio: "Nerd",
+    profilePic: habib
+  }
+  ,
+  {
+    id: "007",
+    name: "Zuzu",
+    bio: "Savage's Mod",
+    profilePic: zuzu
+  }
+]
 export const Friendslist = () => {
   const Friendsrefs = useRef({})
-  function Setref(el,i) {
-    Friendsrefs.current[i]=el
-  } 
-  const hightlightFriend=(id)=>{
-    const el =Friendsrefs.current[id]
+  function Setref(el, i) {
+    Friendsrefs.current[i] = el
+  }
+  const hightlightFriend = (id) => {
+    const el = Friendsrefs.current[id]
     if (!el) return;
-    el.scrollIntoView({behavior:"smooth",block:"center"});
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
     el.classList.add("highlight-glow")
     setTimeout(() => el.classList.remove("highlight-glow"), 3000);
   }
-  const Friends = [
-    {
-      id:"001",
-      name: 'Awazii',
-      bio: 'Front End Dev',
-      profilePic: awazii
-    },
-    {
-       id:"002",
-      name: 'Arshman',
-      bio: 'Gooner',
-      profilePic: arshman
-    },
-    {
-       id:"003",
-      name: 'Daud Khalid',
-      bio: 'Advocate',
-      profilePic: daud
-    },
-    {
-      id:"004",
-      name: 'Sheda',
-      bio: `Mama's Boy`,
-      profilePic: sheda
-    },
-    {
-       id:"005",
-      name: "Saad Khalid",
-      bio : "Gym Freak",
-      profilePic:saad
-    },
-    {
-       id:"006",
-      name:"Habib",
-      bio : "Nerd",
-      profilePic:habib
-    }
-    ,
-    {
-       id:"007",
-      name:"Zuzu",
-      bio : "Savage's Mod",
-      profilePic:zuzu
-    }
-  ]
   return (
     <div className='Friends'>
-      <div className="search flex gap-4 w-full py-2  items-center">
-        <Input variant={"Friend"} />
-        <Button />
+      <div className='flex items-center justify-between mt-3'>
+        <div className="search flex gap-4 py-2  items-center">
+          <Input variant={"Friend"} />
+          <Button />
+        </div>
+        <div className="filter card-b p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex ">
+          <CiFilter className='size-5' />
+        </div>
       </div>
       <div className="pinned-friends mt-2 p-2">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>Pinned <span> <TbPinnedFilled className='rotate-45' /></span></h2>
@@ -97,7 +103,7 @@ export const Friendslist = () => {
                     </div>
                   </div>
 
-                  <button className='view-m underline cursor-pointer text-text-muted border p-2 border-b-light rounded-2xl transition duration-300 ease-in-out center-flex hover:text-primary' onClick={()=>{
+                  <button className='view-m underline cursor-pointer text-text-muted border p-2 border-b-light rounded-2xl transition duration-300 ease-in-out center-flex hover:text-primary' onClick={() => {
                     hightlightFriend(friend.id)
                   }}><FaChevronDown /></button>
                 </div>
@@ -107,18 +113,18 @@ export const Friendslist = () => {
 
         </div>
       </div>
-        <div className="friendslist-container    min-h-60 border-b-light p-2 ">
-           <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>Friends<span> <FaUserFriends  /></span></h2>
-          <div className="friendslist grid grid-cols-6 gap-x-3 gap-y-2 mb-5">
-            {
-              Friends.map((friend,index)=>{
-                return(
-                  <div key={friend.id} ref={(el)=>{Setref(el,friend.id)}}><FriendCard  img={friend.profilePic}  name={friend.name} bio={friend.bio}/></div>
-                )
-              })
-            }
-          </div>
+      <div className="friendslist-container    min-h-60 border-b-light p-2 ">
+        <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>Friends<span> <FaUserFriends /></span></h2>
+        <div className="friendslist grid grid-cols-6 gap-x-3 gap-y-2 mb-5">
+          {
+            Friends.map((friend, index) => {
+              return (
+                <div key={friend.id} ref={(el) => { Setref(el, friend.id) }}><FriendCard img={friend.profilePic} name={friend.name} bio={friend.bio} /></div>
+              )
+            })
+          }
         </div>
+      </div>
     </div>
   )
 }

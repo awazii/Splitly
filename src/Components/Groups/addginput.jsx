@@ -25,12 +25,13 @@ const StyledWrapper = styled.div`
    font-size: 1rem;
    color: black;
    transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+   width:450px
   }
 
   .user-label {
    position: absolute;
    left: 15px;
-   color:  #484848;
+   color: #484848;
    pointer-events: none;
    transform: translateY(1rem);
    transition: 150ms cubic-bezier(0.4,0,0.2,1);

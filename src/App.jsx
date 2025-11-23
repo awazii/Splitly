@@ -9,6 +9,7 @@ import {Groups} from './Components/Groups/Groups'
 import { Friendslist } from './Components/friends/Friendslist.JSX'
 import { Grouplist } from './Components/Groups/Grouplist'
 import { Newg } from './Components/Groups/Newg'
+import { Expense } from './Components/Expenses/Expense'
 function App() {
   const router = createBrowserRouter([
     {
@@ -46,6 +47,11 @@ function App() {
               element:<Newg/>
             }
           ]
+        }
+        ,
+        {
+          path:'/Expenses',
+          element:<Expense/>
         }
       ]
     }

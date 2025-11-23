@@ -37,14 +37,9 @@ export const Navbar = () => {
                     </li>
                 ))}
             </ul>
-            <div className="settings absolute bottom-5 w-25 flex flex-col items-center justify-center ">
-                <div className="setting-icon size-10 blurred m-3 center-flex   rounded-2xl">
+            <div className="settings absolute bottom-8  left-6 ">
+                <div className="setting-icon size-10 blurred center-flex   rounded-2xl">
                     <IoSettingsSharp className='size-6  hover:cursor-pointer   rounded-md p-1' />
-                </div>
-                <div className="themes  blurred w-10 h-25 rounded-2xl center-flex flex-col gap-4 p-2">
-                     <button className="dark center-flex size-7 "><FaMoon className='size-4 hover:cursor-pointer ' />
-                    </button>
-                    <button className="light center-flex size-7 theme-active"><IoIosSunny className='size-5 hover:cursor-pointer ' /></button>
                 </div>
             </div>
         </nav>
