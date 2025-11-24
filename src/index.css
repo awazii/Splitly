@@ -37,7 +37,7 @@
 }
 }
 @layer utilities {
-.recharts-surface:focus {
+.recharts-surface:focus,.recharts-layer:focus,g:focus {
   outline: none
 ;
 }

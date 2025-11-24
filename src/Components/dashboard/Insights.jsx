@@ -12,7 +12,7 @@ const InsightCard = ({ icon, title, description, value }) => (
         {description && <p className="text-xs text-gray-500">{description}</p>}
       </div>
     </div>
-    <p className="text-lg font-bold text-gray-900">{value}</p>
+    <p className="text-md font-bold text-gray-900">{value}</p>
   </div>
 );
 
@@ -22,29 +22,28 @@ export const Insights = () => {
       id: 1,
       title: "Top Spending Group",
       description: "Trip to Murree",
-      value: "Rs 800",
+      value: "Rs. 800",
       icon: <HiMiniUserGroup className="text-[#f68340] text-xl" />,
     },
     {
       id: 2,
       title: "Highest Contributor",
       description: "Awazii",
-      value: "Rs 500",
+      value: "Rs. 1,500",
       icon: <IoPerson className="text-[#2196f3] text-xl" />,
     },
     {
       id: 3,
       title: "Largest Debt",
       description: "Arshman",
-      value: "Rs 300",
+      value: "Rs. 300",
       icon: <IoPerson className="text-[#e53935] text-xl" />,
-      bg: "bg-purple-50"
     },
     {
       id: 4,
       title: "Total Expenses",
       description: "12 expenses recorded",
-      value: "Rs 3,600",
+      value: "Rs. 3,600",
       icon: <GiExpense className="text-[#4caf50] text-xl" />
     }
   ];

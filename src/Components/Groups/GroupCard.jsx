@@ -113,7 +113,7 @@ const Card = ({ group }) => {
                                                 <span className='text-[10px] text-text-secondary'>Total Amount</span>
                                             </div>
                     </div>
-                  </div>
+                  </div> 
                 </div>
               </div>
               <div className="group-recent-activiity px-4 pt-2">
