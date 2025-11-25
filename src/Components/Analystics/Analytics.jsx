@@ -4,6 +4,9 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { FriendsByGroupChart } from "./Fchart1";
 import { TotalOwedChart } from "./Fchart2"
 import { MultiPaidVsOwes } from './Fchart3';
+import GroupExpensesChar from './Fchart4'
+import GroupSizeChart from './Fchart5'
+import AnimateOnSightWrapper from '../../utils/intersection'
 export const Analytics = () => {
     return (
         <div className='Analytics h-full overflow-auto scrollbar-hide relative '>
@@ -18,46 +21,71 @@ export const Analytics = () => {
                 <div className="f-graphs-container grid grid-cols-4 grid-rows-4 gap-3">
                     <div className="card-b rounded-lg col-span-2 row-span-2">
                         <h3 className="font-semibold mt-4 text-xl text-center">
-                            Friends by group count
+                            Friend Group Memberships
                         </h3>
                         <p className="text-text-secondary mt-1 text-md text-center">
-                            Top 10 friends ranked by group participation
+                            Showing the number of groups each friend is in
                         </p>
-                        <FriendsByGroupChart />
+                        <AnimateOnSightWrapper>
+                            <FriendsByGroupChart />
+                        </AnimateOnSightWrapper>
                     </div>
-
                     <div className="card-b rounded-lg col-span-2 row-span-2">
                         <h3 className="font-semibold mt-4 text-xl text-center">
-                            Total owed by friend
+                            Amounts Owed by Friends
                         </h3>
                         <p className="text-text-secondary mt-1 text-md text-center">
-                            Top 10 friends ranked by amount owed
+                            A list of what each friend currently owes
                         </p>
-                        <TotalOwedChart />
+                        <AnimateOnSightWrapper>
+                            <TotalOwedChart />
+                        </AnimateOnSightWrapper>
                     </div>
 
                     <div className="card-b rounded-lg col-span-4 row-span-2">
                         <h3 className="font-semibold mt-4 text-xl text-center">
-                            Friend Contributions
+                            Friend Balances
                         </h3>
                         <p className="text-text-secondary mt-1 text-md text-center">
-                            Top 10 contributors by payments vs debts
+                            Overview of payments and outstanding debts
                         </p>
-                        <MultiPaidVsOwes />
+                        <AnimateOnSightWrapper>
+                            <MultiPaidVsOwes />
+                        </AnimateOnSightWrapper>
                     </div>
                 </div>
             </div>
-            <div className="group-analytics">
+            <div className="group-analytics my-5 container mx-auto">
+                <h2 className='text-xl font-semibold mb-3 center-flex gap-1 w-fit'>
+                    Groups Analytics <span><HiMiniUserGroup /></span>
+                </h2>
+
+                <div className="g-graphs-container grid grid-cols-3 gap-3">
+                    <div className="card-b rounded-lg col-span-2">
+                        <h3 className="font-semibold mt-4 text-xl text-center">
+                            Group Member Counts
+                        </h3>
+                        <p className="text-text-secondary mt-1 text-md text-center">
+                            Showing the total number of members in each group
+                        </p>
+                        <AnimateOnSightWrapper>
+                            <GroupSizeChart />
+                        </AnimateOnSightWrapper>
+                    </div>
+                    <div className="card-b rounded-lg col-span-1">
+                        <h3 className="font-semibold mt-4 text-xl text-center">
+                            Highest Spending Groups
+                        </h3>
+                        <p className="text-text-secondary mt-1 text-md text-center">
+                            Top 5 groups by total spend
+                        </p>
+                        <AnimateOnSightWrapper>
+                            <GroupExpensesChar />
+                        </AnimateOnSightWrapper>
+                    </div>
+                </div>
 
             </div>
         </div>
     )
 }
-// | Feature                              | Graph Type                  | Difficulty  | Why                     |
-// | ------------------------------------ | --------------------------- | ----------- | ----------------------- |
-// | Friends by group count               | Vertical Bar                | Easy        | Clean ranking           |
-// | Total owed by friend                 | Horizontal Bar              | Easy        | Names fit better        |
-// | Paid vs Owes (overall app)           | Stacked Bar (1 bar)         | Medium      | Quick balance check     |
-// | Group size                           | Bar Chart                   | Easy        | Counts look great       |
-// | ⭐ Friend vs Group Contribution Ratio | **Stacked Bar (multi-bar)** | Medium-High | Most meaningful insight |
-

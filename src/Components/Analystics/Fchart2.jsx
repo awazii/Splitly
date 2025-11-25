@@ -64,6 +64,7 @@ export const TotalOwedChart = () => {
                 </foreignObject>
               );
             }}
+            hide={data.length>10}
           />
           <YAxis />
           <Tooltip
@@ -88,7 +89,7 @@ export const TotalOwedChart = () => {
             type="monotone"
             dataKey="owed"
             stroke="#e53935"
-            fill="rgba(229,57,53,0.4)" // semi-transparent red fill
+            fill="rgba(229,57,53,0.4)" 
             strokeWidth={3}
             activeDot={{ r: 6 }}
           />

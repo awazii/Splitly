@@ -67,7 +67,8 @@ export const FriendsByGroupChart = () => {
                   />
                 </foreignObject>
               );
-            }}
+            }} 
+            hide={data.length>10}
           />
           <YAxis type="number" allowDecimals={false} />
           <Tooltip

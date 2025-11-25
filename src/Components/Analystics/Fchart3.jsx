@@ -40,7 +40,7 @@ export const MultiPaidVsOwes = () => {
   ];
 
   return (
-    <div style={{ width: "100%", height: 500 }}>
+    <div style={{ width: "100%", height: 480 }}>
       <ResponsiveContainer>
         <LineChart
           data={data}
@@ -65,7 +65,7 @@ export const MultiPaidVsOwes = () => {
                   />
                 </foreignObject>
               );
-            }}
+            }} hide={data.length>10}
           />
           <YAxis />
           <Tooltip
