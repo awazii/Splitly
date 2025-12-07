@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { PieChart, Pie, Tooltip, Sector } from "recharts";
 const CategoryData = [
-    { name: "Food & Snacks", amount: 3200, count: 12, fill: "#e53935" },  
+    { name: "Food & Snacks", amount: 3200, count: 12, fill: "#e53935" },
     { name: "Drinks & Beverages", amount: 1100, count: 4, fill: "#38A7FF" },
     { name: "Vapes & Smoking", amount: 800, count: 3, fill: "#4caf50" },
-    { name: "Transport", amount: 2500, count: 8, fill: "#F7C72F" },   
-    { name: "Hotel & Stay", amount: 4500, count: 6, fill: "#f68340" },  
+    { name: "Transport", amount: 2500, count: 8, fill: "#F7C72F" },
+    { name: "Hotel & Stay", amount: 4500, count: 6, fill: "#f68340" },
     { name: "Movie & Events", amount: 1800, count: 5, fill: "#ff69b4" },
-    { name: "Others", amount: 900, count: 2, fill: "#A845DD" }, 
+    { name: "Others", amount: 900, count: 2, fill: "#A845DD" },
 ];
 
 
@@ -40,7 +40,7 @@ export const Analystic = () => {
 
     return (
         <div className='center-flex h-full w-full gap-6'>
-            <PieChart width={650} height={450}  tabIndex={-1}>
+            <PieChart width={650} height={450} tabIndex={-1}>
                 <defs>
                     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                         <feGaussianBlur stdDeviation="4" result="blur" />
@@ -67,7 +67,9 @@ export const Analystic = () => {
                 <Tooltip
                     contentStyle={{
                         borderRadius: 8,
-                        fontWeight: '600'
+                        fontWeight: '600',
+                        border: "none",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                     }}
                     formatter={(value, name, entry) => [
                         name

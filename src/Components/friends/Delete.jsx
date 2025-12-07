@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Button = ({name}) => {
   return (
     <StyledWrapper>
-      <div className='actions-i  size-10 relative'>
+      <div className='actions-i   size-10 relative'>
       <button className="button actions-i relative">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14" className="svgIcon bin-top">
           <g clipPath="url(#clip0_35_24)">

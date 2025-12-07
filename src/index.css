@@ -99,8 +99,11 @@
     @apply transition duration-300 ease-in-out
 }
 .actions-i span{
-    @apply absolute bottom-0 left-[45px] bg-background p-1  border w-25 text-center rounded-2xl border-b-light shadow-lg font-semibold text-sm transition-opacity duration-300 ease-in-out opacity-0;
+    @apply absolute bottom-0 left-[45px] bg-background p-2  border w-25 text-center rounded-2xl border-b-light shadow-lg font-semibold text-sm transition-opacity duration-300 ease-in-out opacity-0;
     pointer-events: none;
+}
+.actions-i-pin span{
+    @apply left-[-110px] ;
 }
 .actions-i:hover span{
     @apply opacity-100

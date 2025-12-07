@@ -18,7 +18,7 @@ const StyledWrapper = styled.div`
   button {
     font-family: inherit;
     font-size: 14px;
-    background: #ff6b35;
+    background: #1e1e1e;
     color: white;
     padding: 0.7em 1em;
     padding-left: 0.9em;
@@ -44,7 +44,7 @@ const StyledWrapper = styled.div`
   }
 
   button:hover {
-    background: #1e1e1e ;
+    background: #ff6b35 ;
   }
 
   button:hover .svg-wrapper {

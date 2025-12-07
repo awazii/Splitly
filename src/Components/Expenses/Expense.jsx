@@ -78,11 +78,6 @@ export const Expense = () => {
                 gradient: categories[0].gradient,
                 icon: categories[0].icon,
             },
-            status: {
-                text: "Settled",
-                textColor: "#16A34A",
-                bgColor: "#2FA85A"
-            },
             group: {
                 name: "Trip to Murree",
                 img: mountain,
@@ -105,11 +100,6 @@ export const Expense = () => {
                 gradient: categories[3].gradient,
                 icon: categories[3].icon,
             },
-            status: {
-                text: "Pending",
-                textColor: "#D97706",
-                bgColor: "#FBBF24"
-            },
             group: {
                 name: "Sea View Hangout",
                 img: beach,
@@ -130,11 +120,6 @@ export const Expense = () => {
                 gradient: categories[6].gradient,
                 icon: categories[6].icon,
             },
-            status: {
-                text: "Settled",
-                textColor: "#16A34A",
-                bgColor: "#2FA85A"
-            },
             group: {
                 name: "Atif Aslam Concert",
                 img: concert,
@@ -153,11 +138,6 @@ export const Expense = () => {
                 name: categories[0].name,
                 gradient: categories[0].gradient,
                 icon: categories[0].icon,
-            },
-            status: {
-                text: "Pending",
-                textColor: "#D97706",
-                bgColor: "#FBBF24"
             },
             group: {
                 name: "Birthday Party",
@@ -180,11 +160,6 @@ export const Expense = () => {
                 gradient: categories[0].gradient,
                 icon: categories[0].icon,
             },
-            status: {
-                text: "Settled",
-                textColor: "#16A34A",
-                bgColor: "#2FA85A"
-            },
             group: {
                 name: "Gaming Night",
                 img: Other,
@@ -203,11 +178,6 @@ export const Expense = () => {
                 name: categories[4].name,
                 gradient: categories[4].gradient,
                 icon: categories[4].icon,
-            },
-            status: {
-                text: "Pending",
-                textColor: "#D97706",
-                bgColor: "#FBBF24"
             },
             group: {
                 name: "Northern Trip",
@@ -229,11 +199,6 @@ export const Expense = () => {
                 gradient: categories[0].gradient,
                 icon: categories[0].icon,
             },
-            status: {
-                text: "Settled",
-                textColor: "#16A34A",
-                bgColor: "#2FA85A"
-            },
             group: {
                 name: "Friends Meetup",
                 img: Restaurant,
@@ -253,11 +218,6 @@ export const Expense = () => {
                 name: categories[1].name,
                 gradient: categories[1].gradient,
                 icon: categories[1].icon,
-            },
-            status: {
-                text: "Settled",
-                textColor: "#16A34A",
-                bgColor: "#2FA85A"
             },
             group: {
                 name: "Cafe Chill Session",
@@ -279,11 +239,6 @@ export const Expense = () => {
                 gradient: categories[2].gradient,
                 icon: categories[2].icon,
             },
-            status: {
-                text: "Pending",
-                textColor: "#D97706",
-                bgColor: "#FBBF24"
-            },
             group: {
                 name: "Night Drive",
                 img: mountain,
@@ -302,11 +257,6 @@ export const Expense = () => {
                 name: categories[5].name,
                 gradient: categories[5].gradient,
                 icon: categories[5].icon,
-            },
-            status: {
-                text: "Settled",
-                textColor: "#16A34A",
-                bgColor: "#2FA85A"
             },
             group: {
                 name: "Errand Run",
@@ -376,22 +326,9 @@ export const Expense = () => {
                     {Expenses.sort(() => Math.random() - 0.5)
                         .map((expense, index) => {
                             return (
-                                <div key={index} className='expense relative card-b h-47 rounded-lg'>
+                                <div key={index} className='expense relative card-b h-40 rounded-lg'>
                                     <div className='expense-detail-btn absolute bottom-4 right-5'>
                                         <Expensedetailbtn />
-                                    </div>
-                                    <div className="status p-1  flex items-center justify-center gap-2">
-                                        <h4 className="text-sm font-semibold">Status</h4>
-                                        <div
-                                            className="flex items-center gap-1 text-sm"
-                                            style={{ color: expense.status.textColor }}
-                                        >
-                                            <div
-                                                className="w-2 h-2 rounded-full"
-                                                style={{ backgroundColor: expense.status.bgColor }}
-                                            ></div>
-                                            <span>{expense.status.text}</span>
-                                        </div>
                                     </div>
                                     <div className="expense-info  w-[92%] h-20 mx-auto mt-1  rounded-lg center-flex gap-3">
                                         <div className="expense-logo  size-15 rounded-lg  center-flex shadow-md" style={{ background: expense.category.gradient }}>

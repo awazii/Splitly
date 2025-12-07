@@ -5,7 +5,7 @@ import { TbPinnedOff } from "react-icons/tb";
 const Checkbox = ({pin,setpin ,name}) => {
   return (
     <StyledWrapper>
-      <label className="container actions-i hover:bg-primary relative">
+      <label className="container actions-i-pin actions-i hover:bg-primary relative">
         <input checked={pin} type="checkbox" onChange={()=>{
           setpin(!pin)
         }}/>

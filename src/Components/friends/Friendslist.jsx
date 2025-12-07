@@ -115,7 +115,7 @@ export const Friendslist = () => {
       </div>
       <div className="friendslist-container    min-h-60 border-b-light p-2 ">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>Friends<span> <FaUserFriends /></span></h2>
-        <div className="friendslist grid grid-cols-6 gap-x-3 gap-y-2 mb-5">
+        <div className="friendslist grid grid-cols-4  gap-x-4 gap-y-2 mb-5">
           {
             Friends.map((friend, index) => {
               return (
