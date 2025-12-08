@@ -54,13 +54,13 @@ const StyledWrapper = styled.div`
   }
 
   .cssbuttons-io-button .icon svg {
-    width: 1.1em;
+    width: 1em;
     transition: transform 0.3s;
     color: #ff6b35;
   }
 
   .cssbuttons-io-button:hover .icon svg {
-    transform: translateX(0.1em);
+    transform: translateX(0.2em);
   }
 `;
 

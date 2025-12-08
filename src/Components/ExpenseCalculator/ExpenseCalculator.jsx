@@ -9,7 +9,8 @@ import Temoraryinput from './Temoray';
 import Addtemp from './Addtemp';
 import Next from './Next';
 import Prev from './Prev';
-const temoraryfriends=["ali","hamza"];
+const temoraryfriends = [{ type: "temporary", name: "ali" }, { type: "temporary", name: "sami" }, { type: "temporary", name: "hassan" }];
+const allfriends = [...temoraryfriends, ...Friends];
 export const ExpenseCalculator = () => {
     return (
         <div className='ExpenseCalculator-main h-full overflow-auto scrollbar-hide relative'>
@@ -43,41 +44,31 @@ export const ExpenseCalculator = () => {
                                     </Calcheckbox>
                                 </div>
                                 <Choosef />
-                            </div> 
+                            </div>
                         </div>
                         <div className="adding-temporay-friends  h-15 p-2 flex gap-3 ">
-                               <Temoraryinput />
-                                 <Addtemp />
+                            <Temoraryinput />
+                            <Addtemp />
                         </div>
                         <div className='select-friends   mx-auto mt-3  '>
-                            <div className="friend-lists  h-80 overflow-auto  grid grid-cols-5  gap-3  border-b-light px-2 ">
-                                {temoraryfriends.map((name, index) => {
-                                     return (
-                                        <label key={index} className='select-friend rounded-lg shadow-md  bg-highlight flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans'>
-                                            <div className="friend-img-container size-16 bg-neutral-300 rounded-full center-flex">
-                                                <IoPerson className='size-7 text-neutral-500' />
-                                            </div>
-                                            <div className="friend-info center-flex flex-col">
-                                                <h2 className='text-sm'>{name}</h2>
-                                                <p className='text-[12px] text-text-secondary'>
-                                                    Temporary Friend
-                                                </p>
-                                            </div>
-                                            <div className='absolute top-2 right-1'>
-                                                <Calcheckbox />
-                                            </div>
-                                        </label>
-                                    )
-                                })}
-                                {Friends.map((friend, index) => {
+                            <div className="friend-lists  h-80 overflow-auto  grid grid-cols-6  gap-3  border-b-light px-2 ">
+                                {allfriends.map((friend, index) => {
                                     return (
                                         <label key={index} className='select-friend rounded-lg shadow-md  bg-highlight flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans'>
                                             <div className="friend-img-container size-16">
+                                                {friend.type === "temporary" ? (
+                                                    <div className="friend-img-container size-16 bg-neutral-300 rounded-full center-flex">
+                                                        <IoPerson className='size-7 text-neutral-500' />
+                                                    </div>
+                                                ) : (
                                                 <img src={friend.profilePic} className='Img-c' alt="friend-img" />
+                                                )}
                                             </div>
                                             <div className="friend-info center-flex flex-col">
                                                 <h2 className='text-sm'>{friend.name}</h2>
-                                                <p className='text-[12px] text-text-secondary'>{friend.bio}</p>
+                                                <p className='text-[12px] text-text-secondary'>{
+                                                    friend.type === "temporary" ? "Temporary Friend" :
+                                                        friend.bio}</p>
                                             </div>
                                             <div className='absolute top-2 right-1'>
                                                 <Calcheckbox />
@@ -87,12 +78,12 @@ export const ExpenseCalculator = () => {
                                 })}
                             </div>
                         </div>
-                         <div className="progress center-flex flex-col mt-6 ">
-                    <h3 className='text-text-secondary'>Step 1 of 2</h3>
-                    <div className="progress-bar h-3 bg-highlight rounded-full mt-2 w-60 shadow ">
-                        <div className="progress-fill h-full bg-primary w-1/2 rounded-full trans"></div>
-                    </div>
-                </div>
+                        <div className="progress center-flex flex-col mt-6 ">
+                            <h3 className='text-text-secondary'>Step 1 of 2</h3>
+                            <div className="progress-bar h-3 bg-highlight rounded-full mt-2 w-60 shadow ">
+                                <div className="progress-fill h-full bg-primary w-1/2 rounded-full trans"></div>
+                            </div>
+                        </div>
                         <div className="next absolute bottom-4 right-6">
                             <Next />
                         </div>
