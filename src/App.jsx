@@ -11,6 +11,7 @@ import { Grouplist } from './Components/Groups/Grouplist'
 import { Newg } from './Components/Groups/Newg'
 import { Expense } from './Components/Expenses/Expense'
 import { Analytics } from './Components/Analystics/Analytics'
+import { ExpenseCalculator } from './Components/ExpenseCalculator/ExpenseCalculator'
 function App() {
   const router = createBrowserRouter([
     {
@@ -57,6 +58,9 @@ function App() {
         {
           path:'/Analytics',
           element:<Analytics/>
+        },{
+          path:"/ExpenseCalculator",
+          element:<ExpenseCalculator/>
         }
       ]
     }

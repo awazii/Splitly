@@ -18,7 +18,7 @@ export const Navbar = () => {
         { icon: <HiMiniUserGroup />, label: "Groups",link:'/Groups' },
         { icon: <GiExpense />, label: "Expenses",link:'/Expenses' },
         { icon: <MdAnalytics />, label: "Analytics",link:'/Analytics' },
-        { icon: <FaCalculator />, label: "Expense Calculator",link:'/Expensecalculator' }
+        { icon: <FaCalculator />, label: "Expense Calculator",link:'/ExpenseCalculator' }
     ])
     return (
         <nav className="Navbar  w-70 relative text-white ">

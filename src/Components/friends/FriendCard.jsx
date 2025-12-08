@@ -10,7 +10,7 @@ import { MdOutlineMoneyOff } from "react-icons/md";
 import { FaRupeeSign } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
 import Fdebtgraph from './Fdebtsgraph';
-import Debtbtn from './detailsbtn';
+import Detailbtn from './detailsbtn';
 import Pinbtn from './Pin';
 const Card = ({ img, name, bio }) => {
   const [show, setshow] = useState({ front: false, back: false })
@@ -35,17 +35,17 @@ const Card = ({ img, name, bio }) => {
               >
                 <Pinbtn pin={pin} setpin={setpin} name={name} />
               </div>
-              <div className="left w-45 flex items-center flex-col gap-2 pl-2 py-3">
-                <div className="profile size-24 rounded-full ">
+              <div className="about-f w-45 flex items-center flex-col gap-2 pl-2 py-3">
+                <div className="profile size-25 rounded-full ">
                   <img className='Img-c' src={img} alt="" />
                 </div>
                 <div className="info h-10 flex items-center flex-col">
                   <h3 className="name text-text-primary font-bold ">{name}</h3>
                   <h4 className="bio text-text-secondary text-sm">{bio}</h4>
                 </div>
-                <Debtbtn />
+                <Detailbtn />
               </div>
-              <div className='right flex-1 space-y-1 p-2 pl-0'>
+              <div className='debt-graphs flex-1 space-y-1 p-2 pl-0'>
                 <div className="money-owes center-flex flex-col gap-1">
                   <div className='graphs'>
                     <Fdebtgraph />

@@ -4,21 +4,14 @@ import Checkbox from "../Check"
 import Input from "./addginput"
 import Newbtn from "./Newgbtn"
 import Categories from "./categories"
-import Choosef from "./choosef."
-import saad from "../../assets/saad.jpg"
-import habib from "../../assets/habib.png"
-import zuzu from "../../assets/zuzu.png"
-import awazii from "../../assets/awazii.jpg"
-import daud from "../../assets/daud.jpg"
-import arshman from "../../assets/arshman.jpg"
-import sheda from "../../assets/sheda.jpg"
+import Choosef from "../choosef."
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { Friends } from "../friends/Friendslist"
 export const Newg = () => {
   return (
     <div className='container card-b rounded-2xl mx-auto h-170 w-180  my-12 p-3 relative '>
       <div className="title center-flex flex-col gap-0">
-        <h2 className='text-2xl font-semibold flex items-center gap-2 text-center p-2 pb-0'><span><HiMiniUserGroup /></span>Add New Group</h2>
+        <h2 className='text-2xl font-semibold flex items-center gap-2 text-center p-2 pb-0'>Add New Group<span><HiMiniUserGroup /></span></h2>
         <h4 className='text-text-secondary mr-2'>Start with intention. End with legacy.</h4>
       </div>
       <form action="" className='Friend-form  m-6 space-y-3 flex flex-col '>

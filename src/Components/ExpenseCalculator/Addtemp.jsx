@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MdKeyboardArrowRight } from "react-icons/md";
+import { FaUserPlus } from "react-icons/fa6";
 const Button = () => {
   return (
     <StyledWrapper>
       <button className="cssbuttons-io-button">
-        Details
+        Add
         <div className="icon">
-            <MdKeyboardArrowRight className=' text-white text-lg' />
+            <FaUserPlus className=' text-white ' />
         </div>
       </button>
     </StyledWrapper>
@@ -21,9 +21,9 @@ const StyledWrapper = styled.div`
     font-family: inherit;
     padding: 0.35em;
     padding-left: .8em;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
-    border-radius: 0.8em;
+    border-radius: 0.7em;
     border: none;
     letter-spacing: 0.05em;
     display: flex;
@@ -32,7 +32,7 @@ const StyledWrapper = styled.div`
     overflow: hidden;
     position: relative;
     height: 2.6em;
-    padding-right: 2.5em;
+    padding-right: 2.7em;
     cursor: pointer;
   }
 
@@ -42,8 +42,8 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 1.8em;
-    width: 1.8em;
+    height: 1.9em;
+    width: 1.9em;
     border-radius: 0.4em;
     right: 0.28em;
     transition: all 0.3s;

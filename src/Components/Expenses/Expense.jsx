@@ -27,7 +27,7 @@ import { IoTicketSharp } from "react-icons/io5";
 import { FaArrowDown } from "react-icons/fa6";
 import { FaArrowUp } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
-import Linechart  from './Linechartgraph';
+import Linechart from './Linechartgraph';
 export const categories = [
     {
         name: "Food & Snacks",
@@ -296,6 +296,9 @@ export const Expense = () => {
     return (
         <div className='Expense-main h-full overflow-auto scrollbar-hide relative'>
             <h1 className="text-3xl font-semibold m-6 mb-1">Expenses</h1>
+            <p className="text-text-secondary text-md mx-6 mb-2">
+                This section displays all expenses from different groups with live data updates.
+            </p>
             <div className="expense-overview center-flex  w-280 mx-auto  gap-5">
                 {expenseoverview.map((item, index) => (
                     <div key={index} className="expense-card card-b rounded-lg p-4 center-flex flex-col w-75 " >
