@@ -39,8 +39,7 @@ const StyledWrapper = styled.div`
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);                 
   }
 
-  .btn-content:hover,
-  .btn-content:focus {
+  .btn-content:hover{
     transition: 0.5s;
     -webkit-animation: btn-content 1s;
     animation: btn-content 1s;

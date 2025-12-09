@@ -27,12 +27,6 @@ const StyledWrapper = styled.div`
    transition: border 150ms cubic-bezier(0.4,0,0.2,1);
   }
    
-  input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
   .user-label {
    position: absolute;
    left: 15px;
