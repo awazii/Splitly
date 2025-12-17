@@ -33,6 +33,7 @@ export const Stepthree = ({ allfriends }) => {
               <div className="remaining font-bold ">70%</div>
               <div className="paid font-bold ">Rs.20,500</div>
             </div></> :
+
             <div className="amounts flex justify-between mt-2">
               <div className="remaining font-bold ">Rs. 15,500</div>
               <div className="paid font-bold ">Rs. 20,500</div>
