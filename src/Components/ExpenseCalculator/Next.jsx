@@ -36,7 +36,8 @@ const StyledWrapper = styled.div`
     font-size: 25px;
     transition: 1s;
     border-radius: 100px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);                 
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25); 
+    background: white;                
   }
 
   .btn-content:hover{

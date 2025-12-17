@@ -14,7 +14,7 @@ export const Steptwo = ({ allfriends }) => {
     <>
       <div className="payment-container h-20 p-2 grid grid-cols-3 gap-4 right-0">
         {payementdata.map((item, index) => (
-          <div key={index} className={`${item.label} card-b rounded-lg shadow-md h-full flex flex-col justify-center relative`}>
+          <div key={index} className={`${item.label}  bg-white rounded-lg shadow-md h-full flex flex-col justify-center relative`}>
             <div className={`logo absolute top-0 right-0 rounded-full m-2 ${item.label === "Amount Collected" ? "bg-green-500 p-1" : ""}  center-flex`}>
               {item.logo}
             </div>
@@ -29,7 +29,7 @@ export const Steptwo = ({ allfriends }) => {
         <h4 className="text-md font-semibold my-2">
           How much each person paid?
         </h4>
-        <div className="friends-payments grid grid-cols-2  gap-3 max-h-96 overflow-auto">
+        <div className="friends-payments grid grid-cols-2  gap-3 max-h-98 overflow-auto">
           {allfriends.map((friend, index) => {
             return (
               <div key={index} className="friend-payment bg-highlight rounded-lg p-4 flex  gap-3 h-22 justify-between items-center shadow-md">
@@ -50,7 +50,7 @@ export const Steptwo = ({ allfriends }) => {
                         friend.bio}</p>
                   </div>
                 </div>
-                <div className="payment-input flex center-flex gap-1 card-b border-none rounded-lg p-2 flex-row-reverse">
+                <div className="payment-input flex center-flex gap-1 card-b bg-white border-none rounded-lg p-2 flex-row-reverse">
                   <FaRupeeSign className='text-green-500' />
                   <input type="number" placeholder='0' className='w-18 text-left focus:outline-none' />
                 </div>

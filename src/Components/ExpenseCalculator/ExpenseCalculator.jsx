@@ -5,8 +5,8 @@ import Next from './Next';
 import Prev from './Prev';
 import { Stepone } from './Stepone';
 import { Steptwo } from './Steptwo';
-import { Stepthree } from './stepthree';
-const temoraryfriends = [{ type: "temporary", name: "ali" }, { type: "temporary", name: "sami" }, { type: "temporary", name: "hassan" }];
+import { Stepthree } from './Stepthree';
+const temoraryfriends = [{ type: "temporary", name: "ali" }, { type: "temporary", name: "sami" }, { type: "temporary", name: "hassan" }, { type: "temporary", name: "laraib" }];
 const allfriends = [...temoraryfriends, ...Friends];
 export const ExpenseCalculator = () => {
     const [step, setstep] = useState(1);
@@ -32,7 +32,7 @@ export const ExpenseCalculator = () => {
                     <p className='text-text-secondary text-sm'>Split Bills instantly without a group</p>
                 </div>
                 <div className="current-step">
-                    {step === 1 ? <Stepone allfriends={allfriends} /> : step === 2 ? <Steptwo allfriends={allfriends}  /> : <Stepthree />}
+                    {step === 1 ? <Stepone allfriends={allfriends} /> : step === 2 ? <Steptwo allfriends={allfriends} /> : <Stepthree allfriends={allfriends} />}
                 </div>
                 <div className="progress center-flex flex-col mt-6  absolute bottom-4 left-1/2 transform -translate-x-1/2">
                     <h3 className='text-text-secondary'>Step {step} of 3</h3>

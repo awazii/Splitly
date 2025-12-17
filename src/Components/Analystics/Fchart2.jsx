@@ -93,6 +93,8 @@ export const TotalOwedChart = () => {
             strokeWidth={3}
             activeDot={{ r: 6 }}
           />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0"
+          />
         </AreaChart>
       </ResponsiveContainer>
     </div>
