@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { RiFlipHorizontalLine } from "react-icons/ri";
 import { RiFlipHorizontalFill } from "react-icons/ri";
-import { FaRupeeSign } from "react-icons/fa6";
+import { FaMoneyCheck } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import { GiExpense } from "react-icons/gi";
 import Detailbtn from "./detailbtn"
@@ -65,7 +65,7 @@ const Card = ({ group }) => {
                       <h1 className='text-2xl text-text-secondary'>{Number(group.expenses).toLocaleString()}</h1>
                     </div>
                     <div className='member-logo size-14 rounded-full  center-flex' style={{ background: "linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)" }}>
-                      <FaRupeeSign className='size-5 text-white' />
+                      <FaMoneyCheck className='size-5 text-white' />
                     </div>
                   </div>
                 </div>

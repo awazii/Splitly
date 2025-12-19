@@ -29,7 +29,7 @@ export const Dashboard = () => {
 
         </div>
          <div className="footer col-span-6 h-20 center-flex ">
-                    <p className='text-center text-2xl text-secondary'>© 2025 Splitly. Design & Developed by Awazii. All rights reserved.</p>
+                    <p className='text-center text-xl text-secondary '>© 2025 Splitly. Design & Developed by Awazii. All rights reserved.</p>
                 </div>
     </div>
   )

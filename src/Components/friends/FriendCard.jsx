@@ -7,10 +7,10 @@ import { BsThreeDots } from "react-icons/bs";
 import { RiFlipHorizontalFill } from "react-icons/ri";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { MdOutlineMoneyOff } from "react-icons/md";
-import { FaRupeeSign } from "react-icons/fa6";
+import { FaMoneyCheck } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
 import Fdebtgraph from './Fdebtsgraph';
-import Detailbtn from './detailsbtn';
+import Debtbtn from './debtsbtn';
 import Pinbtn from './Pin';
 const Card = ({ img, name, bio }) => {
   const [show, setshow] = useState({ front: false, back: false })
@@ -43,7 +43,7 @@ const Card = ({ img, name, bio }) => {
                   <h3 className="name text-text-primary font-bold ">{name}</h3>
                   <h4 className="bio text-text-secondary text-sm">{bio}</h4>
                 </div>
-                <Detailbtn />
+                <Debtbtn />
               </div>
               <div className='debt-graphs flex-1 space-y-1 p-2 pl-0'>
                 <div className="money-owes center-flex flex-col gap-1">
@@ -74,7 +74,7 @@ const Card = ({ img, name, bio }) => {
                   <h4 className='text-sm'>5 Groups</h4>
                 </div>
                 <div className='row-span-2 place-items-center self-center border-l-1 border-b-light'>
-                  <div className='size-15 rounded-full center-flex ' style={{ background: " linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)" }}><FaRupeeSign className='size-6 text-white' /></div>
+                  <div className='size-15 rounded-full center-flex ' style={{ background: " linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)" }}><FaMoneyCheck className='size-6 text-white' /></div>
                   <h4 className='text-sm mt-2 font-bold'>Money Spent</h4>
                   <h4 className='text-sm'>Rs.5000</h4>
 

@@ -4,7 +4,7 @@ import { IoPerson } from "react-icons/io5";
 import { GiExpense } from "react-icons/gi";
 
 const InsightCard = ({ icon, title, description, value }) => (
-  <div className={`flex flex-col justify-between p-4 rounded-xl shadow-md card-b w-full`}>
+  <div className={`flex flex-col justify-between p-4 rounded-xl shadow-md  w-full bg-white`}>
     <div className="flex items-center gap-3 mb-2">
       {icon}
       <div>
@@ -34,7 +34,7 @@ export const Insights = () => {
     },
     {
       id: 3,
-      title: "Largest Debt",
+      title: "Highest Debtor",
       description: "Arshman",
       value: "Rs. 300",
       icon: <IoPerson className="text-[#e53935] text-xl" />,

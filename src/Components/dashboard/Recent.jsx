@@ -170,7 +170,7 @@ export const Recent = () => {
             <div className="activities space-y-3 grid place-items-center h-85 overflow-auto ">
                 {
                     recentActivities.map((activity, index) => (
-                        <div key={index} className="activity w-115  card-b h-22 rounded-lg flex gap-2 p-2 flex-row-reverse">
+                        <div key={index} className="activity w-115  shadow-md h-22 rounded-lg flex gap-2 p-2 flex-row-reverse bg-white">
                             <div className="logo-container m-2 col-span-1 center-flex justify-start">
                                 {activity.about === "group" ? <div className="logo rounded-xl size-14 center-flex shadow-lg" style={{ backgroundColor: activity.logo.backgroundColor }}>
                                     {activity.logo.svg}
@@ -192,7 +192,7 @@ export const Recent = () => {
                                         <img src={activity.group.img} className='Img-c' alt="" />
                                     </div>
                                     <div className="info">
-                                        <p className=' text-sm'>{activity.group.name}</p>
+                                        <p className=' text-sm text-text-secondary'>{activity.group.name}</p>
                                     </div>
                                 </div> : <div className='about-expense mt-1 center-flex  w-fit gap-1'>
                                     <div className="logo size-8 rounded-full center-flex">

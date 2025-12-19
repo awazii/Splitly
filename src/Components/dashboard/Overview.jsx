@@ -1,13 +1,13 @@
 import React from 'react'
 import { FaUserFriends } from "react-icons/fa";
 import { HiMiniUserGroup } from "react-icons/hi2";
-import { FaRupeeSign } from "react-icons/fa6";
+import { FaMoneyCheck } from "react-icons/fa6";
 import { MdInsights } from "react-icons/md";
 import { FaArrowRight } from "react-icons/fa6";
 export const Overview = () => {
     const data = [
            {
-    icon: <FaRupeeSign className='size-6 text-white' />,
+    icon: <FaMoneyCheck className='size-6 text-white' />,
     label: "Total Expenses",
     value: 1500,
     gradient: "linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)",

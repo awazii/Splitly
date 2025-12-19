@@ -48,7 +48,7 @@ export const Friends = [
   {
     id: "006",
     name: "Habib",
-    bio: "Nerd",
+    bio: "Chutiya",
     profilePic: habib
   }
   ,

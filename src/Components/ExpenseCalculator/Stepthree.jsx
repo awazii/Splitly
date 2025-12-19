@@ -4,7 +4,7 @@ import Split_btn from './Split-btn';
 import { IoPerson } from "react-icons/io5";
 import { FaRupeeSign } from "react-icons/fa6";
 import { FaPercentage } from "react-icons/fa";
-export const Stepthree = ({ allfriends }) => {
+export const Stepthree = ({ allfriends,setSummary,Summary }) => {
   const [Splitopt, setSplitopt] = useState("Equally");
   const Splits = [
     {
@@ -83,7 +83,9 @@ export const Stepthree = ({ allfriends }) => {
         </div>
       </div>
       <div className="select-split-container col-span-2  flex flex-col gap-2">
-        <div className="Split-btn flex-1 center-flex">
+        <div className="Split-btn flex-1 center-flex" onClick={()=>{
+                    setSummary(!Summary)
+                }}>
           <Split_btn Splitopt={Splitopt} />
         </div>
         <div className="select-split">

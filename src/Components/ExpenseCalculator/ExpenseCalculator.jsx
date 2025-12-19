@@ -1,26 +1,19 @@
 import React, { useState } from 'react'
 import { FaCalculator } from "react-icons/fa";
-import { Friends } from "../friends/Friendslist"
 import Next from './Next';
 import Prev from './Prev';
 import { Stepone } from './Stepone';
 import { Steptwo } from './Steptwo';
 import { Stepthree } from './Stepthree';
-const temoraryfriends = [{ type: "temporary", name: "ali" }, { type: "temporary", name: "sami" }, { type: "temporary", name: "hassan" }, { type: "temporary", name: "laraib" }];
-const allfriends = [...temoraryfriends, ...Friends];
-export const ExpenseCalculator = () => {
+
+export const ExpenseCalculator = ({allfriends ,setSummary,Summary}) => {
     const [step, setstep] = useState(1);
     const Stepsfunc = (stepnumber) => {
         if (stepnumber >= 1 && stepnumber <= 3) {
             setstep(stepnumber);
         }
     }
-    return (
-        <div className='ExpenseCalculator-main h-full overflow-auto scrollbar-hide relative'>
-            <h1 className="text-3xl font-semibold m-6 mb-1">Expense Calculator</h1>
-            <p className="text-text-secondary text-md mx-6">
-                Add people, split expenses by equal or custom shares, and see who owes whom — all calculated temporarily.
-            </p>
+    return (  
             <div className="Expense-calculator w-230 h-188 card-b rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">
                 <div className="header  center-flex flex-col gap-1">
                     <div className="logo rounded-full size-18 center-flex" style={{
@@ -32,7 +25,7 @@ export const ExpenseCalculator = () => {
                     <p className='text-text-secondary text-sm'>Split Bills instantly without a group</p>
                 </div>
                 <div className="current-step">
-                    {step === 1 ? <Stepone allfriends={allfriends} /> : step === 2 ? <Steptwo allfriends={allfriends} /> : <Stepthree allfriends={allfriends} />}
+                    {step === 1 ? <Stepone allfriends={allfriends} /> : step === 2 ? <Steptwo allfriends={allfriends} /> : <Stepthree setSummary={setSummary} Summary={Summary} allfriends={allfriends} />}
                 </div>
                 <div className="progress center-flex flex-col mt-6  absolute bottom-4 left-1/2 transform -translate-x-1/2">
                     <h3 className='text-text-secondary'>Step {step} of 3</h3>
@@ -51,6 +44,5 @@ export const ExpenseCalculator = () => {
                     </button>)
                 }
             </div>
-        </div>
     )
 }

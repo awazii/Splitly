@@ -2,7 +2,7 @@ import React from 'react'
 import Input from '../Input'
 import Button from '../searchbtn'
 import { GiExpense } from "react-icons/gi";
-import { FaRupeeSign } from "react-icons/fa6";
+import { FaMoneyCheck } from "react-icons/fa6";
 import { CiFilter } from "react-icons/ci";
 import mountain from "../../assets/groups/mountain.jpg"
 import Expensedetailbtn from './Details';
@@ -278,7 +278,7 @@ export const Expense = () => {
                 isIncrease: true,
             },
             amount: 12340,
-            icon: <FaRupeeSign className='text-white size-10' />,
+            icon: <FaMoneyCheck className='text-white size-10' />,
             gradient: 'linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)',
         },
         {
