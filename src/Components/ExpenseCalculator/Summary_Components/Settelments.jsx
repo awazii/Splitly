@@ -73,7 +73,7 @@ export const Settelments = () => {
     return (
         <div className='size-full card-b rounded-lg shadow p-4'>
             <h3 className='font-semibold text-lg'>Final Settlements</h3>
-            <div className='debts h-100 mt-2 overflow-auto space-y-4 '>
+            <div className='debts h-140 mt-2 overflow-auto space-y-4 '>
                 {Settlements.map((settlement, index) => (
                     <div key={index} className="debt  w-full min-h-30  center-flex justify-between px-5 gap-2 ">
                         <div className="Debtor w-80 shadow-md rounded-lg h-25 center-flex gap-2 bg-white relative">
