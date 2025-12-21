@@ -6,7 +6,7 @@ import { Friends } from '../../friends/Friendslist';
 const insights = [
         { label: "Highest Debtor", svg: <PiHandCoinsFill className='text-white size-7' />, totalamount: 1670, color: "#dc2626",about: Friends.find(f => f.id === "002")},
         {
-            label: "highest contributer",
+            label: " Highest Contributor",
             svg: <FaCoins className='text-white size-7' />,
             totalamount: 3470,
             color: "#16A34A",
