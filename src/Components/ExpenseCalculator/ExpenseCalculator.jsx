@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { FaCalculator } from "react-icons/fa";
-import Next from './Next';
-import Prev from './Prev';
-import { Stepone } from './Stepone';
-import { Steptwo } from './Steptwo';
-import { Stepthree } from './Stepthree';
+import Next from '../newexpense/Next';
+import Prev from '../newexpense/Prev';
+import { Stepone } from './Steponec';
+import { Steptwo } from './Steptwoc';
+import { Stepthree } from './Stepthreec';
 
 export const ExpenseCalculator = ({allfriends ,setSummary,Summary}) => {
     const [step, setstep] = useState(1);
@@ -14,7 +14,7 @@ export const ExpenseCalculator = ({allfriends ,setSummary,Summary}) => {
         }
     }
     return (  
-            <div className="Expense-calculator w-230 h-188 card-b rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">
+            <div className="Expense-calculator w-260 h-188 card-b rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">
                 <div className="header  center-flex flex-col gap-1">
                     <div className="logo rounded-full size-18 center-flex" style={{
                         background: "linear-gradient(135deg, #FF9800 0%, #FF5722 50%, #F44336 100%)"

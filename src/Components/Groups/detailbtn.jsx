@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Button = () => {
+import { useNavigate } from 'react-router-dom';
+const Button = ({groupid}) => {
+  const navigate = useNavigate()
   return (
     <StyledWrapper>
-      <button className="button">
+      <button className="button" onClick={()=>{
+        navigate(`./${groupid}`)
+      }}>
         <span className="text">Details</span>
         <span className="svg">
           <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 38 15" fill="none">

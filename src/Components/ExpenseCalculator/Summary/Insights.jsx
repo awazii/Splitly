@@ -15,7 +15,7 @@ const insights = [
     ]
 export const Insights = () => {
     return (
-        <div className='card-b size-full shadow rounded flex p-4'>
+        <div className='card-b size-full shadow rounded-lg flex p-4'>
             {insights.map((insight, index) => (
                 <div key={index} className={`flex-1 center-flex gap-5 ${index===1 && "border-l-1 border-b-light pl-3"}`}>
                     <div className="logo size-18 rounded-full center-flex" style={{ background: insight.color }}>

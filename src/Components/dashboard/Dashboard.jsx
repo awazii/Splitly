@@ -18,7 +18,7 @@ export const Dashboard = () => {
                    <Overview />
              </div>
                 <div className="recent-activities card-b col-span-2 row-span-6 rounded-xl">
-                    <Recent />
+                    <Recent h={`h-[330px]`} />
                 </div>
                 <div className="analytics card-b col-span-4 row-span-8 rounded-xl">
                     <Analystic />

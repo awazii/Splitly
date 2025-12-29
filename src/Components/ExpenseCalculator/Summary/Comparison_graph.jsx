@@ -47,7 +47,7 @@ export const Comparisongraph = () => {
                 <BarChart
                     layout="vertical"
                     data={sortedData}
-                    margin={{ top: 20, right: 30, left: 5, bottom: 10 }}
+                    margin={{ top: 20, right: 30, left: 5, bottom: 30 }}
                 >
                     <XAxis type="number" allowDecimals={false} />
                     <YAxis

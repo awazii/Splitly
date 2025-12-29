@@ -19,7 +19,7 @@ import arshman from "../../assets/arshman.jpg"
 import sheda from "../../assets/sheda.jpg"
 import { FaImages } from "react-icons/fa";
 import { HiMiniLanguage } from "react-icons/hi2";
-export const Recent = () => {
+export const Recent = ({h}) => {
     const groupiconConfig = [
         {
             label: "Credit Card",
@@ -167,7 +167,7 @@ export const Recent = () => {
                     <p className='text-text-secondary text-sm'>Last 10 Activities</p>
                 </div>
             </div>
-            <div className="activities space-y-3 grid place-items-center h-85 overflow-auto ">
+            <div className={`activities space-y-3 grid place-items-center ${h} overflow-auto `}>
                 {
                     recentActivities.map((activity, index) => (
                         <div key={index} className="activity w-115  shadow-md h-22 rounded-lg flex gap-2 p-2 flex-row-reverse bg-white">

@@ -47,7 +47,7 @@ const Card = ({ group }) => {
                     <img src={group.Img} className='Img-c' alt="" />
                   </div>
                   <h2 className='text-sm font-semibold line-clamp-2 w-[85%] text-center '>{group.name}</h2>
-                  <Detailbtn />
+                  <Detailbtn groupid={group.id}/> 
                 </div>
                 <div className=' col-span-3 flex flex-col gap-2'>
                   <div className='members border h-20 border-b-light rounded-xl flex gap-2 items-center pr-2'>

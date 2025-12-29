@@ -4,7 +4,7 @@ import Checkbox from "../Check"
 import Input from "./addginput"
 import Newbtn from "./Newgbtn"
 import Categories from "./categories"
-import Choosef from "../choosef."
+import Choosef from "../choosef"
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { Friends } from "../friends/Friendslist"
 export const Newg = () => {

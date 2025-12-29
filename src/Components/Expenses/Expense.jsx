@@ -55,14 +55,14 @@ export const categories = [
         icon: <MdHotel className="size-6 text-white" />
     },
     {
-        name: "Others",
-        gradient: "linear-gradient(135deg, #43CBFF 0%, #9708CC 50%, #DD2476 100%)",
-        icon: <IoSparklesSharp className="size-6 text-white" />
-    },
-    {
         name: "Movie & Events",
         gradient: "linear-gradient(135deg, #C471F5 0%, #FA71CD 100%)",
         icon: <IoTicketSharp className="size-6 text-white" />
+    },
+    {
+        name: "Others",
+        gradient: "linear-gradient(135deg, #43CBFF 0%, #9708CC 50%, #DD2476 100%)",
+        icon: <IoSparklesSharp className="size-6 text-white" />
     }
 ];
 export const Expense = () => {

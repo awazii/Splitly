@@ -1,16 +1,16 @@
 import React from 'react'
-import CalculatorInput from './addcalinput';
-import Calcheckbox from './Calcheckbox';
-import Choosef from "../choosef."
+import CalculatorInput from '../newexpense/addcalinput';
+import Calcheckbox from '../newexpense/Calcheckbox';
+import Choosef from "../choosef"
 import { IoPerson } from "react-icons/io5";
 import Temoraryinput from './Temoray';
 import Addtemp from './Addtemp';
-export const Stepone = ({allfriends}) => {
+export const Stepone = ({ allfriends }) => {
     return (
         <>
             <div className="calculator-inputs flex gap-4 mt-4">
-                <CalculatorInput variant="Expense Name" width={"580px"} type="text" />
-                <CalculatorInput variant="Total Amount" width={"270px"} type="number" />
+                <CalculatorInput variant="Expense Name" width={"680px"} type="text" />
+                <CalculatorInput variant="Total Amount" width={"300px"} type="number" />
             </div>
             <div className='select-friends-container w-full my-5'>
                 <div className='select-friends-container w-full '>

@@ -18,6 +18,150 @@ import { TbPinnedOff } from "react-icons/tb";
 import { FaChevronDown } from "react-icons/fa";
 import { CiFilter } from "react-icons/ci";
 import { categories } from '../Expenses/Expense';
+export const groups = [
+  {
+    id: "grp-001",
+    variant: "Mountains",
+    Img: mountain,
+    name: "Trip to Murree",
+    members: "44",
+    expenses: "4500",
+    status: {
+      text: "Active",
+      textColor: "#16A34A",
+      bgColor: "#2FA85A"
+    },
+    top_spender: {
+      name: "Awazii",
+      img: awazii
+    },
+    recent_activity: "Bought snacks and water bottles",
+    date: "2025-10-12T14:30:00Z",
+    recent_expense: {
+      amount: "800",
+      expense: "Snacks & Water",
+      category: {
+        date: "2-Oct-2025",
+        gradient: categories[0].gradient,
+        icon: categories[0].icon,
+      }
+    }
+  },
+  {
+    id: "grp-002",
+    variant: "Beach",
+    Img: beach,
+    name: "Trip to Sea View",
+    members: "28",
+    expenses: "3200",
+    status: {
+      text: "Terminated",
+      textColor: "#DC2626",
+      bgColor: "#FF4C4C"
+    },
+    top_spender: {
+      name: "Daud Khalid",
+      img: daud
+    },
+    recent_activity: "Paid for beach umbrellas",
+    date: "2025-09-28T11:00:00Z",
+    recent_expense: {
+      amount: "600",
+      expense: "Beach Umbrellas",
+      category: {
+        date: "28-Sep-2025",
+        gradient: categories[5].gradient,
+        icon: categories[5].icon,
+      }
+    }
+  },
+  {
+    id: "grp-003",
+    variant: "Restaurant",
+    Img: Restaurant,
+    name: "Dinner at Skyline Grills",
+    members: "12",
+    expenses: "8700",
+    status: {
+      text: "Finished",
+      textColor: "#B45309",
+      bgColor: "#FF6B35"
+    }
+    ,
+    top_spender: {
+      name: "Arshman Zafar",
+      img: arshman
+    },
+    recent_activity: "Covered dessert and drinks",
+    date: "2025-10-05T20:15:00Z",
+    recent_expense: {
+      amount: "1500",
+      expense: "Dessert & Drinks",
+      category: {
+        gradient: categories[1].gradient,
+        icon: categories[1].icon,
+        date: "5-Oct-2025",
+      }
+    }
+  },
+  {
+    id: "grp-004",
+    variant: "Other",
+    Img: Other,
+    name: "Weekend Hangout",
+    members: "36",
+    expenses: "2900",
+    status: {
+      text: "Active",
+      textColor: "#16A34A",
+      bgColor: "#2FA85A"
+    },
+    top_spender: {
+      name: "Zuzu",
+      img: zuzu
+    },
+    recent_activity: "Booked bowling alley",
+    date: "2025-10-18T17:45:00Z",
+    recent_expense: {
+      amount: "700",
+      expense: "Bowling Alley",
+      category: {
+        name: categories[5].name,
+        gradient: categories[5].gradient,
+        icon: categories[5].icon,
+        date: "18-Oct-2025",
+      }
+    }
+  },
+  {
+    id: "grp-005",
+    variant: "Concert",
+    Img: concert,
+    name: "Live Concert Night",
+    members: "51",
+    expenses: "10200",
+    status: {
+      text: "Terminated",
+      textColor: "#DC2626",
+      bgColor: "#FF4C4C"
+    },
+    top_spender: {
+      name: "Saad Khalid",
+      img: saad
+    },
+    recent_activity: "Paid for VIP passes",
+    date: "2025-09-22T19:00:00Z",
+    recent_expense: {
+      amount: "2500",
+      expense: "VIP Passes",
+      category: {
+        gradient: categories[6].gradient,
+        icon: categories[6].icon,
+        date: "22-Sep-2025",
+      }
+    }
+  }
+];
 export const Grouplist = () => {
   const Groupsrefs = useRef({})
   function Setref(el, i) {
@@ -31,151 +175,6 @@ export const Grouplist = () => {
     el.classList.add("highlight-glow")
     setTimeout(() => el.classList.remove("highlight-glow"), 3000);
   }
-  const groups = [
-    {
-      id: "grp-001",
-      variant: "mountain",
-      Img: mountain,
-      name: "Trip to Murree",
-      members: "44",
-      expenses: "4500",
-      status: {
-        text: "Active",
-        textColor: "#16A34A",
-        bgColor: "#2FA85A"
-      },
-      top_spender: {
-        name: "Awazii",
-        img: awazii
-      },
-      recent_activity: "Bought snacks and water bottles",
-      date: "2025-10-12T14:30:00Z",
-      recent_expense: {
-        amount: "800",
-        expense: "Snacks & Water",
-        category: {
-          date: "2-Oct-2025",
-          gradient: categories[0].gradient,
-          icon: categories[0].icon,
-        }
-      }
-    },
-    {
-      id: "grp-002",
-      variant: "beach",
-      Img: beach,
-      name: "Trip to Sea View",
-      members: "28",
-      expenses: "3200",
-      status: {
-        text: "Terminated",
-        textColor: "#DC2626",
-        bgColor: "#FF4C4C"
-      },
-      top_spender: {
-        name: "Daud Khalid",
-        img: daud
-      },
-      recent_activity: "Paid for beach umbrellas",
-      date: "2025-09-28T11:00:00Z",
-      recent_expense: {
-        amount: "600",
-        expense: "Beach Umbrellas",
-        category: {
-          date: "28-Sep-2025",
-          gradient: categories[5].gradient,
-          icon: categories[5].icon,
-        }
-      }
-    },
-    {
-      id: "grp-003",
-      variant: "restaurant",
-      Img: Restaurant,
-      name: "Dinner at Skyline Grills",
-      members: "12",
-      expenses: "8700",
-      status: {
-        text: "Finished",
-        textColor: "#B45309",
-        bgColor: "#FF6B35"
-      }
-      ,
-      top_spender: {
-        name: "Arshman Zafar",
-        img: arshman
-      },
-      recent_activity: "Covered dessert and drinks",
-      date: "2025-10-05T20:15:00Z",
-      recent_expense: {
-        amount: "1500",
-        expense: "Dessert & Drinks",
-        category: {
-          gradient: categories[1].gradient,
-          icon: categories[1].icon,
-          date: "5-Oct-2025",
-        }
-      }
-    },
-    {
-      id: "grp-004",
-      variant: "other",
-      Img: Other,
-      name: "Weekend Hangout",
-      members: "36",
-      expenses: "2900",
-      status: {
-        text: "Active",
-        textColor: "#16A34A",
-        bgColor: "#2FA85A"
-      },
-      top_spender: {
-        name: "Zuzu",
-        img: zuzu
-      },
-      recent_activity: "Booked bowling alley",
-      date: "2025-10-18T17:45:00Z",
-      recent_expense: {
-        amount: "700",
-        expense: "Bowling Alley",
-        category: {
-          name: categories[5].name,
-          gradient: categories[5].gradient,
-          icon: categories[5].icon,
-          date: "18-Oct-2025",
-        }
-      }
-    },
-    {
-      id: "grp-005",
-      variant: "concert",
-      Img: concert,
-      name: "Live Concert Night",
-      members: "51",
-      expenses: "10200",
-      status: {
-        text: "Terminated",
-        textColor: "#DC2626",
-        bgColor: "#FF4C4C"
-      },
-      top_spender: {
-        name: "Saad Khalid",
-        img: saad
-      },
-      recent_activity: "Paid for VIP passes",
-      date: "2025-09-22T19:00:00Z",
-      recent_expense: {
-        amount: "2500",
-        expense: "VIP Passes",
-        category: {
-          gradient: categories[6].gradient,
-          icon: categories[6].icon,
-          date: "22-Sep-2025",
-        }
-      }
-    }
-  ];
-
   return (
     <div className='Groups'>
       <div className='flex items-center justify-between mt-3'>
