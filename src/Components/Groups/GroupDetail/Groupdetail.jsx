@@ -86,9 +86,11 @@ export const Groupdetail = () => {
             </div>
             <div className='btn-container w-full center-flex  flex-col gap-3 mt-2'>
                    <Addexpensebtn />
-              <button className="allexpenses text-primary underline  cursor-pointer font-semibold">
+              <button className="allexpenses text-primary underline  cursor-pointer font-semibold" onClick={()=>{
+                Navigate("./Expenses")
+              }}>
                 See all Expenses
-              </button>
+              </button >
             </div>
 
           </div>

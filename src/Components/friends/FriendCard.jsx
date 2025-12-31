@@ -10,7 +10,7 @@ import { MdOutlineMoneyOff } from "react-icons/md";
 import { FaMoneyCheck } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
 import Fdebtgraph from './Fdebtsgraph';
-import Debtbtn from './debtsbtn';
+import Debtbtn from './detailbtn';
 import Pinbtn from './Pin';
 const Card = ({ img, name, bio }) => {
   const [show, setshow] = useState({ front: false, back: false })

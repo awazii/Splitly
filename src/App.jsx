@@ -14,6 +14,7 @@ import { Analytics } from './Components/Analystics/Analytics'
 import { Expense_Calculator_main } from './Components/ExpenseCalculator/Expense_Calculator_main'
 import { Groupdetail } from './Components/Groups/GroupDetail/Groupdetail'
 import Addexpense from "./Components/Groups/GroupDetail/AddExpense/New"
+import { Expenses } from './Components/Groups/GroupDetail/Expenses/Expenses'
 function App() {
   const router = createBrowserRouter([
     {
@@ -62,6 +63,10 @@ function App() {
           element: <Addexpense />
         }
         ,
+        {
+          path: "/Groups/:Groupid/Expenses",
+          element: <Expenses />
+        },
         {
           path: '/Expenses',
           element: <Expense />

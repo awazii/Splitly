@@ -5,7 +5,7 @@ const Button = () => {
   return (
     <StyledWrapper>
       <button className="cssbuttons-io-button">
-        Debts
+        Details
         <div className="icon">
             <MdKeyboardArrowRight className=' text-white text-lg' />
         </div>
