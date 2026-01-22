@@ -22,7 +22,7 @@ export const Transationdetail = ({ Currentbalancewith, setisdetailopen, isdetail
                     <p className='expense-name'>{currentTransaction.title}</p>
                 </div>
                 <div className="expense-amount">
-                    <h2 className={`text-3xl font-semibold center-flex gap-1 `}>Rs.{Math.abs(currentTransaction.details.total).toLocaleString()} <span className='text-[13px]'>{`(total)`}</span></h2>
+                    <h2 className={`text-3xl font-semibold center-flex gap-1 `}>Rs.{Math.abs(currentTransaction.details.total).toLocaleString()} <span className='text-[13px]'>{`(shared)`}</span></h2>
                 </div>
                 <div className="expense-date text-text-secondary text-sm">
                     <p>{currentTransaction.date} <span>•</span> <span>{currentTransaction.time}</span></p>
@@ -80,7 +80,7 @@ export const Transationdetail = ({ Currentbalancewith, setisdetailopen, isdetail
                                     <div className="logo size-10 rounded-full border-b-light shadow-md border overflow-hidden center-flex">
                                         <img src={person.name === "Other" ? Currentbalancewith.profilePic : CurrentFriend.profilePic} alt="person-logo" className='Img-c border-none' />
                                     </div>
-                                    <p className='text-lg'>{`${person.name === "Other" ? Currentbalancewith.name : person.name}`}</p>
+                                    <p className='text-lg'>{`${person.name === "Other" ? Currentbalancewith.name + "'s share" : person.name+ "r's share"}`}</p>
                                 </div>
                                 <div className="amount text-xl font-semibold text-text-primary">
                                     Rs.{person.amount.toLocaleString()} {person.percent && <span className='text-sm text-text-secondary'>({person.percent}%)</span>}
