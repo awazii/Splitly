@@ -1,8 +1,8 @@
 import React from 'react'
 import { Friends } from '../../friends/Friendslist'
 import { FaArrowRightLong } from "react-icons/fa6";
-import { PiHandCoinsFill } from "react-icons/pi";
-import { FaCoins } from "react-icons/fa";
+import { GiPayMoney } from "react-icons/gi";
+import { GiReceiveMoney } from "react-icons/gi";
 import { IoPerson } from "react-icons/io5";
 export const Settlements = [
     {
@@ -77,7 +77,7 @@ export const Settelments = () => {
                 {Settlements.map((settlement, index) => (
                     <div key={index} className="debt  w-full min-h-30  center-flex justify-between px-5 gap-2 ">
                         <div className="Debtor w-80 shadow-md rounded-lg h-25 center-flex gap-2 bg-white relative">
-                            <div className="flag absolute top-2 right-2"><PiHandCoinsFill className='text-red-600 size-5' /></div>
+                            <div className="flag absolute top-2 right-2"><GiReceiveMoney className='text-red-600 size-5' /></div>
                             <div className="logo size-18 rounded-full">
                                 <img src={settlement.payer.profilePic} className='Img-c border-none' alt="" />
                             </div>
@@ -93,7 +93,7 @@ export const Settelments = () => {
                         <div className="creditors w-75 space-y-2 my-2">
                             {settlement.receivers.map((receiver, index) => (
                                 <div key={index} className="creditor shadow-md rounded-lg h-25 center-flex gap-2 bg-white relative">
-                                    <div className="flag absolute top-2 left-2"><FaCoins  className='text-green-600 size-4' /></div>
+                                    <div className="flag absolute top-2 left-2"><GiPayMoney  className='text-green-600 size-4' /></div>
                                     {receiver.person.type === "temporary" ? <div className="friend-img-container size-16 bg-neutral-300 rounded-full center-flex">
                                         <IoPerson className='size-7 text-neutral-500' />
                                     </div> :<div className="logo  size-18 rounded-full">

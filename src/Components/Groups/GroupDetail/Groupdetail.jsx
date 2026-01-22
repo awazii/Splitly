@@ -10,7 +10,7 @@ import Terminatebtn from "./Teminatebtn"
 import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
 import { GiExpense } from "react-icons/gi";
-import { MdOutlineAccessTimeFilled } from "react-icons/md";
+import { MdOutlineDateRange } from "react-icons/md";
 import Addexpensebtn from "./Addexpensebtn"
 export const Groupdetail = () => {
   const Navigate = useNavigate()
@@ -19,7 +19,7 @@ export const Groupdetail = () => {
   const extra = [{
     value: CurrentGroup.status.text, gradient: CurrentGroup.status.bgColor, color: CurrentGroup.status.textColor, label: "Status"
   }, {
-    value: CurrentGroup.date, icon: <MdOutlineAccessTimeFilled className='text-white size-5' />,
+    value: CurrentGroup.date, icon: <MdOutlineDateRange className='text-white size-5' />,
     gradient: 'linear-gradient(135deg, #ffcc70, #f9a825, #ff6f61, #d84315)', label: "Created on"
   }, {
     value: 45, icon: <GiExpense className='text-white size-5' />,
@@ -29,7 +29,11 @@ export const Groupdetail = () => {
   ]
   const dateformator = (date) => {
     const d = new Date(date)
-    return d.toLocaleDateString("en-US")
+    return d.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    })
   }
   return (
     <div className='Indiviual-group  h-full scrollbar-hide overflow-auto'>
@@ -42,7 +46,7 @@ export const Groupdetail = () => {
         </div>
         <div className="actions center-flex gap-3">
           <Terminatebtn />
-          <div className="settingbtn card-b size-11 rounded-lg center-flex group trans hover:scale-102 active:scale-95">
+          <div className="settingbtn card-b size-11 rounded-lg center-flex group trans hover:scale-102 active:scale-95 cursor-pointer">
             <IoSettingsOutline className='size-5  group-hover:text-primary' />
           </div>
         </div>
@@ -55,7 +59,7 @@ export const Groupdetail = () => {
           <Insights />
         </div>
         <div className="Friends-balance col-span-8 row-span-5 card-b rounded-lg h-170">
-          <Balance />
+          <Balance  />
         </div>
         <div className="Recent-&-Status col-span-4 row-span-5 flex flex-col gap-3 ">
           <div className="Extra card-b h-20 shadow-md rounded-lg grid grid-cols-5 border-l p-2">

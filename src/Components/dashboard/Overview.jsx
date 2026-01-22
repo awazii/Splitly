@@ -43,8 +43,10 @@ export const Overview = () => {
                         <div className="icon mb-2 bg-primary size-18  center-flex rounded-full" style={{ background: item.gradient }}>
                             {item.icon}
                         </div>
-                        <h3 className='text-lg font-semibold text-text-primary'>{item.label}</h3>
-                        <p className='text-md mt-1'>{ `${index===0?"Rs.":""}${item.detail || formatValue(item.value)}`}</p>
+                        <h3 className='text-lg font-semibold text-text-primary'>
+                            {item.label}
+                        </h3>
+                        <p className='text-md font-semibold text-text-secondary'>{ `${index===0?"Rs.":""}${item.detail || formatValue(item.value)}`}</p>
                         <button className=' text-primary  px-2 py-1 rounded-md text-sm cursor-pointer font-semibold'> View Details <FaArrowRight className='inline-block' /></button>
                     </div>
 

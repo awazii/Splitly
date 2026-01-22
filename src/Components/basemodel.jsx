@@ -16,9 +16,9 @@ export const Basemodel = ({ isOpen, Closemodel, title, children }) => {
                     <h2 className="text-xl font-bold text-gray-800">{title}</h2>
                     <button
                         onClick={Closemodel}
-                        className="text-gray-400 hover:text-primary transition-colors cursor-pointer"
+                        className="text-text-secondary hover:text-primary transition-colors cursor-pointer"
                     >
-                        <MdClose className='size-6' />
+                        <MdClose className='size-6 ' />
                     </button>
                 </div>
                 <div className="p-5 max-h-fit overflow-y-auto pt-0">

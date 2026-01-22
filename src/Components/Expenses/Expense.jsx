@@ -124,9 +124,9 @@ const Closemodel=()=>[
             amount: 4500,
             date: "28-Jan-2025",
             category: {
-                name: categories[6].name,
-                gradient: categories[6].gradient,
-                icon: categories[6].icon,
+                name: categories[5].name,
+                gradient: categories[5].gradient,
+                icon: categories[5].icon,
             },
             group: {
                 name: "Atif Aslam Concert",
@@ -262,9 +262,9 @@ const Closemodel=()=>[
             amount: 980,
             date: "25-Mar-2025",
             category: {
-                name: categories[5].name,
-                gradient: categories[5].gradient,
-                icon: categories[5].icon,
+                name: categories[6].name,
+                gradient: categories[6].gradient,
+                icon: categories[6].icon,
             },
             group: {
                 name: "Errand Run",
@@ -333,8 +333,7 @@ const Closemodel=()=>[
             </div>
             <div className="Expense-container mx-auto container mt-4">
                 <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-fit'>Expenses<span> <GiExpense /></span></h2>
-                <div className="expenses grid grid-cols-3 gap-3  pb-5">    {Expenses.sort(() => Math.random() - 0.5)
-                    .map((expense, index) => {
+                <div className="expenses grid grid-cols-3 gap-3  pb-5">    {Expenses.map((expense, index) => {
                         return (
                             <div key={index} className='expense relative card-b h-40 rounded-lg'>
                                 <div className='expense-detail-btn absolute bottom-4 right-5'>

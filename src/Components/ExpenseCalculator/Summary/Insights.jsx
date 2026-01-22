@@ -1,10 +1,10 @@
 import React from 'react'
-import { PiHandCoinsFill } from "react-icons/pi";
+import { GiReceiveMoney } from "react-icons/gi";
 import { FaCoins } from "react-icons/fa";
 import { Friends } from '../../friends/Friendslist';
 
 const insights = [
-        { label: "Highest Debtor", svg: <PiHandCoinsFill className='text-white size-7' />, totalamount: 1670, color: "#dc2626",about: Friends.find(f => f.id === "002")},
+        { label: "Highest Debtor", svg: <GiReceiveMoney className='text-white size-7' />, totalamount: 1670, color: "#dc2626",about: Friends.find(f => f.id === "002")},
         {
             label: " Highest Contributor",
             svg: <FaCoins className='text-white size-7' />,

@@ -17,48 +17,90 @@ import { CiFilter } from "react-icons/ci";
 export const Friends = [
   {
     id: "001",
-    name: 'Awazii',
-    bio: 'Randi lover',
-    profilePic: awazii
+    name: "Awazii",
+    bio: "Gamer",
+    profilePic: awazii,
+    netBalance: 1200,
+    balancetextClass: "text-green-600",
+    balancebgClass: "bg-green-600",
+    crews: "5 groups",
+    spendings: 500,
+    joinedDate: "2024-01-10"
   },
   {
     id: "002",
-    name: 'Arshman',
-    bio: 'Gooner',
-    profilePic: arshman
+    name: "Arshman",
+    bio: "Gooner",
+    profilePic: arshman,
+    netBalance: -200,
+    balancetextClass: "text-red-600",
+    balancebgClass: "bg-red-600",
+    crews: "3 groups",
+    spendings: 700,
+    joinedDate: "2024-02-15"
   },
   {
     id: "003",
-    name: 'Daud Khalid',
-    bio: 'Advocate',
-    profilePic: daud
+    name: "Daud Khalid",
+    bio: "Advocate",
+    profilePic: daud,
+    netBalance: 1500,
+    balancetextClass: "text-green-600",
+    balancebgClass: "bg-green-600",
+    crews: "2 groups",
+    spendings: 300,
+    joinedDate: "2024-03-05"
   },
   {
     id: "004",
-    name: 'Sheda',
-    bio: `Mama's Boy`,
-    profilePic: sheda
+    name: "Sheda",
+    bio: "Cheesa",
+    profilePic: sheda,
+    netBalance: -50,
+    balancetextClass: "text-red-600",
+    balancebgClass: "bg-red-600",
+    crews: "4 groups",
+    spendings: 450,
+    joinedDate: "2024-04-20"
   },
   {
     id: "005",
     name: "Saad Khalid",
     bio: "Gym Freak",
-    profilePic: saad
+    profilePic: saad,
+    netBalance: 2000,
+    balancetextClass: "text-green-600",
+    balancebgClass: "bg-green-600",
+    crews: "6 groups",
+    spendings: 1200,
+    joinedDate: "2024-05-12"
   },
   {
     id: "006",
-    name: "Habib",
-    bio: "Chutiya",
-    profilePic: habib
-  }
-  ,
+    name: "Habib Khalid",
+    bio: "Photographer",
+    profilePic: habib,
+    netBalance: 0,
+    balancetextClass: "text-text-secondary",
+    balancebgClass: "bg-text-secondary",
+    crews: "1 group",
+    spendings: 600,
+    joinedDate: "2024-06-18"
+  },
   {
     id: "007",
     name: "Zuzu",
     bio: "Savage's Mod",
-    profilePic: zuzu
+    profilePic: zuzu,
+    netBalance: 950,
+    balancetextClass: "text-green-600",
+    balancebgClass: "bg-green-600",
+    crews: "5 groups",
+    spendings: 400,
+    joinedDate: "2024-07-25"
   }
-]
+];
+
 export const Friendslist = () => {
   const Friendsrefs = useRef({})
   function Setref(el, i) {
@@ -113,13 +155,13 @@ export const Friendslist = () => {
 
         </div>
       </div>
-      <div className="friendslist-container    min-h-60 border-b-light p-2 ">
+      <div className="friendslist-container   min-h-60 border-b-light p-2 ">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>Friends<span> <FaUserFriends /></span></h2>
-        <div className="friendslist grid grid-cols-4  gap-x-4 gap-y-2 mb-5">
+        <div className="friendslist grid grid-cols-4  gap-x-2 gap-y-2 mb-5">
           {
             Friends.map((friend, index) => {
               return (
-                <div key={friend.id} ref={(el) => { Setref(el, friend.id) }}><FriendCard img={friend.profilePic} name={friend.name} bio={friend.bio} /></div>
+                <div key={friend.id} ref={(el) => { Setref(el, friend.id) }}><FriendCard friend={friend} /></div>
               )
             })
           }

@@ -15,6 +15,7 @@ import { Expense_Calculator_main } from './Components/ExpenseCalculator/Expense_
 import { Groupdetail } from './Components/Groups/GroupDetail/Groupdetail'
 import Addexpense from "./Components/Groups/GroupDetail/AddExpense/New"
 import { Expenses } from './Components/Groups/GroupDetail/Expenses/Expenses'
+import { Frienddetails } from './Components/friends/Frienddetails/Frienddetails'
 function App() {
   const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ function App() {
               element: <Newfriend />
             }
           ]
+        },
+         {
+          path: '/Friends/:Friend',
+          element: <Frienddetails />,
         },
         {
           path: '/Groups',
