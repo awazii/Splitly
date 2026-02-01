@@ -2,18 +2,25 @@ import React from 'react'
 import { GiReceiveMoney } from "react-icons/gi";
 import { FaCoins } from "react-icons/fa";
 import { Friends } from '../../friends/Friendslist';
-
+export const Insights = () => {
+    const highestContributor = Friends.reduce((prev, current) => {
+  return (current.spendings > prev.spendings) ? current : prev;
+});
+const topDebtor = Friends.reduce((prev, current) => {
+  return (current.netBalance < prev.netBalance) ? current : prev;
+});
 const insights = [
-        { label: "Highest Debtor", svg: <GiReceiveMoney className='text-white size-7' />, totalamount: 1670, color: "#dc2626",about: Friends.find(f => f.id === "002")},
+        { label: "Highest Debtor", svg: <GiReceiveMoney className='text-white size-7' />, color: "#dc2626",about: topDebtor,
+            totalamount:Math.abs(topDebtor.netBalance)
+        },
         {
             label: " Highest Contributor",
             svg: <FaCoins className='text-white size-7' />,
-            totalamount: 3470,
+            totalamount:highestContributor.spendings,
             color: "#16A34A",
-            about: Friends.find(f => f.id === "003")
+            about: highestContributor
         }
     ]
-export const Insights = () => {
     return (
         <div className='card-b size-full shadow rounded-lg flex p-4'>
             {insights.map((insight, index) => (
@@ -29,7 +36,7 @@ export const Insights = () => {
                             </div>
                             <p className="name text-sm">{insight.about.name}</p>
                         </div>
-                        <div className="amount font-semibold text-xl mt-1" style={{ color: insight.color }}>Rs.{insight.totalamount}</div>
+                        <div className="amount font-semibold text-xl mt-1" style={{ color: insight.color }}>Rs.{insight.totalamount.toLocaleString()}</div>
                     </div>
                 </div>
             ))}

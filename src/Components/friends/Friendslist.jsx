@@ -20,11 +20,13 @@ export const Friends = [
     name: "Awazii",
     bio: "Gamer",
     profilePic: awazii,
-    netBalance: 1200,
+    spendings: 2000,
+    totalShare: 800, 
+    netBalance: 1200, 
+    status: "Admin", 
     balancetextClass: "text-green-600",
     balancebgClass: "bg-green-600",
     crews: "5 groups",
-    spendings: 500,
     joinedDate: "2024-01-10"
   },
   {
@@ -32,11 +34,13 @@ export const Friends = [
     name: "Arshman",
     bio: "Gooner",
     profilePic: arshman,
-    netBalance: -200,
+    spendings: 700,
+    totalShare: 900,
+    netBalance: -200, 
+    status: "Highest Debtor", 
     balancetextClass: "text-red-600",
     balancebgClass: "bg-red-600",
     crews: "3 groups",
-    spendings: 700,
     joinedDate: "2024-02-15"
   },
   {
@@ -44,11 +48,13 @@ export const Friends = [
     name: "Daud Khalid",
     bio: "Advocate",
     profilePic: daud,
+    spendings: 2000,
+    totalShare: 500,
     netBalance: 1500,
+    status: "Member",
     balancetextClass: "text-green-600",
     balancebgClass: "bg-green-600",
     crews: "2 groups",
-    spendings: 300,
     joinedDate: "2024-03-05"
   },
   {
@@ -56,11 +62,13 @@ export const Friends = [
     name: "Sheda",
     bio: "Cheesa",
     profilePic: sheda,
+    spendings: 450,
+    totalShare: 500,
     netBalance: -50,
+    status: "Member",
     balancetextClass: "text-red-600",
     balancebgClass: "bg-red-600",
     crews: "4 groups",
-    spendings: 450,
     joinedDate: "2024-04-20"
   },
   {
@@ -68,11 +76,13 @@ export const Friends = [
     name: "Saad Khalid",
     bio: "Gym Freak",
     profilePic: saad,
+    spendings: 3200,
+    totalShare: 1200,
     netBalance: 2000,
+    status: "Highest Contributor", 
     balancetextClass: "text-green-600",
     balancebgClass: "bg-green-600",
     crews: "6 groups",
-    spendings: 1200,
     joinedDate: "2024-05-12"
   },
   {
@@ -80,11 +90,13 @@ export const Friends = [
     name: "Habib Khalid",
     bio: "Photographer",
     profilePic: habib,
+    spendings: 600,
+    totalShare: 600,
     netBalance: 0,
+    status: "Member",
     balancetextClass: "text-text-secondary",
     balancebgClass: "bg-text-secondary",
     crews: "1 group",
-    spendings: 600,
     joinedDate: "2024-06-18"
   },
   {
@@ -92,11 +104,13 @@ export const Friends = [
     name: "Zuzu",
     bio: "Savage's Mod",
     profilePic: zuzu,
+    spendings: 1350,
+    totalShare: 400,
     netBalance: 950,
+    status: "Member",
     balancetextClass: "text-green-600",
     balancebgClass: "bg-green-600",
     crews: "5 groups",
-    spendings: 400,
     joinedDate: "2024-07-25"
   }
 ];

@@ -4,6 +4,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { GiPayMoney } from "react-icons/gi";
 import { GiReceiveMoney } from "react-icons/gi";
 import { IoPerson } from "react-icons/io5";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 export const Settlements = [
     {
         id: "trans_201",
@@ -72,7 +73,7 @@ export const Settlements = [
 export const Settelments = () => {
     return (
         <div className='size-full card-b rounded-lg shadow p-4'>
-            <h3 className='font-semibold text-lg'>Final Settlements</h3>
+            <h3 className='font-semibold text-lg center-flex w-fit gap-2'> Final Settlements<span><FaMoneyBillTransfer className='size-6 ' /></span></h3>
             <div className='debts h-138 mt-2 overflow-auto space-y-4 '>
                 {Settlements.map((settlement, index) => (
                     <div key={index} className="debt  w-full min-h-30  center-flex justify-between px-5 gap-2 ">
@@ -93,7 +94,7 @@ export const Settelments = () => {
                         <div className="creditors w-75 space-y-2 my-2">
                             {settlement.receivers.map((receiver, index) => (
                                 <div key={index} className="creditor shadow-md rounded-lg h-25 center-flex gap-2 bg-white relative">
-                                    <div className="flag absolute top-2 left-2"><GiPayMoney  className='text-green-600 size-4' /></div>
+                                    <div className="flag absolute top-2 left-2"><GiPayMoney  className='text-green-600 size-5' /></div>
                                     {receiver.person.type === "temporary" ? <div className="friend-img-container size-16 bg-neutral-300 rounded-full center-flex">
                                         <IoPerson className='size-7 text-neutral-500' />
                                     </div> :<div className="logo  size-18 rounded-full">

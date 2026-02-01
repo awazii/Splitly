@@ -83,8 +83,6 @@ export const Transactions = ({Currentbalancewith,setisdetailopen }) => {
           })}
         </div>
       </div>
-    
-    
     </>
   )
 }

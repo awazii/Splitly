@@ -51,7 +51,7 @@ input[type="number"]::-webkit-inner-spin-button,
         @apply bg-background text-black border-primary border-b-5;
     }
     .card-b{
-        @apply border-b-light  shadow-lg border bg-surface;
+        @apply border-b-light  shadow border bg-surface;
     }
     .center-flex {
         @apply flex justify-center items-center;

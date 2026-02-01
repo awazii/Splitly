@@ -335,7 +335,7 @@ export const Balancewith = ({ Currentbalancewith, currentFriend }) => {
         <div className="profile size-22 rounded-full center-flex border-primary border-2 p-1">
           <img src={Currentbalancewith.profilePic} alt="current-friend-pic" className='Img-c border-none' />
         </div>
-      </div>
+      </div>     
       {isdetailopen.open? <Transationdetail setisdetailopen={setisdetailopen} isdetailopen={isdetailopen} Currentbalancewith={Currentbalancewith} CurrentFriend={currentFriend} />:<Transactions Currentbalancewith={Currentbalancewith} setisdetailopen={setisdetailopen}  />}
     </div>
   )
