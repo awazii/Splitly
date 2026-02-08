@@ -10,7 +10,7 @@ export const Transactionlist = ({setisdetailopen}) => {
              <FaHistory className='size-5 ' />
              <h3 className='text-xl font-semibold '>Transaction History</h3>
            </div>
-           <div className="transcations h-[88%] mt-2 overflow-y-auto space-y-2 ">
+           <div className="transcations h-[85%] mt-2 overflow-y-auto space-y-2 ">
              {transactions.map((trans, index) => {
                return (
                  <div key={index} className='expense relative bg-white shadow h-32 rounded-lg'>

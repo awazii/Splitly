@@ -4,10 +4,11 @@ import { TiTick } from "react-icons/ti";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { FaHistory } from "react-icons/fa";
 import { transactions } from './Balancewith';
-export const Transactions = ({Currentbalancewith,setisdetailopen }) => {
+import Settlebtn from './Settlebtn'; 
+export const Transactions = ({Currentbalancewith,setissettlementopen, setisdetailopen}) => {
   return (
     <>
-      <div className="netbalance w-70 h-fit card-b bg-white border-none rounded-2xl mx-auto center-flex flex-col gap-2 p-3">
+      <div className="netbalance w-70 h-fit card-b bg-white border-none rounded-2xl mx-auto center-flex flex-col gap-2 p-3 ">
         <h3 className='font-bold text-lg'>Net Balance</h3>
         <div className="amount center-flex gap-3">
           <div className={`logo size-10 rounded-full center-flex ${Currentbalancewith.balancebgClass}`}>
@@ -23,13 +24,14 @@ export const Transactions = ({Currentbalancewith,setisdetailopen }) => {
         {Currentbalancewith.netBalance !== 0 &&
           <p className="note text-text-secondary font-semibold text-sm">{Currentbalancewith.netBalance < 0 ? `(You owed ${Currentbalancewith.name})` : `(${Currentbalancewith.name} owes you)`}</p>
         }
+        {Currentbalancewith.netBalance < 0 && <Settlebtn setissettlementopen={setissettlementopen}/>}
       </div>
       <div className="transactions-container mt-6 px-2">
         <div className="title w-fit center-flex gap-1 text-gray-800">
           <FaHistory className='size-5 ' />
           <h3 className='text-xl font-semibold '>Transaction History</h3>
         </div>
-        <div className="transcations h-110 mt-2 overflow-y-auto space-y-2 pb-2">
+        <div className="transcations h-105 mt-2 overflow-y-auto space-y-2 pb-2">
           {transactions.map((trans, index) => {
             return (
               <div key={index} className='expense relative bg-white shadow h-32 rounded-lg'>

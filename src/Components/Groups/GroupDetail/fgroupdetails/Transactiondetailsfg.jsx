@@ -9,14 +9,14 @@ import { IoMdPerson } from "react-icons/io";
 export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen }) => {
     const currentTransaction = transactions.find(trans => trans.id === isdetailopen.id);
     return (
-        <div className='transaction-details h-[94%] overflow-auto'>
+        <div className='transaction-details h-[94%] overflow-auto space-'>
             <div className="header center-flex w-fit gap-1 text-gray-800">
                 <button className="backbtn rounded-lg cursor-pointer group trans hover:scale-102 active:scale-95 " onClick={() => { setisdetailopen({ open: false, id: null }) }}>
                     <GoArrowLeft className='size-6 group-hover:text-primary' />
                 </button>
                 <h3 className='font-semibold text-xl '>Transcation Details</h3>
             </div>
-            <div className="transaction-info w-[80%] mx-auto mt-2 py-4 bg-white rounded-xl h-fit shadow-md center-flex flex-col">
+            <div className="transaction-info w-[50%] mx-auto my-2 py-4 bg-white rounded-xl h-fit shadow-md center-flex flex-col">
                 <div className="expense-info center-flex gap-2 flex-col">
                     <div className="expense-logo size-15 rounded-full  center-flex shadow-md" style={{ background: currentTransaction.category.gradient }}>
                         {currentTransaction.category.icon}
@@ -36,11 +36,11 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen }) => {
                 </div>
             </div>
             <div className="payment-details mt-2">
-                <div className="heading w-fit center-flex gap-1 text-gray-800 mx-2">
+                <div className="heading  center-flex gap-1 text-gray-800 mx-2">
                     <h3 className='text-xl font-semibold'>Paid by</h3>
                     <MdPayments className='size-5' />
                 </div>
-                <div className="paidby-list mt-2 space-y-2 px-3 h-fit bg-white rounded-xl shadow-md w-[90%] mx-auto overflow-y-auto  py-2 ">
+                <div className="paidby-list my-2 space-y-2 px-3 h-fit bg-white rounded-xl shadow-md w-[70%] mx-auto overflow-y-auto  py-2 ">
                     {currentTransaction.details.paidBy.map((person, index) => {
                         return (
                             <div key={index} className="paidby-item flex justify-between items-center border-b border-b-light  pb-2 last:border-b-0">
@@ -59,15 +59,15 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen }) => {
                 </div>
             </div>
             <div className="splitdetails">
-                <div className="heading w-fit center-flex gap-1 text-gray-800 mx-2 mt-3">
+                <div className="heading  center-flex gap-1 text-gray-800 mx-2 mt-3">
                     <h3 className='text-xl font-semibold'>Split Details</h3>
                     <IoTicket className='size-5' />
                 </div>
-                <div className="split-list mt-2 space-y-2">
+                <div className="split-list my-2 space-y-2">
                     <div className="split-method">
                         <h4 className='text-md font-semibold text-text-secondary center-flex gap-1'>Split Method: <span className='text-text-primary'>{currentTransaction.details.splitMethod}</span></h4>
                     </div>
-                    <div className="split-items mt-2 space-y-2 px-3 h-40  w-[90%] mx-auto overflow-y-auto ">
+                    <div className="split-items mt-2 space-y-2 px-3 h-40  w-[70%] mx-auto overflow-y-auto ">
                     {currentTransaction.details.split.map((person, index) => {
                         return (
                             <div key={index} className="split-item  bg-white p-2 rounded-lg shadow-md flex justify-between items-center">
@@ -87,11 +87,11 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen }) => {
                 </div>
             </div>
             <div className="settelemnts">
-                <div className="heading w-fit center-flex gap-1 text-gray-800 mx-2 mt-3">
+                <div className="heading  center-flex gap-1 text-gray-800 mx-2 mt-3">
                     <h3 className='text-xl font-semibold'>Settelemnts</h3>
                     <FaMoneyBillTransfer className='size-5' />
                 </div>
-                <div className={`settelemnts-list mt-2 space-y-2 ${currentTransaction.details.settlements.length!==0 ? "h-30" : "h-fit"}  w-[90%] mx-auto overflow-y-auto`}>
+                <div className={`settelemnts-list mt-2 space-y-2 ${currentTransaction.details.settlements.length!==0 ? "h-30" : "h-fit"}  w-[70%] mx-auto overflow-y-auto`}>
                     {currentTransaction.details.settlements.length!==0
                         ? <>
                             {currentTransaction.details.settlements.map((settlement, index) => {

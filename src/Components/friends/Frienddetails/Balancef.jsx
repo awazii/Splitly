@@ -6,7 +6,7 @@ import { TbListDetails } from "react-icons/tb";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { Basemodel } from '../../basemodel';
 import { Balancewith } from './Balancewith';
-const actionbtns = [{ svg: TbListDetails, bg: "bg-primary", label: "Details" }, { svg: TbCreditCardPay, bg: "bg-green-600", label: "Settle" },]
+const actionbtns = [{ svg: TbListDetails, bg: "bg-primary", label: "Details" }]
 export const Balancef = ({ currentFriend }) => {
       const [popup, setpopup] = useState(false)
       const [Currentbalancewith, setCurrentbalancewith] = useState("")

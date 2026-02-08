@@ -10,6 +10,8 @@ import { GiPayMoney } from "react-icons/gi";
 import { GiReceiveMoney } from "react-icons/gi";
 import { Transactions } from './Transactionshistory.jsx';
 import { Transationdetail } from './transationdetail';
+import { Settlements } from './Settlements';
+import {Paymentsuccesful} from './payment.jsx';
 export const transactions = [
   {
     id: "trans001",
@@ -324,9 +326,10 @@ export const transactions = [
 ];
 export const Balancewith = ({ Currentbalancewith, currentFriend }) => {
   const [isdetailopen, setisdetailopen] = useState({open: false, id: null});
-  
+  const [issettlementopen, setissettlementopen] = useState(false);
+  const [ispaymentsuccessful, setispaymentsuccessful] = useState(false);
   return (
-    <div className='w-130 h-185'>
+    <div className='w-130 h-fit'>
       <div className="profiles w-full center-flex gap-5 mt-2 mb-4">
         <div className="profile size-22 rounded-full center-flex border-primary border-2 p-1">
           <img src={currentFriend.profilePic} alt="current-friend-pic" className='Img-c border-none' />
@@ -336,7 +339,10 @@ export const Balancewith = ({ Currentbalancewith, currentFriend }) => {
           <img src={Currentbalancewith.profilePic} alt="current-friend-pic" className='Img-c border-none' />
         </div>
       </div>     
-      {isdetailopen.open? <Transationdetail setisdetailopen={setisdetailopen} isdetailopen={isdetailopen} Currentbalancewith={Currentbalancewith} CurrentFriend={currentFriend} />:<Transactions Currentbalancewith={Currentbalancewith} setisdetailopen={setisdetailopen}  />}
+      {(!isdetailopen.open && !issettlementopen && !ispaymentsuccessful) && <Transactions Currentbalancewith={Currentbalancewith} setisdetailopen={setisdetailopen} setissettlementopen={setissettlementopen}/>}
+       {isdetailopen.open && <Transationdetail setisdetailopen={setisdetailopen} isdetailopen={isdetailopen} Currentbalancewith={Currentbalancewith} CurrentFriend={currentFriend} />}
+      {issettlementopen && <Settlements Currentbalancewith={Currentbalancewith} setissettlementopen={setissettlementopen} setispaymentsuccessful={setispaymentsuccessful}/>}
+      {(ispaymentsuccessful)&& <Paymentsuccesful Currentbalancewith={Currentbalancewith} setispaymentsuccessful={setispaymentsuccessful}/>}
     </div>
   )
 }

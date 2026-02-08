@@ -2,7 +2,7 @@ import React ,{useState} from 'react'
 import { categories } from '../../../Expenses/Expense';
 import { GiPayMoney } from "react-icons/gi";
 import { GiReceiveMoney } from "react-icons/gi";
-import { Transactionlist } from './Transactionlist';
+import { Transactionlist } from './Transactionlistg';
 import { Transactiondetailsfg } from './Transactiondetailsfg';
 export const transactions = [
   {
@@ -35,28 +35,6 @@ export const transactions = [
           { fromId: "002", from: "Arshman", toId: "005", to: "Saad", amount: 40 }
       ]
     },
-  },
-  {
-    id: "trans002",
-    payment: "Sent",
-    title: `Payment to Saad`,
-    amount: 1450,
-    balancetextClass: "text-red-600",
-    balancebgClass: "bg-red-600",
-    date: "23-May-2025",
-    time: "10:15 AM",
-     icon: <GiPayMoney className="text-white size-7" />,
-  },
-  {
-    id: "trans003",
-    payment: "Received",
-    title: `Payment from Arshman`,
-    amount: 2270,
-    balancetextClass: "text-green-600",
-    balancebgClass: "bg-green-600",
-    date: "08-Jun-2025",
-    time: "04:45 PM",
-     icon: <GiReceiveMoney className="text-white size-7" />,
   },
   {
     id: "trans004",

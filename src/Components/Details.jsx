@@ -6,8 +6,8 @@ const Button = ({Openmodel}) => {
   return (
     <StyledWrapper>
       <button className="button" onClick={()=>{
-                                          Openmodel()
-                                      }}>
+     Openmodel()
+        }}>
         <span>Details</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 43">
           <polygon points="39.58,4.46 44.11,0 66,21.5 44.11,43 39.58,38.54 56.94,21.5" />
