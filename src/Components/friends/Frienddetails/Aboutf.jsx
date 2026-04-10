@@ -3,34 +3,30 @@ import { MdOutlineDateRange } from "react-icons/md";
 import { IoCard } from "react-icons/io5";
 import { MdGroup } from "react-icons/md";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
-import Button from '../Delete';
+import { indicators } from '../Friendslist';
 export const Aboutf = ({ CurrentFriend }) => {
     const overvuewData = [
         {
             label: "Net Balance",
             icon: FaMoneyBillTransfer,
-            textColor: CurrentFriend.balancetextClass,
-            Netbalance: CurrentFriend.netBalance,
+            textColor: indicators[CurrentFriend.netBalance.indicatorid].color,
+            Netbalance: CurrentFriend.netBalance.total,
         },
         {
             label: "Total Spending",
-            value: "Rs. 2,500",
+            value: `Rs. ${CurrentFriend.spendings.toLocaleString()}`,
             icon: IoCard,
             textColor: "text-green-600",
         },
         {
             label: "Groups Involved",
-            value: CurrentFriend.crews,
+            value: CurrentFriend.crews.groupCount,
             icon: MdGroup,
             textColor: "text-primary",
         },
         {
             label: "Joined Date",
-            value: new Date(CurrentFriend.joinedDate).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "short",
-                year: "numeric"
-            }),
+            value: CurrentFriend.joinedDate,
             icon: MdOutlineDateRange,
             textColor: "text-sky-600",
         },
@@ -40,11 +36,11 @@ export const Aboutf = ({ CurrentFriend }) => {
             <h2 className='text-2xl font-semibold'>About Friend</h2>
             <div className="about-f center-flex flex-col gap-2">
                 <div className="logo rounded-full size-34 center-flex border-primary border-3">
-                    <img src={CurrentFriend.profilePic} className='Img-c p-1' alt="profile-image" />
+                    <img src={CurrentFriend.Image} className='Img-c p-1' alt="profile-image" />
                 </div>
                 <div className="info center-flex flex-col ">
-                    <h3 className='font-semibold text-2xl'>{CurrentFriend.name}</h3>
-                    <p className='text-text-secondary text-lg'>{CurrentFriend.bio}</p>
+                    <h3 className='font-semibold text-2xl'>{`${CurrentFriend.Name}`} <span className='text-text-secondary text-lg'>{`${CurrentFriend.id==="admin_01" ?" (Admin)" : ""}`}</span></h3>
+                    <p className='text-text-secondary text-lg'>{CurrentFriend.Bio}</p>
                 </div>
             </div>
             <div className='overview-data   p-3 space-y-2 grid grid-cols-2 grid-rows-2 gap-x-3'>

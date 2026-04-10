@@ -26,7 +26,6 @@ import { IoSparklesSharp } from "react-icons/io5";
 import { IoTicketSharp } from "react-icons/io5";
 import { FaArrowDown } from "react-icons/fa6";
 import { FaArrowUp } from "react-icons/fa6";
-import { FaArrowRight } from "react-icons/fa6";
 import Linechart from './Linechartgraph';
 import { Basemodel } from '../basemodel';
 import { Expensedetails } from '../Groups/GroupDetail/Expenses/Expensedetails';

@@ -18,6 +18,9 @@ import { TbPinnedOff } from "react-icons/tb";
 import { FaChevronDown } from "react-icons/fa";
 import { CiFilter } from "react-icons/ci";
 import { categories } from '../Expenses/Expense';
+import { useSelector ,useDispatch } from 'react-redux';
+import { selectAllGroups, selectPinnedGroups ,updateGroup } from '../../store/GroupSlice';
+import { CategoryExtrator } from '../../utils/CategoryExtractor';
 export const groups = [
   {
     id: "grp-001",
@@ -162,14 +165,23 @@ export const groups = [
     }
   }
 ];
+export const Groupcategories = [
+  { id: "grp-001", variant: "Mountains", Img: mountain },
+  { id: "grp-002", variant: "Beach", Img: beach },
+  { id: "grp-003", variant: "Restaurant", Img: Restaurant },
+  { id: "grp-004", variant: "Other", Img: Other },
+  { id: "grp-005", variant: "Concert", Img: concert }
+]
 export const Grouplist = () => {
+  const Groups = useSelector(selectAllGroups);
+  const PinnedGroups = useSelector(selectPinnedGroups);
   const Groupsrefs = useRef({})
+  const dispatch = useDispatch()
   function Setref(el, i) {
     Groupsrefs.current[i] = el
   }
   const hightlightGroup = (id) => {
     const el = Groupsrefs.current[id]
-    console.log(el)
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "center" });
     el.classList.add("highlight-glow")
@@ -189,20 +201,22 @@ export const Grouplist = () => {
       <div className="pinned-groups-container mt-2 p-2">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>Pinned <span> <TbPinnedFilled className='rotate-45' /></span></h2>
         <div className="pinned-groups grid grid-cols-5 gap-3 border-b border-b-light pb-5">
-          {groups.map((group, index) => {
+          {PinnedGroups.map((group, index) => {
             return (
               <div key={index} className='pinned-friend card-b  px-1 py-4 pb-2 h-fit rounded-lg relative flex flex-col gap-2 items-center'>
                 <div className="about flex items-center gap-3">
-                  <div className="profile border size-19 rounded-full border-b-light"><img className='Img-c' src={group.Img} alt="" /></div>
+                  <div className="profile border size-19 rounded-full border-b-light"><img className='Img-c' src={CategoryExtrator(group).Img} alt="" /></div>
                   <div className="info w-45">
                     <h3 className="name text-text-primary text-md font-semibold line-clamp-1 w-full">{group.name}</h3>
-                    <p className='text-text-secondary text-sm'><span className='font-semibold'>{group.members} </span> Members</p>
-                    <p className='text-text-secondary text-sm'> <span className='font-semibold'>{Number(group.expenses).toLocaleString()}
+                    <p className='text-text-secondary text-sm'><span className='font-semibold'>{group.Members.length} </span> Members</p>
+                    <p className='text-text-secondary text-sm'> <span className='font-semibold'>{Number(group.Expenses).toLocaleString()}
                     </span> Total Expense</p>
                   </div>
                   <div className='absolute right-0 top-0'>
-                    <button className=' unpin-btn m-1 cursor-pointer  text-lg text-primary font-bold'>
-                      <TbPinnedOff />
+                    <button className=' unpin-btn m-1 cursor-pointer  text-lg text-primary font-bold rotate-45' onClick={() => {
+                      dispatch(updateGroup({ id: group.id, changes: { isPinned: false } }))
+                    }}>
+                      <TbPinnedFilled />
                     </button>
                     <span className='unpin transition duration-500 ease-in-out'>Unpin {group.name}</span>
                   </div>
@@ -219,7 +233,7 @@ export const Grouplist = () => {
       <div className="friendslist-container min-h-60 border-b-light p-2 ">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>Groups<span> <HiMiniUserGroup /></span></h2>
         <div className="Grouppslist grid grid-cols-4 gap-x-3 gap-y-2 mb-5">
-          {groups.map((group, index) => {
+          {Groups.map((group, index) => {
             return (
               <div key={group.id} ref={(el) => { Setref(el, group.id) }}>
                 <GroupCard group={group} />

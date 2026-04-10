@@ -11,7 +11,7 @@ import { Grouplist } from './Components/Groups/Grouplist'
 import { Newg } from './Components/Groups/Newg'
 import { Expense } from './Components/Expenses/Expense'
 import { Analytics } from './Components/Analystics/Analytics'
-import { Expense_Calculator_main } from './Components/ExpenseCalculator/Expense_Calculator_main'
+import { Spliter_main } from './Components/Spliter/Spliter_main'
 import { Groupdetail } from './Components/Groups/GroupDetail/Groupdetail'
 import Addexpense from "./Components/Groups/GroupDetail/AddExpense/New"
 import { Expenses } from './Components/Groups/GroupDetail/Expenses/Expenses'
@@ -80,8 +80,8 @@ function App() {
           path: '/Analytics',
           element: <Analytics />
         }, {
-          path: "/ExpenseCalculator",
-          element: <Expense_Calculator_main />
+          path: "/Spliter",
+          element: <Spliter_main />
         }
       ]
     }

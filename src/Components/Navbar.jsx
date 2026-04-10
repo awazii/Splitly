@@ -7,8 +7,6 @@ import { GiExpense } from "react-icons/gi";
 import { MdAnalytics } from "react-icons/md";
 import { FaCalculator } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
-import { IoIosSunny } from "react-icons/io";
-import { FaMoon } from "react-icons/fa6";
 import { NavLink } from 'react-router-dom';
 
 export const Navbar = () => {
@@ -18,7 +16,7 @@ export const Navbar = () => {
         { icon: <HiMiniUserGroup />, label: "Groups",link:'/Groups' },
         { icon: <GiExpense />, label: "Expenses",link:'/Expenses' },
         { icon: <MdAnalytics />, label: "Analytics",link:'/Analytics' },
-        { icon: <FaCalculator />, label: "Expense Calculator",link:'/ExpenseCalculator' }
+        { icon: <FaCalculator />, label: "Spliter",link:'/Spliter' }
     ])
     return (
         <nav className="Navbar  w-70 relative text-white ">

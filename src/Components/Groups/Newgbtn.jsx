@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Button = () => {
+import Loader from '../loader';
+const Button = ({ isSubmitting }) => {
   return (
     <StyledWrapper>
-      <button type="submit" className='shadow-lg absolute bottom-5 left-1/2 -translate-x-1/2'>
-        <span className="span-mother">
+      <button type="submit" className='shadow-lg relative'>
+        <div className={`loadercontainer absolute inset-0 flex items-center justify-center ${isSubmitting ? 'cursor-not-allowed bg-[#cc552a] rounded-[.9rem] ' : 'cursor-pointer'}`}>
+          {isSubmitting && <Loader />}
+        </div>
+        {!isSubmitting && <>    <span className="span-mother">
           <span>C</span>
           <span>r</span>
           <span>e</span>
@@ -13,18 +16,20 @@ const Button = () => {
           <span>t</span>
           <span>e</span>
         </span>
-        <span className="span-mother2">
-          <span>M</span>
-          <span>e</span>
-          <span>m</span>
-          <span>o</span>
-          <span>r</span>
-          <span>i</span>
-          <span>e</span>
-          <span>s</span>
-        </span>
+          <span className="span-mother2">
+            <span>M</span>
+            <span>e</span>
+            <span>m</span>
+            <span>o</span>
+            <span>r</span>
+            <span>i</span>
+            <span>e</span>
+            <span>s</span>
+          </span>
+        </>}
       </button>
     </StyledWrapper>
+
   );
 }
 

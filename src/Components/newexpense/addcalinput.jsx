@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Input = ({ variant, width, type }) => {
+const Input = ({ variant, width, type , value, onChange ,fieldState ,onKeyDown }) => {
   return (
     <StyledWrapper>
       <div className="input-group">
-        <input required type={type} name="text" autoComplete="off" className={`input`} style={{ width: width }} />
+        <input required type={type} name="text" autoComplete="off" className={`input`} style={{ width: width }} value={value} onChange={onChange} onKeyDown={onKeyDown} />
         <label className="user-label">{variant}</label>
+          {fieldState?.error && <p className='text-red-600 text-sm mt-2'>{fieldState.error.message}</p>}  
       </div>
     </StyledWrapper>
   );

@@ -1,24 +1,38 @@
-import React ,{useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const Checkbox = ({children , setSelected, Selected , id }) => {
-  function Toggleselect(){
-    Selected.includes(id) ?
-      setSelected(Selected.filter(friendId => friendId !== id))
-    :
-      setSelected([...Selected, id])
+const Checkbox = ({ children, Selected, setSelected, members }) => {
+  const [ischecked, setischecked] = useState(false);
+
+  function Selectall() {
+    !ischecked ?
+      setSelected(members.map(member => member.id)) : setSelected([])
   }
+  useEffect(() => {
+    const allCurrentSelected = members.length > 0 && members.every(member => Selected.includes(member.id));
+    if (allCurrentSelected && !ischecked) {
+      setischecked(true);
+    }
+    else if (!allCurrentSelected && ischecked) {
+      setischecked(false);
+    }
+  }, [Selected, members]);
   return (
     <StyledWrapper>
       <label className='cursor-pointer center-flex gap-1'>
-   <input type="checkbox" className="ui-checkbox"  checked={Selected.includes(id)} onChange={Toggleselect}/>
-         {children}
+        <input type="checkbox" className="ui-checkbox " checked={ischecked} onChange={() => {
+          Selectall();
+          setischecked(!ischecked);
+        }} />
+        {children}
       </label>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
+  /* checkbox settings 👇 */
+
   .ui-checkbox {
     --primary-color: #ff6b35;
     --secondary-color: #fff;

@@ -1,11 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Input = ({variant}) => {
+const Input = ({variant ,value ,onChange }) => {
   return (
     <StyledWrapper>
       <div className="input-group">
-        <input required type="text" name="text" autoComplete="off" className="input" />
+        <input 
+          required 
+          type="text" 
+          autoComplete="off" 
+          className="input" 
+          value={value}
+          onChange={onChange}
+        />
         <label className="user-label">{variant}</label>
       </div>
     </StyledWrapper>

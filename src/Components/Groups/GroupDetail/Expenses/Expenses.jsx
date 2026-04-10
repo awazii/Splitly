@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import Finishbtn from "./Finish"
+import Addexpensebtn from "./Addexpensebtn"
 import { IoReturnUpBack } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
@@ -201,7 +201,7 @@ const Closemodel=()=>[
                     <h3 className='text-3xl '>Expenses</h3>
                 </div>
                 <div className="actions center-flex gap-3">
-                    <Finishbtn />
+                    <Addexpensebtn />
                 </div>
             </div>
             <div className='flex items-center justify-between mt-3 mx-9'>
@@ -215,7 +215,7 @@ const Closemodel=()=>[
             </div>
             <div className="Expense-container mx-auto container mt-4">
                 <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-fit'>Expenses<span> <GiExpense /></span></h2>
-                <div className="expenses grid grid-cols-3 gap-3  pb-5">    {Expenses.map((expense, index) => {
+                <div className="expenses grid grid-cols-3 gap-3 overflow-auto h-160 ">    {Expenses.map((expense, index) => {
                         return (
                             <div key={index} className='expense relative card-b h-40 rounded-lg'>
                                 <div className='expense-detail-btn absolute bottom-4 right-5'>

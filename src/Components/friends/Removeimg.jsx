@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = () => {
+const Button = ({ removeimg }) => {
   return (
     <StyledWrapper>
-      <button  type="button" className="btn mt-2">
+      <button  type="button" className="btn mt-2" onClick={removeimg}>
         <p className="paragraph"> delete </p>
         <span className="icon-wrapper">
           <svg className="icon" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

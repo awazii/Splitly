@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Checkbox = ({children}) => {
+const Checkbox = ({children ,value, onChange}) => {
   return (
     <StyledWrapper>
       <label className='cursor-pointer center-flex gap-1'>
-   <input type="checkbox" className="ui-checkbox " />
+   <input type="checkbox" className="ui-checkbox " checked={value} onChange={onChange} />
          {children}
       </label>
     </StyledWrapper>

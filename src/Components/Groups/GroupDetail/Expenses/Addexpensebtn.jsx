@@ -1,13 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SiTicktick } from "react-icons/si";
+import { FaPlus } from "react-icons/fa";
+import { useNavigate ,useParams } from 'react-router-dom';
 const Button = () => {
+  const navigate= useNavigate()
+  const { Groupid } = useParams();
   return (
     <StyledWrapper>
-      <button className="cssbuttons-io-button bg-primary">
-        Finish Group
+      <button className="cssbuttons-io-button bg-primary" onClick={()=>{
+        navigate(`/Groups/${Groupid}/AddExpense`)
+      }}>
+        Add Expense
         <div className="icon">
-         < SiTicktick  className=' size-6 text-primary' />
+         < FaPlus  className=' size-4 text-primary' />
         </div>
       </button>
     </StyledWrapper>

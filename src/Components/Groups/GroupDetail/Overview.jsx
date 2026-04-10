@@ -1,22 +1,23 @@
 import React from 'react'
 import { FaMoneyCheck } from "react-icons/fa6";
 import { HiMiniUserGroup } from "react-icons/hi2";
+import { CategoryExtrator } from '../../../utils/CategoryExtractor';
 export const Overview = ({CurrentGroup}) => {
     const overview = [
         {
             label: "Total Expense",
-            value: `Rs.${Number(CurrentGroup.expenses).toLocaleString()}`,
+            value: `Rs.${Number(CurrentGroup.Expenses).toLocaleString()}`,
             gradient: "linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)",
             svg: <FaMoneyCheck className='size-8 text-white ' />
         },
         {
             label: "Destination ",
-            value: CurrentGroup.variant,
-            background: CurrentGroup.Img
+            value: CategoryExtrator(CurrentGroup).variant,
+            background: CategoryExtrator(CurrentGroup).Img
         },
         {
             label: "Total Participants",
-            value: `${CurrentGroup.members} Members`,
+            value: `${CurrentGroup.Members.length} Members`,
             gradient: "linear-gradient(135deg, #FF9800 0%, #FF5722 50%, #F44336 100%)",
             svg: <HiMiniUserGroup className='size-7 text-white' />
         }]

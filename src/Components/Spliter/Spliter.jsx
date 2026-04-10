@@ -6,7 +6,7 @@ import { Stepone } from './Steponec';
 import { Steptwo } from './Steptwoc';
 import { Stepthree } from './Stepthreec';
 
-export const ExpenseCalculator = ({allfriends ,setSummary,Summary}) => {
+export const Spliter = ({allfriends ,setSummary,Summary}) => {
     const [step, setstep] = useState(1);
     const Stepsfunc = (stepnumber) => {
         if (stepnumber >= 1 && stepnumber <= 3) {

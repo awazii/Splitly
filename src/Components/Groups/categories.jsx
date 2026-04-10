@@ -1,30 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Radio = () => {
+import { Groupcategories} from './Grouplist';
+const Radio = ({value ,onChange}) => {
   return (
     <StyledWrapper>
       <div className="radio-inputs">
-        <label className="radio">
-          <input type="radio" name="radio" />
-          <span className="name">Mountains</span>
-        </label>
-        <label className="radio">
-          <input type="radio" name="radio" defaultChecked/>
-          <span className="name">Restaurant</span>
-        </label>
-        <label className="radio">
-          <input type="radio" name="radio" />
-          <span className="name">Concert</span>
-        </label>
-        <label className="radio">
-          <input type="radio" name="radio" />
-          <span className="name">Beach</span>
-        </label>
-        <label className="radio">
-          <input type="radio" name="radio" />
-          <span className="name">Others</span>
-        </label>
+        {Groupcategories.map(category => (
+          <label key={category.id} className="radio">
+            <input type="radio" name="category" value={category.id} onChange={onChange} checked={value === category.id} />
+            <span className="name">{category.variant}</span>
+          </label>
+        ))}
       </div>
     </StyledWrapper>
   );

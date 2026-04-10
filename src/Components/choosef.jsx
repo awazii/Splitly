@@ -1,20 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Radio = () => {
+const Radio = ({ setisPinselected }) => {
+  const options = [
+    { value: "All" },
+    { value: "Pinned" },
+  ];
   return (
     <StyledWrapper>
       <div className="radio-inputs">
-        <label className="radio1">
-          <input type="radio" name="radio1" defaultChecked />
-          <span className="name">All</span>
-        </label>
-        <label className="radio1">
-          <input type="radio" name="radio1" />
-          <span className="name">Pinned</span>
-        </label>
+       { options.map((option, index) => (
+          <label key={index} className="radio1">
+            <input type="radio" name="radio1" defaultChecked={option.value === "All"}  onChange={() => setisPinselected(option.value === "Pinned")} />
+            <span className="name">{option.value}</span>
+          </label>
+        )) }
       </div>
-    </StyledWrapper>
+   </StyledWrapper>
   );
 }
 

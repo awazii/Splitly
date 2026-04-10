@@ -1,26 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Button = () => {
+import Loader from '../loader';
+const Button = ({ isSubmitting }) => {
   return (
     <StyledWrapper>
-      <button type="submit" className='shadow-lg'>
-        <span className="span-mother">
-          <span>A</span>
-          <span>D</span>
-          <span>D</span>
-        </span>
-        <span className="span-mother2">
-          <span>S</span>
-          <span>p</span>
-          <span>l</span>
-          <span>i</span>
-          <span>t</span>
-          <span>M</span>
-          <span>a</span>
-          <span>t</span>
-          <span>e</span>
-        </span>
+      <button type="submit" className='shadow-lg relative' disabled={isSubmitting}>
+        <div className={`loadercontainer absolute inset-0 flex items-center justify-center ${isSubmitting ? 'cursor-not-allowed bg-[#cc552a] rounded-[.9rem] ' : 'cursor-pointer'}`}>
+          {isSubmitting && <Loader />}
+        </div>
+        {!isSubmitting  && <>
+          <span className="span-mother">
+            <span>A</span>
+            <span>D</span>
+            <span>D</span>
+          </span>
+          <span className="span-mother2">
+            <span>S</span>
+            <span>p</span>
+            <span>l</span>
+            <span>i</span>
+            <span>t</span>
+            <span>M</span>
+            <span>a</span>
+            <span>t</span>
+            <span>e</span>
+          </span></>}
       </button>
     </StyledWrapper>
   );

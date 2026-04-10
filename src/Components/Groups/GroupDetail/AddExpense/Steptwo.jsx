@@ -1,16 +1,29 @@
-import React from 'react'
+import React ,{useState ,useEffect} from 'react'
 import { FaRupeeSign } from "react-icons/fa6";
 import { IoPerson } from "react-icons/io5";
 import { GiBullseye } from "react-icons/gi";
 import { IoMdFlag } from "react-icons/io";
 import { TiTick } from "react-icons/ti";
 import { Friends } from '../../../friends/Friendslist';
+import { useFormContext } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { selectAllFriends } from '../../../../store/FriendsSlice';
 export const Steptwo = () => {
+  const { setValue ,getValues } = useFormContext();
+  const [amountCollected, setamountCollected] = useState(0);
+  const ExpenseMembers= getValues("selectedfriends");
+  const AllFriends = useSelector(selectAllFriends);
+  const Friends = AllFriends.filter(friend => ExpenseMembers.includes(friend.id));
+  const Total = Number(getValues("totalAmount"));
   const payementdata = [
-    { label: "Amount Collected", amount: 15500, logo: <TiTick className='text-white size-4' /> },
-    { label: "Amount Left", amount: 5000, logo: <GiBullseye className='text-primary size-6' /> },
-    { label: "Total Amount", amount: 20500, logo: < IoMdFlag className='text-neutral-500 size-6' /> },
+    { label: "Amount Collected", amount: amountCollected, logo: <TiTick className='text-white size-4' /> },
+    { label: "Amount Left", amount: Total - amountCollected, logo: <GiBullseye className='text-primary size-6' /> },
+    { label: "Total Amount", amount: Total , logo: < IoMdFlag className='text-neutral-500 size-6' /> },
   ];
+  useEffect(() => {
+     console.log("Members in Step Two:", ExpenseMembers);
+  }, [])
+  
   return (
     <>
       <div className="payment-container h-20 p-2 grid grid-cols-3 gap-4  mt-3">
@@ -30,18 +43,18 @@ export const Steptwo = () => {
         <h4 className="text-md font-semibold my-2">
           How much each person paid?
         </h4>
-        <div className="friends-payments grid grid-cols-2  gap-3 max-h-98 overflow-auto">
+        <div className="friends-payments grid grid-cols-2  gap-3 max-h-100 overflow-auto border-l p-2">
           {Friends.map((friend, index) => {
             return (
               <div key={index} className="friend-payment bg-highlight rounded-lg p-4 flex  gap-3 h-22 justify-between items-center shadow-md">
                 <div className="friend-info center-flex  gap-2 ">
                   <div className="friend-img-container size-16">   
-                      <img src={friend.profilePic} className='Img-c' alt="friend-img" /> 
+                      <img src={friend.Image} className='Img-c' alt="friend-img" /> 
                   </div>
                   <div className="friend-info flex justify-center flex-col">
-                    <h2 className='text-sm'>{friend.name}</h2>
+                    <h2 className='text-sm'>{friend.Name}</h2>
                     <p className='text-[12px] text-text-secondary'>
-                        {friend.bio}</p>
+                        {friend.Bio}</p>
                   </div>
                 </div>
                 <div className="payment-input flex center-flex gap-1 card-b bg-white border-none rounded-lg p-2 flex-row-reverse">

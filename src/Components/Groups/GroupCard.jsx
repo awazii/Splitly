@@ -1,26 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { RiFlipHorizontalLine } from "react-icons/ri";
 import { RiFlipHorizontalFill } from "react-icons/ri";
 import { FaMoneyCheck } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
-import { GiExpense } from "react-icons/gi";
 import Detailbtn from "./detailbtn"
 import dayjs from 'dayjs';
-import { LuUtensils } from "react-icons/lu";
-import { RiDrinks2Line } from "react-icons/ri";
-import { MdSmokeFree } from "react-icons/md";
-import { FaCar } from "react-icons/fa6";
-import { MdHotel } from "react-icons/md";
-import { IoSparklesSharp } from "react-icons/io5";
-import { IoTicketSharp } from "react-icons/io5";
+import { CategoryExtrator } from '../../utils/CategoryExtractor';
+import { updateGroup } from '../../store/GroupSlice';
+import { useDispatch } from 'react-redux';
+import { TbPinnedFilled } from "react-icons/tb";
+import { TbPinnedOff } from "react-icons/tb";
+export const statuses = {
+  Active: {
+    label: "Active",
+    textColor: "#16A34A",
+    bgColor: "#2FA85A"
+  },
+  Closed: {
+    label: "Closed",
+    textColor: "#DC2626",
+    bgColor: "#FF4C4C"
+  }
+};
 const Card = ({ group }) => {
   const [flip, setflip] = useState(false)
+  const [pin, setpin] = useState(group.isPinned)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    setpin(group.isPinned);
+  }, [group.isPinned])
+  function handlePin() {
+    setpin(!pin);
+    dispatch(updateGroup({ id: group.id, changes: { isPinned: !pin } }))
+  }
   return (
     <StyledWrapper>
-      <div className="card ">
+      <div className="card">
         <div className={`content shadow-lg ${flip ? "rotate-y-180" : "rotate-y-0"}`}>
-          <div className="front bg-[#dddddd]">
+          <div className="front bg-[#dddddd] relative">
+            <div className='absolute top-2 left-2 z-10 center-flex gap-1'> 
+              <button className={`cursor-pointer text-primary text-lg ${!pin ? '' : 'rotate-45'} peer`} onClick={handlePin}>
+              {pin ? <TbPinnedFilled /> : <TbPinnedOff />}
+            </button>
+            <span className='text-sm border-l p-1 shadow peer-hover:opacity-100 opacity-0 rounded-md trans'>
+              {pin ? "Unpin" : "Pin"}
+            </span>
+            </div>
             <div className="front-content bg-surface">
               <button className="flip border rounded-md border-b-light size-8 center-flex cursor-pointer hover:text-primary hover:scale-105 trans absolute bottom-2 -translate-x-1/2 left-1/2 
                             " onClick={() => {
@@ -32,28 +58,28 @@ const Card = ({ group }) => {
                 <h4 className="text-sm font-semibold">Status</h4>
                 <div
                   className="flex items-center gap-1 text-sm"
-                  style={{ color: group.status.textColor }}
+                  style={{ color: statuses[group.statusid].textColor }}
                 >
                   <div
                     className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: group.status.bgColor }}
+                    style={{ backgroundColor: statuses[group.statusid].bgColor }}
                   ></div>
-                  <span>{group.status.text}</span>
+                  <span>{statuses[group.statusid].label}</span>
                 </div>
               </div>
               <div className="g-content gap-1 h-43 my-1  mx-2  grid grid-cols-5 grid-row-2">
                 <div className='g-info flex flex-col items-center col-span-2 p-1 gap-1 h-48'>
                   <div className="g-img  size-25 rounded-full ">
-                    <img src={group.Img} className='Img-c' alt="" />
+                    <img src={CategoryExtrator(group).Img} className='Img-c' alt="" />
                   </div>
-                  <h2 className='text-sm font-semibold line-clamp-2 w-[85%] text-center '>{group.name}</h2>
-                  <Detailbtn groupid={group.id}/> 
+                  <h2 className='text-sm font-semibold line-clamp-2 w-[85%] text-center '>{group.Name}</h2>
+                  <Detailbtn groupid={group.id} />
                 </div>
                 <div className=' col-span-3 flex flex-col gap-2'>
                   <div className='members border h-20 border-b-light rounded-xl flex gap-2 items-center pr-2'>
                     <div className='members-info w-35 h-full center-flex flex-col '>
                       <h2 className='text-md font-semibold p-2 pb-0'>Total Members</h2>
-                      <h1 className='text-2xl text-text-secondary'>{group.members}</h1>
+                      <h1 className='text-2xl text-text-secondary'>{group.Members.length}</h1>
                     </div>
                     <div className='member-logo size-14 rounded-full  center-flex' style={{ background: "linear-gradient(135deg, #2196F3 0%, #3F51B5 50%, #1A237E 100%)" }}>
                       <FaUser className='size-5 text-white' />
@@ -62,7 +88,7 @@ const Card = ({ group }) => {
                   <div className='expenses border h-20 border-b-light rounded-xl flex gap-2 items-center pr-2'>
                     <div className='members-info w-35 h-full center-flex flex-col '>
                       <h2 className='text-md font-semibold p-2 pb-0'>Total Expenses</h2>
-                      <h1 className='text-2xl text-text-secondary'>{Number(group.expenses).toLocaleString()}</h1>
+                      <h1 className='text-2xl text-text-secondary'>{Number(group.Expenses).toLocaleString()}</h1>
                     </div>
                     <div className='member-logo size-14 rounded-full  center-flex' style={{ background: "linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)" }}>
                       <FaMoneyCheck className='size-5 text-white' />
@@ -87,18 +113,18 @@ const Card = ({ group }) => {
                   <h3 className='text-sm font-semibold text-center'>Top Spender</h3>
                   <div className="top-spender-info center-flex  mt-1 flex-col">
                     <div className="top-spender-img size-16 ">
-                      <img src={group.top_spender.img} className='Img-c' alt="" />
+                      <img src={null} className='Img-c' alt="" />
                     </div>
                     <div className="top-spender-info center-flex border w-25 h-6 card-b
                     mt-1 rounded-lg gap-2">
-                      <h4 className='Top-spender-name font-semibold text-[13px] text-text-secondary'>{group.top_spender.name}</h4>
+                      {/* <h4 className='Top-spender-name font-semibold text-[13px] text-text-secondary'>{group.top_spender.name}</h4> */}
                     </div>
                   </div>
                 </div>
                 <div className='group-recent-expense h-28 col-span-2'>
                   <h3 className='text-sm font-semibold text-center'>Recent Expense</h3>
                   <div className="recent-expense-info border h-22 w-58 ml-2 card-b rounded-lg mt-1  center-flex gap-2 px-2">
-                    <div className="expense-logo  size-10 rounded-lg  center-flex shadow-md" style={{background: group.recent_expense.category.gradient}}> 
+                    {/* <div className="expense-logo  size-10 rounded-lg  center-flex shadow-md" style={{background: group.recent_expense.category.gradient}}> 
                                           {group.recent_expense.category.icon}
                     </div>
                     <div className='expense-details flex-1  h-15 flex justify-between gap-1 items-center'>
@@ -112,13 +138,13 @@ const Card = ({ group }) => {
                                                 <h2 className='text-md text-primary font-semibold '>Rs.{Number(group.recent_expense.amount).toLocaleString()}</h2>
                                                 <span className='text-[10px] text-text-secondary'>Total Amount</span>
                                             </div>
-                    </div>
-                  </div> 
+                    </div> */}
+                  </div>
                 </div>
               </div>
               <div className="group-recent-activiity px-4 pt-2">
                 <h4 className='text-text-primary font-bold text-md'>Recent Activity</h4>
-                <h5 className='text-text-secondary text-sm '>{group.recent_activity}</h5>
+                <h5 className='text-text-secondary text-sm '>No Receipt Available</h5>
               </div>
             </div>
           </div>

@@ -1,18 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate ,useLocation} from 'react-router-dom';
 
 const Radio = () => {
     const navigate = useNavigate();
+    const location = useLocation();
   return (
     <StyledWrapper>
       <div className="radio-inputs">
         <label className="radio1">
-          <input type="radio" name="radio1" defaultChecked  onClick={() => navigate(".")} />
+          <input type="radio" name="radio1" checked={location.pathname === "/Groups"}  onClick={() => navigate("/Groups")} readOnly/>
           <span className="name">All</span>
         </label>
         <label className="radio1">
-          <input type="radio" name="radio1"  onClick={() => navigate("./Addgroup")} />
+          <input type="radio" name="radio1" checked={location.pathname === "/Groups/Addgroup"}  onClick={() => navigate("/Groups/Addgroup")} readOnly/>
           <span className="name">Add Group</span>
         </label>
       </div>

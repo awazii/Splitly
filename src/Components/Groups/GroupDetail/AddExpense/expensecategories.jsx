@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { categories } from '../../../Expenses/Expense';
-const Radio = ({ start , end }) => {
+const Radio = ({ start , end , value, onChange }) => {
   return (
     <StyledWrapper>
       <div className="radio-inputs">
         {categories.slice(start,end).map((category, i) => (
           <label key={i} className="radio">
-              <input type="radio" name="radio" defaultChecked={category.name==="Drinks & Beverages"} />
+              <input type="radio" name="radio" value={category.name} checked={value === category.name} onChange={onChange} />
               <span className="name">{category.name}</span>
             </label>
         ))}
