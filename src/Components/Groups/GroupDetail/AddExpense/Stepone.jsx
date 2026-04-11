@@ -14,17 +14,17 @@ export const Stepone = () => {
     const allFriends = useSelector(selectAllFriends)
     const Groupmembers = allFriends.filter(friend => currentGroup.Members.includes(friend.id))
     const { control, register, setValue, trigger, getValues ,formState: { errors } } = useFormContext();
-   const ExpenseNamePattern = /^[A-Za-z][A-Za-z0-9\s,._&-]*$/;
-    const CurrentExpensemembers = getValues("selectedfriends");
+   const ExpenseNamePattern = /^[A-Za-z][A-Za-z0-9\s,._&'-]*$/;
+    const CurrentExpensemembers = getValues("splitMembers");
     const [SelectedFriends, setSelectedFriends] = useState(CurrentExpensemembers);
     useEffect(() => {
-        register("selectedfriends", {
+        register("splitMembers", {
             validate: (value) => value.length > 0 || "Please select at least one friend"
         });
     }, [register])
 
     useEffect(() => {
-        setValue("selectedfriends", SelectedFriends, { shouldValidate: true });
+        setValue("splitMembers", SelectedFriends, { shouldValidate: true });
     }, [SelectedFriends,setValue])
     return (
         <>
@@ -120,7 +120,7 @@ export const Stepone = () => {
                 <div className='select-friends-container w-full '>
                     <div className='select-friend-option flex items-center justify-between'>
                         <h4 className='text-md font-semibold my-2 '>Select who shares this cost        </h4>
-                           {errors.selectedfriends && <p className='text-red-500 text-sm  mt-2'>{errors.selectedfriends.message}</p>}
+                           {errors.splitMembers && <p className='text-red-500 text-sm  mt-2'>{errors.splitMembers.message}</p>}
                         <div className='center-flex gap-2'>
                             <div className=' w-25 py-2 px-3 bg-highlight  rounded-lg  '>
                                 <Selectall Selected={SelectedFriends}

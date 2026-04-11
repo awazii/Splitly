@@ -1,23 +1,23 @@
-import React ,{useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TiTick } from "react-icons/ti";
-const Radio = ({ splits , Splitopt, setSplitopt }) => {
+const Radio = ({ splits, Splitopt, setSplitopt , memberscount }) => {
 
   return (
     <StyledWrapper>
       <div className="radio-container flex flex-col justify-evenly gap-3 h-115 ">
-        {splits.map((split,index) => (
+        {splits.map((split, index) => (
           <React.Fragment key={index}>
-            <input key={index} value={split.label} checked={Splitopt === split.label} id={split.label} name="radio" type="radio" className="peer " onChange={(e) => setSplitopt(e.target.value)} />
-            <label htmlFor={split.label} className="flex-1 flex flex-col justify-center p-4 rounded-lg mx-2  border-l shadow-md cursor-pointer transition-all relative">
+            <input key={index} value={split.label} checked={Splitopt === split.label} id={split.label} name="radio" type="radio" className="peer" onChange={(e) => setSplitopt(e.target.value)} disabled={(memberscount === 1 && index !== 0)} />
+            <label htmlFor={split.label} className={`flex-1 flex flex-col justify-center p-4 rounded-lg mx-2  border-l shadow-md  transition-all relative ${memberscount === 1 && index !== 0 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
               <div className="split-info">
                 <h3 className=" font-bold ">{split.label}</h3>
                 <p className="text-[13px] text-gray-500 ">{split.description}</p>
               </div>
               <div className="about card-b rounded-lg h-fit mt-2 p-2 ">
-                     <p className='text-text-secondary text-sm'>{split.example}</p>
+                <p className='text-text-secondary text-sm'>{split.example}</p>
               </div>
-              {Splitopt === split.label && ( <div className="tick absolute top-2 right-2 bg-primary rounded-full p-1 ">
+              {Splitopt === split.label && (<div className="tick absolute top-2 right-2 bg-primary rounded-full p-1 ">
                 <TiTick className='text-white size-3' />
               </div>)}
             </label>
@@ -42,7 +42,6 @@ const StyledWrapper = styled.div`
   .radio-container input {
     position: absolute;
     opacity: 0;
-    cursor: pointer;
     height: 0;
     width: 0;
   }
@@ -98,7 +97,6 @@ const StyledWrapper = styled.div`
   }
 
   .radio-container label {
-    cursor: pointer;
     position: relative;
     transition: all 0.3s ease-in-out;
     z-index: 1; 

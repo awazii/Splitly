@@ -1,17 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState ,useMemo } from 'react'
 import Select_split from '../../../newexpense/Select-split';
 import Split_btn from '../../../newexpense/Split-btn';
 import { IoPerson } from "react-icons/io5";
 import { FaRupeeSign } from "react-icons/fa6";
 import { FaPercentage } from "react-icons/fa";
-import { Friends } from '../../../friends/Friendslist';
-export const Stepthree = ({ allfriends, setSummary, Summary }) => {
+import { useFormContext, Watch } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { selectAllFriends } from '../../../../store/FriendsSlice';
+export const Stepthree = () => {
+  const { getValues ,watch  } = useFormContext();
+  const ExpenseMembers = getValues("MasterMembers");
+  const AllFriends = useSelector(selectAllFriends);
+  const TotalAmount = getValues("totalAmount");
+  const Share= watch("Share");
   const [Splitopt, setSplitopt] = useState("Equally");
+   const Friends = useMemo(() => {
+      return AllFriends.filter(friend =>
+        ExpenseMembers.some(member => member.id === friend.id)
+      );
+    }, [AllFriends, ExpenseMembers]);
   const Splits = [
     {
       label: "Equally",
       description: "Everyone contributes the same share.",
-      example: "Total Rs.20,500 ÷ 8 people = Rs.2,562.50 each",
+      example: `Total Rs.${Number(TotalAmount).toLocaleString()} ÷ ${ExpenseMembers.length} people = Rs.${Math.floor(TotalAmount / ExpenseMembers.length).toLocaleString()} each`,
       prompt: "Do you want to split this bill equally among all members?"
     },
     {
@@ -35,12 +47,12 @@ export const Stepthree = ({ allfriends, setSummary, Summary }) => {
           {Splitopt === "By Percentage" ? <>
             <div className="amounts flex justify-between mt-2">
               <div className="remaining font-bold ">70%</div>
-              <div className="paid font-bold ">Rs.20,500</div>
+              <div className="paid font-bold ">Rs.{Number(TotalAmount).toLocaleString()}</div>
             </div></> :
 
             <div className="amounts flex justify-between mt-2">
               <div className="remaining font-bold ">Rs. {Splitopt !== "Equally" ? "15,500" : "0"}</div>
-              <div className="paid font-bold ">Rs. 20,500</div>
+              <div className="paid font-bold ">Rs. {Number(TotalAmount).toLocaleString()}</div>
             </div>}
           <div className="progress-bar-container relative">
             <div className="progress-bar w-full h-3 bg-gray-200 rounded-full mt-1 overflow-hidden">
@@ -60,12 +72,12 @@ export const Stepthree = ({ allfriends, setSummary, Summary }) => {
                 <div key={index} className='friend-split  rounded-lg shadow-md  bg-highlight flex flex-col items-center justify-center gap-2 pt-1 relative cursor-pointer trans h-48'>
                   <div className="info center-flex flex-col">
                     <div className="friend-img-container size-16">
-                      <img src={friend.profilePic} className='Img-c' alt="friend-img" />
+                      <img src={friend.Image} className='Img-c' alt="friend-img" />
                     </div>
                     <div className="friend-info center-flex flex-col">
-                      <h2 className='text-sm font-semibold'>{friend.name}</h2>
+                      <h2 className='text-sm font-semibold'>{friend.Name}</h2>
                       <p className='text-[12px] text-text-secondary'>{
-                        friend.bio}</p>
+                        friend.Bio}</p>
                       {Splitopt === "By Percentage" && <p className='text-sm text-text-secondary'> 30% = 2,500 </p>}
                     </div>
                   </div>
@@ -73,9 +85,9 @@ export const Stepthree = ({ allfriends, setSummary, Summary }) => {
                     {
                       Splitopt === "Equally" ? <><FaRupeeSign className='text-green-500' />
                         <p className='w-18 text-left text-text-secondary' >
-                          2,562</p></> : <>
+                          {Share[Splitopt][friend.id]}</p></> : <>
                         {Splitopt !== "Unequally" ? <FaPercentage className='text-primary' /> : <FaRupeeSign className='text-green-500' />}
-                        <input type="number" placeholder='0' className='w-18 text-left focus:outline-none' /></>
+                        <input type="number" placeholder='0' value={Share[Splitopt][friend.id]} className='w-18 text-left focus:outline-none' /></>
                     }
                   </div>
                 </div>
@@ -89,7 +101,7 @@ export const Stepthree = ({ allfriends, setSummary, Summary }) => {
           <Split_btn Splitopt={Splitopt} />
         </div>
         <div className="select-split">
-          <Select_split splits={Splits} Splitopt={Splitopt} setSplitopt={setSplitopt} />
+          <Select_split splits={Splits} Splitopt={Splitopt} setSplitopt={setSplitopt} memberscount={Friends.length} />
         </div>
       </div>
     </div>
