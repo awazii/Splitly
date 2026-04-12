@@ -207,7 +207,7 @@ export const Grouplist = () => {
                 <div className="about flex items-center gap-3">
                   <div className="profile border size-19 rounded-full border-b-light"><img className='Img-c' src={CategoryExtrator(group).Img} alt="" /></div>
                   <div className="info w-45">
-                    <h3 className="name text-text-primary text-md font-semibold line-clamp-1 w-full">{group.name}</h3>
+                    <h3 className="name text-text-primary text-md font-semibold line-clamp-1 w-full">{group.Name}</h3>
                     <p className='text-text-secondary text-sm'><span className='font-semibold'>{group.Members.length} </span> Members</p>
                     <p className='text-text-secondary text-sm'> <span className='font-semibold'>{Number(group.Expenses).toLocaleString()}
                     </span> Total Expense</p>
