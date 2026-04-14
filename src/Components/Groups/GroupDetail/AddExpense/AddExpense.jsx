@@ -78,7 +78,7 @@ export const Addexpense = () => {
                         reminder -= 1;
                     }
                     shareobject["Equally"][id] = finalshare;
-                    shareobject["Unequally"][id] = shareobject["By Percentage"][id] || 0;
+                    shareobject["Unequally"][id] = shareobject["Unequally"][id] || 0;
                     shareobject["By Percentage"][id] = shareobject["By Percentage"][id] || 0;
                 })
                 setValue("Share", shareobject);
@@ -94,8 +94,26 @@ export const Addexpense = () => {
         }
     }
     const onSubmit = (data) => {
-        console.log("🔥 FINAL EXPENSE DATA READY FOR REDUX:", data);
-    }
+            if (data.splitMethod === "By Percentage") {
+                const totalPercent = Object.values(data.Share["By Percentage"] || {})
+                    .reduce((sum, val) => sum + Number(val || 0), 0);
+
+                if (totalPercent < 100) {
+                    setError("Sharecollected", { message: "Total percentage must equal exactly 100%" });
+                    return; 
+                }
+            }
+            if (data.splitMethod === "Unequally") {
+                const totalAmount = Object.values(data.Share["Unequally"] || {})
+                    .reduce((sum, val) => sum + Number(val || 0), 0);
+
+                if (totalAmount < data.totalAmount) {
+                    setError("Sharecollected", { message: "Assigned amounts must equal the total expense" });
+                    return; 
+                }
+            }
+            console.log("✅ Submit success", data);
+        };
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className="Add-expense-form w-250 h-175 card-b rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">

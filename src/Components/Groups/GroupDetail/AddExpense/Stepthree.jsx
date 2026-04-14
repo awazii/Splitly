@@ -1,24 +1,55 @@
-import React, { useState ,useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Select_split from '../../../newexpense/Select-split';
 import Split_btn from '../../../newexpense/Split-btn';
 import { IoPerson } from "react-icons/io5";
 import { FaRupeeSign } from "react-icons/fa6";
 import { FaPercentage } from "react-icons/fa";
-import { useFormContext, Watch } from 'react-hook-form';
+import { useFormContext, Controller } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectAllFriends } from '../../../../store/FriendsSlice';
+import { useWatch } from 'react-hook-form';
 export const Stepthree = () => {
-  const { getValues ,watch  } = useFormContext();
+  const { getValues,control, register, formState: { errors }, setError,
+    clearErrors } = useFormContext();
   const ExpenseMembers = getValues("MasterMembers");
   const AllFriends = useSelector(selectAllFriends);
   const TotalAmount = getValues("totalAmount");
-  const Share= watch("Share");
-  const [Splitopt, setSplitopt] = useState("Equally");
-   const Friends = useMemo(() => {
-      return AllFriends.filter(friend =>
-        ExpenseMembers.some(member => member.id === friend.id)
-      );
-    }, [AllFriends, ExpenseMembers]);
+  const Share = useWatch({ name: "Share", control });
+  const Splitopt = useWatch({ name: "splitMethod", control });
+  let currentpercentage = Object.values(Share["By Percentage"] || {}).reduce((sum, value) => sum + Number(value || 0), 0);
+  let currentamount = Object.values(Share["Unequally"] || {}).reduce((sum, value) => sum + Number(value || 0), 0);
+  const Friends = useMemo(() => {
+    return AllFriends.filter(friend =>
+      ExpenseMembers.some(member => member.id === friend.id)
+    );
+  }, [AllFriends, ExpenseMembers]);
+  useEffect(() => {
+    if (!Share || !Splitopt) return;
+
+    let groupError = null;
+    if (Splitopt === "By Percentage") {
+      const totalPercent = Object.values(Share["By Percentage"] || {})
+        .reduce((sum, val) => sum + Number(val || 0), 0);
+
+      if (totalPercent > 100) {
+        groupError = "Total % cannot exceed 100%";
+      }
+    }
+
+    if (Splitopt === "Unequally") {
+      const totalAmount = Object.values(Share["Unequally"] || {})
+        .reduce((sum, val) => sum + Number(val || 0), 0);
+
+      if (totalAmount > TotalAmount) {
+        groupError = "Cannot exceed total expense";
+      }
+    }
+    if (groupError) {
+      setError("Sharecollected", { message: groupError });
+    } else {
+      clearErrors("Sharecollected");
+    }
+  }, [Share, Splitopt]);
   const Splits = [
     {
       label: "Equally",
@@ -46,26 +77,34 @@ export const Stepthree = () => {
           <h3 className='font-semibold text-text-secondary'>Total Expense Amount</h3>
           {Splitopt === "By Percentage" ? <>
             <div className="amounts flex justify-between mt-2">
-              <div className="remaining font-bold ">70%</div>
+              <div className="remaining font-bold ">{100 - currentpercentage}%</div>
               <div className="paid font-bold ">Rs.{Number(TotalAmount).toLocaleString()}</div>
             </div></> :
-
             <div className="amounts flex justify-between mt-2">
-              <div className="remaining font-bold ">Rs. {Splitopt !== "Equally" ? "15,500" : "0"}</div>
-              <div className="paid font-bold ">Rs. {Number(TotalAmount).toLocaleString()}</div>
+              <div className="remaining font-bold ">Rs.{Splitopt !== "Equally" ? `${Number(TotalAmount - currentamount).toLocaleString()}` : "0"}</div>
+              <div className="paid font-bold ">Rs.{Number(TotalAmount).toLocaleString()}</div>
             </div>}
           <div className="progress-bar-container relative">
             <div className="progress-bar w-full h-3 bg-gray-200 rounded-full mt-1 overflow-hidden">
-              <div className={`progress ${Splitopt !== "Equally" ? "w-2/3" : "w-full"} bg-primary h-3 rounded-full`}></div>
+              <div className={`progress  bg-primary h-3 rounded-full`}
+                style={
+                  {
+                    width: Splitopt === "By Percentage" ? `${currentpercentage}%` : Splitopt === "Unequally" ? `${(currentamount / TotalAmount) * 100}%` : "100%"
+                  }
+                }
+              ></div>
             </div>
             <div className="total absolute  right-0  mt-1 text-sm">Total</div>
             <div className="remaining absolute  left-0 mt-1 text-sm">Remaining</div>
           </div>
         </div>}
         <div className={`friends-splits-list  mt-2`}>
-          <p className='font-semibold mb-2 '>
+          <p className='font-semibold '>
             {Splits.find(split => split.label === Splitopt)?.prompt}
           </p>
+          {errors.Sharecollected && (
+            <p className="text-red-500 text-sm mb-2 text-end">{errors.Sharecollected?.message}</p>
+          )}
           <div className="friends-splits-list-container grid grid-cols-3 gap-3  overflow-auto h-90">
             {Friends.map((friend, index) => {
               return (
@@ -78,7 +117,10 @@ export const Stepthree = () => {
                       <h2 className='text-sm font-semibold'>{friend.Name}</h2>
                       <p className='text-[12px] text-text-secondary'>{
                         friend.Bio}</p>
-                      {Splitopt === "By Percentage" && <p className='text-sm text-text-secondary'> 30% = 2,500 </p>}
+                      {(Splitopt === "By Percentage" && !Number.isNaN(Share[Splitopt][friend.id])) && <p className='text-sm text-text-secondary'> {`${Share[Splitopt][friend.id]}% = ${Number((Share[Splitopt][friend.id] / 100) * TotalAmount).toLocaleString()}`} </p>}
+                      {errors.Share?.[Splitopt]?.[friend.id] && (
+                        <p className='text-red-500 text-xs mt-1 '>{errors.Share[Splitopt][friend.id].message}</p>
+                      )}
                     </div>
                   </div>
                   <div className="payment-input flex center-flex gap-1 card-b bg-white border-none rounded-lg p-1 px-2 flex-row-reverse">
@@ -87,7 +129,16 @@ export const Stepthree = () => {
                         <p className='w-18 text-left text-text-secondary' >
                           {Share[Splitopt][friend.id]}</p></> : <>
                         {Splitopt !== "Unequally" ? <FaPercentage className='text-primary' /> : <FaRupeeSign className='text-green-500' />}
-                        <input type="number" placeholder='0' value={Share[Splitopt][friend.id]} className='w-18 text-left focus:outline-none' /></>
+                        <input
+                          {...register(`Share.${Splitopt}.${friend.id}`,
+                            {
+                              required: "This field is required",
+                            }
+                          )} type="number" placeholder='0' defaultValue={Share?.[Splitopt]?.[friend.id] ?? ""} className='w-18 text-left focus:outline-none' onKeyDown={(e) => {
+                            if (["e", "E", "+", "-", "."].includes(e.key)) {
+                              e.preventDefault();
+                            }
+                          }} /></>
                     }
                   </div>
                 </div>
@@ -101,7 +152,18 @@ export const Stepthree = () => {
           <Split_btn Splitopt={Splitopt} />
         </div>
         <div className="select-split">
-          <Select_split splits={Splits} Splitopt={Splitopt} setSplitopt={setSplitopt} memberscount={Friends.length} />
+          <Controller
+            name="splitMethod"
+            control={control}
+            render={({ field }) => (
+              <Select_split splits={Splits}
+                memberscount={Friends.length}
+                value={field.value} onChange={(e) => {
+                  field.onChange(e);
+                }}
+              />
+            )}
+          />
         </div>
       </div>
     </div>
