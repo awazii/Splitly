@@ -2,23 +2,23 @@ import React from 'react'
 import { IoTicket } from "react-icons/io5";
 import { FaMoneyCheck } from "react-icons/fa6";
 import { HiMiniUserGroup } from "react-icons/hi2";
-export const Overview = () => {
+export const Overview = ({Expense}) => {
     const overview = [
         {
             label: "Total Expense",
-            value: "Rs. 20,500",
+            value: `Rs. ${Number(Expense.totalAmount).toLocaleString()}`,
             gradient: "linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)",
             svg: <FaMoneyCheck className='size-8 text-white ' />
         },
         {
             label: "Total Participants",
-            value: "8 People",
+            value: `${Expense.Members.length} People`,
             gradient: "linear-gradient(135deg, #FF9800 0%, #FF5722 50%, #F44336 100%)",
             svg: <HiMiniUserGroup className='size-7 text-white' />
         },
         {
             label: "Split Method",
-            value: "Uneven",
+            value:` ${Expense.splitMethod}`,
            gradient: "linear-gradient(135deg, #C471F5 0%, #FA71CD 100%)",
             svg: <IoTicket className='size-8 text-white' />
         }]

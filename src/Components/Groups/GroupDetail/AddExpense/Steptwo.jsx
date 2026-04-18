@@ -65,7 +65,6 @@ export const Steptwo = () => {
                   <FaRupeeSign className='text-green-500' />
                   <input  {...register(`MasterMembers.${index}.spent`, {
                     required: "Amount is required",
-                    valueAsNumber: true,
                     validate: value => {
                       const otherPeoplePaid = livemembers.reduce((sum, member, i) => {
                         if (i === index) return sum;

@@ -2,7 +2,11 @@ import React from 'react';
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { IoPerson } from "react-icons/io5";
 import { GiExpense } from "react-icons/gi";
-
+import {TotalExpenses ,selectAllExpenses ,FriendsSpendings}  from "../../store/ExpenseSlice"
+import { useSelector } from 'react-redux';
+import { TopGroup } from '../../store/GroupSlice';
+import { selectFriendById } from '../../store/FriendsSlice';
+import { useNavigate } from 'react-router-dom';
 const InsightCard = ({ icon, title, description, value }) => (
   <div className={`flex flex-col justify-between p-4 rounded-xl shadow-md  w-full bg-white`}>
     <div className="flex items-center gap-3 mb-2">
@@ -15,21 +19,26 @@ const InsightCard = ({ icon, title, description, value }) => (
     <p className="text-md font-bold text-gray-900">{value}</p>
   </div>
 );
-
 export const Insights = () => {
+  const Navigate = useNavigate()
+const Expenses= useSelector(selectAllExpenses)
+const Totalamount = useSelector(TotalExpenses)
+const topGroup = useSelector(TopGroup)
+const HighesContributor= useSelector(FriendsSpendings).sort((a,b)=>b.spent - a.spent)[0]
+const Friendinfo = useSelector(state=>selectFriendById(state,HighesContributor.id))
   const insightsData = [
     {
       id: 1,
       title: "Top Spending Group",
-      description: "Trip to Murree",
-      value: "Rs. 800",
+      description: `${topGroup.Name}`,
+      value: `Rs. ${ topGroup.totalAmount.toLocaleString()}`,
       icon: <HiMiniUserGroup className="text-[#f68340] text-xl" />,
     },
     {
       id: 2,
       title: "Highest Contributor",
-      description: "Awazii",
-      value: "Rs. 1,500",
+      description: `${Friendinfo.Name}`,
+      value: `Rs. ${HighesContributor.spent.toLocaleString()}`,
       icon: <IoPerson className="text-[#2196f3] text-xl" />,
     },
     {
@@ -42,8 +51,8 @@ export const Insights = () => {
     {
       id: 4,
       title: "Total Expenses",
-      description: "12 expenses recorded",
-      value: "Rs. 3,600",
+      description: `${Expenses.length} expenses recorded`,
+      value: `Rs. ${Totalamount.toLocaleString()}`,
       icon: <GiExpense className="text-[#4caf50] text-xl" />
     }
   ];
@@ -52,7 +61,7 @@ export const Insights = () => {
     <div className="w-full max-w-xl mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-gray-800">Insights</h2>
-        <button className="text-primary text-sm font-semibold hover:underline cursor-pointer">View Analystics</button>
+        <button className="text-primary text-sm font-semibold hover:underline cursor-pointer" onClick={() => { Navigate("/Analytics") }}>View Analystics</button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

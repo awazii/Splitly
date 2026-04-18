@@ -3,9 +3,11 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import FriendsReducer from "./FriendsSlice";
 import GroupReducer from "./GroupSlice";
+import ExpenseReducer from "./ExpenseSlice";
 const rootReducer = combineReducers({
   Friends: FriendsReducer,
   Groups: GroupReducer,
+  Expenses: ExpenseReducer
 });
 const persistConfig = {
   key: "root",

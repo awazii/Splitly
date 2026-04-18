@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectAllFriends } from '../../../../store/FriendsSlice';
 import { useWatch } from 'react-hook-form';
 export const Stepthree = () => {
-  const { getValues,control, register, formState: { errors }, setError,
+  const { getValues,control, register, formState: { errors , isSubmitting }, setError,
     clearErrors } = useFormContext();
   const ExpenseMembers = getValues("MasterMembers");
   const AllFriends = useSelector(selectAllFriends);
@@ -117,7 +117,7 @@ export const Stepthree = () => {
                       <h2 className='text-sm font-semibold'>{friend.Name}</h2>
                       <p className='text-[12px] text-text-secondary'>{
                         friend.Bio}</p>
-                      {(Splitopt === "By Percentage" && !Number.isNaN(Share[Splitopt][friend.id])) && <p className='text-sm text-text-secondary'> {`${Share[Splitopt][friend.id]}% = ${Number((Share[Splitopt][friend.id] / 100) * TotalAmount).toLocaleString()}`} </p>}
+                      {(Splitopt === "By Percentage" && Share[Splitopt][friend.id] != "" && Share[Splitopt][friend.id] != null) && <p className='text-sm text-text-secondary'> {`${Share[Splitopt][friend.id]}% = ${Math.round(Number((Share[Splitopt][friend.id] / 100) * TotalAmount)).toLocaleString()}`} </p>}
                       {errors.Share?.[Splitopt]?.[friend.id] && (
                         <p className='text-red-500 text-xs mt-1 '>{errors.Share[Splitopt][friend.id].message}</p>
                       )}
@@ -134,7 +134,7 @@ export const Stepthree = () => {
                             {
                               required: "This field is required",
                             }
-                          )} type="number" placeholder='0' defaultValue={Share?.[Splitopt]?.[friend.id] ?? ""} className='w-18 text-left focus:outline-none' onKeyDown={(e) => {
+                          )} type="number" placeholder='0' defaultValue={Math.roundShare?.[Splitopt]?.[friend.id] ?? ""} className='w-18 text-left focus:outline-none' onKeyDown={(e) => {
                             if (["e", "E", "+", "-", "."].includes(e.key)) {
                               e.preventDefault();
                             }
@@ -149,7 +149,7 @@ export const Stepthree = () => {
       </div>
       <div className="select-split-container col-span-2  flex flex-col gap-2">
         <div className="Split-btn flex-1 center-flex">
-          <Split_btn Splitopt={Splitopt} />
+          <Split_btn Splitopt={Splitopt} isSubmitting={isSubmitting} />
         </div>
         <div className="select-split">
           <Controller

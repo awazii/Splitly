@@ -163,7 +163,6 @@ export const Newg = React.memo(() => {
           />
         </div>
         <div className='center-flex'>
-
           <Newbtn isSubmitting={isSubmitting} />
         </div>
         {issubmitted && <p className='text-green-500 text-sm mt-1 text-center '>Group added successfully!</p>}

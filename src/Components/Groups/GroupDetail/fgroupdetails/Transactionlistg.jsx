@@ -1,7 +1,6 @@
 import React from 'react'
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
-import { transactions } from './Transactionsfg';
 import { FaHistory } from "react-icons/fa";
 export const Transactionlist = ({setisdetailopen}) => {
   return (

@@ -3,7 +3,6 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { FaHistory } from "react-icons/fa";
-import { transactions } from './Balancewith';
 import Settlebtn from './Settlebtn'; 
 export const Transactions = ({Currentbalancewith,setissettlementopen, setisdetailopen}) => {
   return (

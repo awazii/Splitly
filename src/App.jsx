@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState ,useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import { Dashboard } from './Components/dashboard/Dashboard'
@@ -9,12 +9,12 @@ import { Groups } from './Components/Groups/Groups'
 import { Friendslist } from './Components/friends/Friendslist.JSX'
 import { Grouplist } from './Components/Groups/Grouplist'
 import { Newg } from './Components/Groups/Newg'
-import { Expense } from './Components/Expenses/Expense'
+import { Expense } from './Components/Expenses/Expenses'
 import { Analytics } from './Components/Analystics/Analytics'
 import { Spliter_main } from './Components/Spliter/Spliter_main'
 import { Groupdetail } from './Components/Groups/GroupDetail/Groupdetail'
 import Addexpense from "./Components/Groups/GroupDetail/AddExpense/New"
-import { Expenses } from './Components/Groups/GroupDetail/Expenses/Expenses'
+import { Expenses } from './Components/Groups/GroupDetail/Expenses/GroupExpenses'
 import { Frienddetails } from './Components/friends/Frienddetails/Frienddetails'
 function App() {
   const router = createBrowserRouter([

@@ -2,11 +2,17 @@ import React from 'react'
 import { FaMoneyCheck } from "react-icons/fa6";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { CategoryExtrator } from '../../../utils/CategoryExtractor';
+import { useSelector } from 'react-redux';
+import { selectAllExpenses ,GroupExpenses } from '../../../store/ExpenseSlice';
 export const Overview = ({CurrentGroup}) => {
+    const AllExpenses = useSelector(selectAllExpenses);
+    const GroupExpensesList = useSelector((state) => GroupExpenses(state, CurrentGroup.id));
+    console.log(GroupExpensesList , "This is the list of expenses for the current group");
+    console.log(AllExpenses , "This is the list of all expenses in the store");
     const overview = [
         {
             label: "Total Expense",
-            value: `Rs.${Number(CurrentGroup.Expenses).toLocaleString()}`,
+            value: `Rs.${Number(CurrentGroup.totalAmount).toLocaleString()}`,
             gradient: "linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)",
             svg: <FaMoneyCheck className='size-8 text-white ' />
         },

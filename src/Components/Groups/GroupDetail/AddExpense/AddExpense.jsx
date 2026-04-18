@@ -5,14 +5,30 @@ import { Stepone } from './Stepone';
 import { Steptwo } from './Steptwo';
 import { Stepthree } from './Stepthree';
 import { GiExpense } from "react-icons/gi";
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, } from 'react-hook-form';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
+import { Basemodel } from '../../../basemodel';
+import { useDispatch } from 'react-redux';
+import { addExpense } from '../../../../store/ExpenseSlice';
 export const Addexpense = () => {
     const [step, setstep] = useState(1);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { Groupid } = useParams();
+    const [popup, setpopup] = useState(false)
+    const Openmodel = () => {
+        setpopup(true)
+    }
+    const Closemodel = () => [
+        setpopup(false)
+    ]
     const methods = useForm({
         mode: "onChange",
         defaultValues: {
             expenseName: "",
-            totalAmount: 0,
+            totalAmount: "",
             Category: "",
             splitMethod: "Equally",
             splitMembers: [],
@@ -24,7 +40,7 @@ export const Addexpense = () => {
             }
         }
     })
-    const { trigger, handleSubmit, getValues, setValue, setError, clearErrors } = methods;
+    const { trigger, handleSubmit, getValues, setValue, setError, clearErrors ,reset ,formState:{isSubmitting} } = methods;
     const handleNext = async () => {
         let isStepValid = false;
         if (step == 1) {
@@ -40,8 +56,8 @@ export const Addexpense = () => {
                     else {
                         return {
                             id: friendId,
-                            spent: 0,
-                            share: 0
+                            spent: "",
+                            share: ""
                         }
                     }
                 })
@@ -78,8 +94,8 @@ export const Addexpense = () => {
                         reminder -= 1;
                     }
                     shareobject["Equally"][id] = finalshare;
-                    shareobject["Unequally"][id] = shareobject["Unequally"][id] || 0;
-                    shareobject["By Percentage"][id] = shareobject["By Percentage"][id] || 0;
+                    shareobject["Unequally"][id] = shareobject["Unequally"][id] || "";
+                    shareobject["By Percentage"][id] = shareobject["By Percentage"][id] || "";
                 })
                 setValue("Share", shareobject);
                 clearErrors("stepTwoTotal");
@@ -93,29 +109,81 @@ export const Addexpense = () => {
             setstep(step + 1);
         }
     }
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        if (data.splitMethod === "By Percentage") {
+            const totalPercent = Object.values(data.Share["By Percentage"] || {})
+                .reduce((sum, val) => sum + Number(val || 0), 0);
+
+            if (totalPercent < 100) {
+                setError("Sharecollected", { message: "Total percentage must equal exactly 100%" });
+                return;
+            }
+        }
+        if (data.splitMethod === "Unequally") {
+            const totalAmount = Object.values(data.Share["Unequally"] || {})
+                .reduce((sum, val) => sum + Number(val || 0), 0);
+
+            if (totalAmount < data.totalAmount) {
+                setError("Sharecollected", { message: "Assigned amounts must equal the total expense" });
+                return;
+            }
+        }
+        const finalmembers = data.MasterMembers.map(member => {
+            const share = data.Share[data.splitMethod][member.id] || 0;
             if (data.splitMethod === "By Percentage") {
-                const totalPercent = Object.values(data.Share["By Percentage"] || {})
-                    .reduce((sum, val) => sum + Number(val || 0), 0);
-
-                if (totalPercent < 100) {
-                    setError("Sharecollected", { message: "Total percentage must equal exactly 100%" });
-                    return; 
+                return {
+                    ...member,
+                    share: Math.round((share / 100) * data.totalAmount)
                 }
             }
-            if (data.splitMethod === "Unequally") {
-                const totalAmount = Object.values(data.Share["Unequally"] || {})
-                    .reduce((sum, val) => sum + Number(val || 0), 0);
-
-                if (totalAmount < data.totalAmount) {
-                    setError("Sharecollected", { message: "Assigned amounts must equal the total expense" });
-                    return; 
-                }
+            return {
+                ...member,
+                share: share
             }
-            console.log("✅ Submit success", data);
-        };
+        }
+        )
+        dispatch(addExpense(
+            Groupid,
+            data.expenseName,
+            data.totalAmount,
+            data.splitMethod,
+            finalmembers,
+            data.Category,
+        ))
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        reset();
+        setstep(1);
+        Openmodel();
+    };
     return (
         <FormProvider {...methods}>
+            <Basemodel isOpen={popup}
+                Closemodel={Closemodel}
+                title="Expense Logged!"
+            >
+                <div className="success-message w-120 h-80 card-b rounded-2xl  mx-auto  py-4 pb-2 px-6 relative center-flex flex-col ">
+                    <div style={{
+                        width: '200px',
+                        height: '200px',
+                        margin: '0 auto',
+                    }}>
+                        <DotLottieReact
+                            src="https://lottie.host/b7574485-9fdd-4f3c-bf61-6745a5a799b4/2TRkq89Pt5.lottie"
+                            loop
+                            autoplay
+                            style={{ width: '100%', height: '100%' }}
+                        />
+                    </div>
+                    <p className='text-text-secondary font-bold text-lg'>
+                        Expense added successfully!
+                    </p>
+                    <button className="text-primary font-semibold mt-2 cursor-pointer underline" onClick={() => {
+                        navigate(`/Groups/${Groupid}/Expenses`);
+                    }}>
+                        See All Expenses
+                    </button>
+                </div>
+            </Basemodel>
             <form onSubmit={handleSubmit(onSubmit)} className="Add-expense-form w-250 h-175 card-b rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">
                 <div className="title center-flex flex-col gap-0">
                     <h2 className='text-2xl font-semibold flex items-center gap-2 text-center p-2 pb-0'>Add New Expense<span><GiExpense /></span></h2>
@@ -136,7 +204,13 @@ export const Addexpense = () => {
                     </button>)
                 }
                 {
-                    step !== 1 && (<button type="button" className="prev absolute bottom-4 left-6" onClick={() => setstep(step - 1)}>
+                    step !== 1 && (<button type="button" className="prev absolute bottom-4 left-6" onClick={() =>{
+                        if (!isSubmitting){
+                            setstep(step - 1)
+                        }
+                    }     
+                     
+                     }>
                         <Prev />
                     </button>)
                 }

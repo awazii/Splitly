@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Button = ({ Splitopt }) => {
+import Loader from '../loader';
+const Button = ({ Splitopt , isSubmitting }) => {
   const mother2 = Splitopt.split('');
   return (
     <StyledWrapper>
       <button type="submit" className='shadow-lg'>
-        <span className="span-mother">
+        <div className={`loadercontainer absolute inset-0 flex items-center justify-center ${isSubmitting ? 'cursor-not-allowed bg-[#cc552a] rounded-[.9rem] ' : 'cursor-pointer'}`}>
+          {isSubmitting && <Loader />}
+        </div>
+        {
+          !isSubmitting && <>
+           <span className="span-mother">
           <span>S</span>
           <span>P</span>
           <span>L</span>
@@ -18,6 +23,8 @@ const Button = ({ Splitopt }) => {
             <span key={index}>{char}</span>
           ))}
         </span>
+          </>
+        }  
       </button>
     </StyledWrapper>
   );

@@ -4,31 +4,46 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { FaMoneyCheck } from "react-icons/fa6";
 import { MdInsights } from "react-icons/md";
 import { FaArrowRight } from "react-icons/fa6";
+import { useSelector } from 'react-redux';
+import { TotalExpenses } from '../../store/ExpenseSlice';
+import { selectAllFriends } from '../../store/FriendsSlice';
+import { selectAllGroups } from '../../store/GroupSlice';
+import { useNavigate } from 'react-router-dom';
+import {TopGroup} from '../../store/GroupSlice'
 export const Overview = () => {
+    const TotalExpensesamount = useSelector(TotalExpenses)
+    const topGroup = useSelector(TopGroup)
+    const TotalFriends = useSelector(selectAllFriends)
+    const TotalGroups = useSelector(selectAllGroups)
+    const Navigation = useNavigate()
     const data = [
            {
     icon: <FaMoneyCheck className='size-6 text-white' />,
     label: "Total Expenses",
-    value: 1500,
+    value: TotalExpensesamount.toLocaleString(),
     gradient: "linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)",
+    link : "/Expenses"
   },
   {
     icon: <FaUserFriends className='size-6 text-white' />,
     label: "Total Friends",
-    value: 17,
+    value: TotalFriends.length,
     gradient: "linear-gradient(135deg, #2196F3 0%, #3F51B5 50%, #1A237E 100%)",
+    link : "/Friends"
   },
   {
     icon: <HiMiniUserGroup className='size-6 text-white' />,
     label: "Total Groups",
-    value: 5,
+    value: TotalGroups.length,
    gradient: "linear-gradient(135deg, #FF9800 0%, #FF5722 50%, #F44336 100%)",
+   link : "/Groups"
   },
   {
     icon: <MdInsights className='size-6 text-white' />,
     label: "Top Group",
-    detail: "Trip to Murree 2025",
+    detail: `${topGroup.Name}`,
     gradient: "linear-gradient(135deg, #8E2DE2 0%, #4A00E0 50%, #00C9FF 100%)",
+    link :`/Groups/${topGroup.id}`
   }
 
     ];
@@ -47,7 +62,9 @@ export const Overview = () => {
                             {item.label}
                         </h3>
                         <p className='text-md font-semibold text-text-secondary'>{ `${index===0?"Rs.":""}${item.detail || formatValue(item.value)}`}</p>
-                        <button className=' text-primary  px-2 py-1 rounded-md text-sm cursor-pointer font-semibold'> View Details <FaArrowRight className='inline-block' /></button>
+                        <button className=' text-primary  px-2 py-1 rounded-md text-sm cursor-pointer font-semibold' onClick={()=>{
+                            Navigation(item.link)
+                        }}> View Details <FaArrowRight className='inline-block' /></button>
                     </div>
 
                 ))}

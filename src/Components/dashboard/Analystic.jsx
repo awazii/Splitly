@@ -1,15 +1,37 @@
 import React, { useState } from 'react';
 import { PieChart, Pie, Tooltip, Sector } from "recharts";
-const CategoryData = [
-    { name: "Food & Snacks", amount: 3200, count: 12, fill: "#e53935" },
-    { name: "Drinks & Beverages", amount: 1100, count: 4, fill: "#38A7FF" },
-    { name: "Vapes & Smoking", amount: 800, count: 3, fill: "#4caf50" },
-    { name: "Transport", amount: 2500, count: 8, fill: "#F7C72F" },
-    { name: "Hotel & Stay", amount: 4500, count: 6, fill: "#f68340" },
-    { name: "Movie & Events", amount: 1800, count: 5, fill: "#ff69b4" },
-    { name: "Others", amount: 900, count: 2, fill: "#A845DD" },
-];
-
+import { ExpenseAnalystics } from "../../store/ExpenseSlice";
+import { useSelector } from 'react-redux';
+export const CategoryColors = {
+    "Food & Snacks": {
+        name: "Food & Snacks",
+        fill: "#e53935"
+    },
+    "Drinks & Beverages": {
+        name: "Drinks & Beverages",
+        fill: "#38A7FF"
+    },
+    "Vapes & Smoking": {
+        name: "Vapes & Smoking",
+        fill: "#4caf50"
+    },
+    "Transport": {
+        name: "Transport",
+        fill: "#F7C72F"
+    },
+    "Hotel & Stay": {
+        name: "Hotel & Stay",
+        fill: "#f68340"
+    },
+    "Movie & Events": {
+        name: "Movie & Events",
+        fill: "#ff69b4"
+    },
+    "Others": {
+        name: "Others",
+        fill: "#A845DD"
+    }
+};
 
 
 const renderActiveShape = (props) => {
@@ -37,10 +59,10 @@ const renderActiveShape = (props) => {
 
 export const Analystic = () => {
     const [activeIndex, setActiveIndex] = useState(null);
-
+    const CategoryData = useSelector(ExpenseAnalystics)
     return (
         <div className='center-flex h-full w-full gap-6'>
-            <PieChart width={650} height={450} tabIndex={-1}>
+            <PieChart width={650} height={480} tabIndex={-1}>
                 <defs>
                     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                         <feGaussianBlur stdDeviation="4" result="blur" />
@@ -67,14 +89,18 @@ export const Analystic = () => {
                 <Tooltip
                     contentStyle={{
                         borderRadius: 8,
-                        fontWeight: '600',
                         border: "none",
+                        fontWeight:600,
                         boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                        padding: "10px 14px",
+                        backgroundColor: "#fff",
                     }}
-                    formatter={(value, name, entry) => [
-                        name
-                    ]}
+                    formatter={(value, name) => {
+                        const formattedValue = Number(value).toLocaleString();
+                        return [`Amount: Rs.${formattedValue}`, name];
+                    }}
                 />
+
             </PieChart>
             <div className="des flex-1">
                 <h2 className='text-2xl font-semibold mb-2'>Expenses Breakdown</h2>
@@ -85,7 +111,7 @@ export const Analystic = () => {
                         <div className="category-info">
                             <p className='font-semibold'>{category.name}</p>
 
-                            <p className='text-sm text-text-secondary'>  {category.count} expenses - Rs.{category.amount}</p>
+                            <p className='text-sm text-text-secondary'>  {category.count} expenses - Rs.{Number(category.amount).toLocaleString()}</p>
                         </div>
                     </div>
                 ))}

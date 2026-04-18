@@ -11,6 +11,7 @@ import { updateGroup } from '../../store/GroupSlice';
 import { useDispatch } from 'react-redux';
 import { TbPinnedFilled } from "react-icons/tb";
 import { TbPinnedOff } from "react-icons/tb";
+import { useSelector } from 'react-redux';
 export const statuses = {
   Active: {
     label: "Active",
@@ -88,7 +89,7 @@ const Card = ({ group }) => {
                   <div className='expenses border h-20 border-b-light rounded-xl flex gap-2 items-center pr-2'>
                     <div className='members-info w-35 h-full center-flex flex-col '>
                       <h2 className='text-md font-semibold p-2 pb-0'>Total Expenses</h2>
-                      <h1 className='text-2xl text-text-secondary'>{Number(group.Expenses).toLocaleString()}</h1>
+                      <h1 className='text-2xl text-text-secondary'>{Number(group.totalAmount).toLocaleString()}</h1>
                     </div>
                     <div className='member-logo size-14 rounded-full  center-flex' style={{ background: "linear-gradient(135deg, #00C853 0%, #64DD17 50%, #AEEA00 100%)" }}>
                       <FaMoneyCheck className='size-5 text-white' />
