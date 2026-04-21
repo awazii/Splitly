@@ -1,43 +1,16 @@
 import React from "react";
-import saad from "../../assets/saad.jpg";
-import habib from "../../assets/habib.png";
-import zuzu from "../../assets/zuzu.png";
-import awazii from "../../assets/awazii.jpg";
-import daud from "../../assets/daud.jpg";
-import arshman from "../../assets/arshman.jpg";
-import sheda from "../../assets/sheda.jpg";
-
+import { selectAllFriends } from "../../store/FriendsSlice";
+import { useSelector } from "react-redux";
 import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  ResponsiveContainer,
+  AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
 } from "recharts";
-
-const avatars = {
-  Awazii: awazii,
-  Saad: saad,
-  Zuzu: zuzu,
-  Habib: habib,
-  Arshman: arshman,
-  Daud: daud,
-  Sheda: sheda,
-};
-
-const data = [
-  { name: "Awazii", owed: 1200 },
-  { name: "Saad", owed: 800 },
-  { name: "Zuzu", owed: 450 },
-  { name: "Habib", owed: 1000 },
-  { name: "Arshman", owed: 600 },
-  { name: "Daud", owed: 300 },
-  { name: "Sheda", owed: 40 },
-];
-
 export const TotalOwedChart = () => {
+  const friends = useSelector(selectAllFriends)
+  const data = friends.filter(friend => friend.netBalance.total < 0).map(friend => ({
+    name: friend.Name,
+    debts: Math.abs(friend.netBalance.total),
+    img: friend.Image
+  }))
   return (
     <div style={{ width: "100%", height: 480 }}>
       <ResponsiveContainer>
@@ -48,7 +21,8 @@ export const TotalOwedChart = () => {
           <XAxis
             dataKey="name"
             tick={({ x, y, payload }) => {
-              const imgSrc = avatars[payload.value];
+              const item = data.find(d => d.name === payload.value);
+              const imgSrc = item?.img
               return (
                 <foreignObject x={x - 15} y={y + 5} width={40} height={40}>
                   <img
@@ -64,7 +38,7 @@ export const TotalOwedChart = () => {
                 </foreignObject>
               );
             }}
-            hide={data.length>10}
+            hide={data.length > 10}
           />
           <YAxis />
           <Tooltip
@@ -87,9 +61,9 @@ export const TotalOwedChart = () => {
           />
           <Area
             type="monotone"
-            dataKey="owed"
+            dataKey="debts"
             stroke="#e53935"
-            fill="rgba(229,57,53,0.4)" 
+            fill="rgba(229,57,53,0.4)"
             strokeWidth={3}
             activeDot={{ r: 6 }}
           />

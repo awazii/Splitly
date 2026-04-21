@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { IoIosWallet } from "react-icons/io";
 import Addbtn from "./Addfbtn"
-import { Friends } from '../../friends/Friendslist';
 import { Basemodel } from '../../basemodel';
 import { Friendgdetails } from './fgroupdetails/Friendgdetails';
 import { useSelector } from 'react-redux';

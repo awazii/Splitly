@@ -4,19 +4,17 @@ import { FaCoins } from "react-icons/fa";
 import { selectExpenseById } from '../../../store/ExpenseSlice';
 import { selectFriendById } from '../../../store/FriendsSlice';
 import { useSelector } from 'react-redux';
+import { Memberdetails } from '../../../utils/Memberdetails';
 export const Insights = ({ data }) => {
     const sortedmembers = [...data].sort((a, b) => b.spent - a.spent)
     const HighesContributor = sortedmembers[0]
     const HighestDebtor = sortedmembers[data.length-1]
-    function Getfriendinfo(id) {
-        return useSelector(state => selectFriendById(state, id))
-    }
     const insights = [
         {
             label: "Highest Debtor", 
             svg: <GiReceiveMoney className='text-white size-7' />,
             color: "#dc2626", 
-            about: Getfriendinfo(HighestDebtor.id),
+            about: Memberdetails(HighestDebtor.id),
             totalamount: Math.abs(HighestDebtor.spent - HighestDebtor.share)
         },
         {
@@ -24,7 +22,7 @@ export const Insights = ({ data }) => {
             svg: <FaCoins className='text-white size-7' />,
             totalamount: HighesContributor.spent,
             color: "#16A34A",
-            about: Getfriendinfo(HighesContributor.id)
+            about: Memberdetails(HighesContributor.id)
         }
     ]
     return (

@@ -3,7 +3,6 @@ import { GoArrowLeft } from "react-icons/go";
 import { MdPayments } from "react-icons/md";
 import { IoTicket } from "react-icons/io5";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
-import { Friends } from '../../../friends/Friendslist';
 import { IoMdPerson } from "react-icons/io";
 export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen }) => {
     const currentTransaction = transactions.find(trans => trans.id === isdetailopen.id);

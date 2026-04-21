@@ -47,7 +47,7 @@ export const Analytics = () => {
                             Friend Balances
                         </h3>
                         <p className="text-text-secondary mt-1 text-md text-center">
-                            Overview of payments and outstanding debts
+                            Summary of Contributions and Allocations
                         </p>
                         <AnimateOnSightWrapper>
                             <MultiPaidVsOwes />

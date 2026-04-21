@@ -1,43 +1,16 @@
 import React from "react";
-import saad from "../../assets/saad.jpg";
-import habib from "../../assets/habib.png";
-import zuzu from "../../assets/zuzu.png";
-import awazii from "../../assets/awazii.jpg";
-import daud from "../../assets/daud.jpg";
-import arshman from "../../assets/arshman.jpg";
-import sheda from "../../assets/sheda.jpg";
-
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Legend,
-} from "recharts";
-
-const avatars = {
-  Awazii: awazii,
-  Saad: saad,
-  Zuzu: zuzu,
-  Habib: habib,
-  Arshman: arshman,
-  Daud: daud,
-  Sheda: sheda,
-};
-
+import { FriendsSpendings } from "../../store/ExpenseSlice"
+import { useSelector } from "react-redux";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
+import { Memberdetails } from "../../utils/Memberdetails";
 export const MultiPaidVsOwes = () => {
-  const data = [
-    { name: "Saad", paid: 1200, owes: 600 },
-    { name: "Zuzu", paid: 800, owes: 900 },
-    { name: "Habib", paid: 1500, owes: 200 },
-    { name: "Daud", paid: 400, owes: 700 },
-    { name: "Awazii", paid: 1000, owes: 300 },
-    { name: "Sheda", paid: 400, owes: 1200 },
-    { name: "Arshman", paid: 500, owes: 1500 },
-  ];
+  const data = useSelector(FriendsSpendings).map(d => (
+    {
+      name: Memberdetails(d.id)?.Name,
+      Img : Memberdetails(d.id)?.Image,
+      spent : d.spent,
+      share:d.share
+    }))
 
   return (
     <div style={{ width: "100%", height: 480 }}>
@@ -50,7 +23,8 @@ export const MultiPaidVsOwes = () => {
           <XAxis
             dataKey="name"
             tick={({ x, y, payload }) => {
-              const imgSrc = avatars[payload.value];
+              const item = data.find(d => d.name === payload.value);
+              const imgSrc = item?.Img
               return (
                 <foreignObject x={x - 20} y={y + 10} width={40} height={40}>
                   <img
@@ -65,12 +39,12 @@ export const MultiPaidVsOwes = () => {
                   />
                 </foreignObject>
               );
-            }} hide={data.length>10}
+            }} hide={data.length > 10}
           />
           <YAxis />
           <Tooltip
             formatter={(value, key) =>
-              key === "paid" ? `${value} PKR Paid` : `${value} PKR Owed`
+              key === "spent" ? `${value} PKR spent` : `${value} PKR share`
             }
             contentStyle={{
               backgroundColor: "#fff",
@@ -90,20 +64,20 @@ export const MultiPaidVsOwes = () => {
           <Legend
             wrapperStyle={{ paddingTop: 30 }}
             iconType="circle"
-            formatter={(value) => (value === "paid" ? "Paid" : "Owed")}
+            formatter={(value) => (value === "spent" ? "spent" : "share")}
           />
           <Line
             type="monotone"
-            dataKey="paid"
-            stroke="#2196f3"
+            dataKey="spent"
+            stroke="#00C853"
             strokeWidth={3}
             dot={{ r: 5 }}
             activeDot={{ r: 7 }}
           />
           <Line
             type="monotone"
-            dataKey="owes"
-            stroke="#E53935"
+            dataKey="share"
+            stroke="#C471F5"
             strokeWidth={3}
             dot={{ r: 5 }}
             activeDot={{ r: 7 }}

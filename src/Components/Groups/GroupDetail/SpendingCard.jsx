@@ -10,7 +10,7 @@ export const SpendingCard = ({ friend, Openmodel, setCurrentfriend }) => {
     const actionbtns = [{ svg: TbListDetails, bg: "bg-primary", label: "Details" }]
     const overview = [
         {
-            label: "Paid",
+            label: "Spent",
             gradient: "linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FFA726 100%)",
             svg: <FaCoins className='size-4 text-white' />
         },
@@ -54,7 +54,8 @@ export const SpendingCard = ({ friend, Openmodel, setCurrentfriend }) => {
                         {card.gradient ?
                             <div className="logo  size-10 rounded-full center-flex" style={{ background: card.gradient }}>{card.svg}</div> : <div className={`logo  size-18 rounded-full center-flex ${friend.balancebgClass}`}>{card.svg}</div>}
                         <div className="info w-16  center-flex flex-col">
-                            <div className={`description font-semibold text-text-secondary`}>{card.label === "Paid" ? MemberExpenses.spent.toLocaleString() : MemberExpenses.share.toLocaleString()}</div>
+                            <div className={`description font-semibold text-text-secondary`}>{card.label === "Spent" ? (MemberExpenses?.spent 
+                                ?? 0).toLocaleString() : (MemberExpenses?.share ?? 0).toLocaleString()}</div>
                             <div className="title text-[12px] font-semibold"> {card.label}</div>
                         </div>
                     </div>

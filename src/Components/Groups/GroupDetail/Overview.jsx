@@ -7,8 +7,6 @@ import { selectAllExpenses ,GroupExpenses } from '../../../store/ExpenseSlice';
 export const Overview = ({CurrentGroup}) => {
     const AllExpenses = useSelector(selectAllExpenses);
     const GroupExpensesList = useSelector((state) => GroupExpenses(state, CurrentGroup.id));
-    console.log(GroupExpensesList , "This is the list of expenses for the current group");
-    console.log(AllExpenses , "This is the list of all expenses in the store");
     const overview = [
         {
             label: "Total Expense",

@@ -22,116 +22,15 @@ export const indicators = {
     balancetextClass: "text-text-secondary",
     balancebgClass: "bg-text-secondary",
   },
-  owe: {
+  debtor: {
     balancetextClass: "text-red-600",
     balancebgClass: "bg-red-600",
   },
-  owed: {
+  creditor: {
     balancetextClass: "text-green-600",
     balancebgClass: "bg-green-600",
   }
 }
-export const Friends = [
-  {
-    id: "001",
-    name: "Awazii",
-    bio: "Gamer",
-    profilePic: awazii,
-    spendings: 2000,
-    totalShare: 800,
-    netBalance: 1200,
-    status: "Admin",
-    balancetextClass: "text-green-600",
-    balancebgClass: "bg-green-600",
-    crews: "5 groups",
-    joinedDate: "2024-01-10"
-  },
-  {
-    id: "002",
-    name: "Arshman",
-    bio: "Gooner",
-    profilePic: arshman,
-    spendings: 700,
-    totalShare: 900,
-    netBalance: -200,
-    status: "Highest Debtor",
-    balancetextClass: "text-red-600",
-    balancebgClass: "bg-red-600",
-    crews: "3 groups",
-    joinedDate: "2024-02-15"
-  },
-  {
-    id: "003",
-    name: "Daud Khalid",
-    bio: "Advocate",
-    profilePic: daud,
-    spendings: 2000,
-    totalShare: 500,
-    netBalance: 1500,
-    status: "Member",
-    balancetextClass: "text-green-600",
-    balancebgClass: "bg-green-600",
-    crews: "2 groups",
-    joinedDate: "2024-03-05"
-  },
-  {
-    id: "004",
-    name: "Sheda",
-    bio: "Cheesa",
-    profilePic: sheda,
-    spendings: 450,
-    totalShare: 500,
-    netBalance: -50,
-    status: "Member",
-    balancetextClass: "text-red-600",
-    balancebgClass: "bg-red-600",
-    crews: "4 groups",
-    joinedDate: "2024-04-20"
-  },
-  {
-    id: "005",
-    name: "Saad Khalid",
-    bio: "Gym Freak",
-    profilePic: saad,
-    spendings: 3200,
-    totalShare: 1200,
-    netBalance: 2000,
-    status: "Highest Contributor",
-    balancetextClass: "text-green-600",
-    balancebgClass: "bg-green-600",
-    crews: "6 groups",
-    joinedDate: "2024-05-12"
-  },
-  {
-    id: "006",
-    name: "Habib Khalid",
-    bio: "Photographer",
-    profilePic: habib,
-    spendings: 600,
-    totalShare: 600,
-    netBalance: 0,
-    status: "Member",
-    balancetextClass: "text-text-secondary",
-    balancebgClass: "bg-text-secondary",
-    crews: "1 group",
-    joinedDate: "2024-06-18"
-  },
-  {
-    id: "007",
-    name: "Zuzu",
-    bio: "Savage's Mod",
-    profilePic: zuzu,
-    spendings: 1350,
-    totalShare: 400,
-    netBalance: 950,
-    status: "Member",
-    balancetextClass: "text-green-600",
-    balancebgClass: "bg-green-600",
-    crews: "5 groups",
-    joinedDate: "2024-07-25"
-  }
-];
-
 export const Friendslist = () => {
   const Friends = useSelector(selectAllFriends);
   const pinnedFriends = useSelector(selectPinnedFriends);

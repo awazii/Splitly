@@ -9,7 +9,7 @@ export const Aboutf = ({ CurrentFriend }) => {
         {
             label: "Net Balance",
             icon: FaMoneyBillTransfer,
-            textColor: indicators[CurrentFriend.netBalance.indicatorid].color,
+            textColor: indicators[CurrentFriend.netBalance.indicatorid].balancetextClass,
             Netbalance: CurrentFriend.netBalance.total,
         },
         {

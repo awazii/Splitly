@@ -1,48 +1,18 @@
 import React from "react";
-import saad from "../../assets/saad.jpg";
-import habib from "../../assets/habib.png";
-import zuzu from "../../assets/zuzu.png";
-import awazii from "../../assets/awazii.jpg";
-import daud from "../../assets/daud.jpg";
-import arshman from "../../assets/arshman.jpg";
-import sheda from "../../assets/sheda.jpg";
-
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
-
-const avatars = {
-  Awazii: awazii,
-  Saad: saad,
-  Zuzu: zuzu,
-  Habib: habib,
-  Arshman: arshman,
-  Daud: daud,
-  Sheda: sheda,
-};
-
-const data = [
-  { name: "Awazii", groups: 5 },
-  { name: "Saad", groups: 3 },
-  { name: "Zuzu", groups: 4 },
-  { name: "Habib", groups: 2 },
-  { name: "Arshman", groups: 11 },
-  { name: "Daud", groups: 3 },
-  { name: "Sheda", groups: 1 },
-  { name: "Awazii", groups: 5 },
-  { name: "Sheda", groups: 1 },
-  { name: "Awazii", groups: 5 },
-];
-
+import { selectAllFriends } from "../../store/FriendsSlice";
+import { useSelector } from "react-redux";
+import { BarChart,Bar, XAxis, YAxis,Tooltip, CartesianGrid, ResponsiveContainer} from "recharts";
 export const FriendsByGroupChart = () => {
+  const friends = useSelector(selectAllFriends)
+  const data = friends.map(friend=>{
+    return {
+      name :friend.Name,
+      groups:friend.crews.groupCount,
+      img : friend.Image
+    }
+  })
   return (
-    <div style={{ width: "100%", height:480 }}>
+    <div style={{ width: "100%", height: 480 }}>
       <ResponsiveContainer>
         <BarChart
           data={data}
@@ -52,7 +22,8 @@ export const FriendsByGroupChart = () => {
             dataKey="name"
             type="category"
             tick={({ x, y, payload }) => {
-              const imgSrc = avatars[payload.value];
+               const item = data.find(d => d.name === payload.value);
+              const imgSrc = item?.img
               return (
                 <foreignObject x={x - 20} y={y + 10} width={40} height={40}>
                   <img
@@ -67,8 +38,8 @@ export const FriendsByGroupChart = () => {
                   />
                 </foreignObject>
               );
-            }} 
-            hide={data.length>10}
+            }}
+            hide={data.length > 10}
           />
           <YAxis type="number" allowDecimals={false} />
           <Tooltip

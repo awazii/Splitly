@@ -4,7 +4,10 @@ import { Recent } from './Recent';
 import { Insights } from './Insights';
 import { Analystic } from './Analystic';
 import Addgroup from "./Newgroupbtn"
+import { selectAllExpenses } from '../../store/ExpenseSlice';
+import { useSelector } from 'react-redux';
 export const Dashboard = () => {
+    const allexpense = useSelector(selectAllExpenses)
   return (
     <div className='dashboard-container w-full h-full overflow-auto p-6 pb-0 scrollbar-hide'>
         <h1 className='text-3xl font-semibold'>Dashboard</h1>
@@ -20,10 +23,10 @@ export const Dashboard = () => {
                     <Recent h={`h-[330px]`} />
                 </div>
                 <div className="analytics card-b col-span-4 row-span-8 rounded-xl">
-                    <Analystic />
+                    {allexpense.length > 0 && <Analystic />}
                 </div>
                 <div className="insights card-b col-span-2 row-span-5 rounded-xl">
-                    <Insights />
+                  { allexpense.length > 0 && <Insights />}
                 </div>
 
         </div>

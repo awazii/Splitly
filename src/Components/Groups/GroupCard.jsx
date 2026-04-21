@@ -12,6 +12,9 @@ import { useDispatch } from 'react-redux';
 import { TbPinnedFilled } from "react-icons/tb";
 import { TbPinnedOff } from "react-icons/tb";
 import { useSelector } from 'react-redux';
+import {FriendsGroupSpendings , GroupExpenses} from '../../store/ExpenseSlice'
+import { Memberdetails } from '../../utils/Memberdetails';
+import { categories } from '../Expenses/Expenses';
 export const statuses = {
   Active: {
     label: "Active",
@@ -28,6 +31,8 @@ const Card = ({ group }) => {
   const [flip, setflip] = useState(false)
   const [pin, setpin] = useState(group.isPinned)
   const dispatch = useDispatch()
+  const TopContributor = useSelector(state=> FriendsGroupSpendings(state,group.id)).sort((a,b)=>b.spent- a.spent)[0]
+  const RecentExpense = useSelector(state=>GroupExpenses(state,group.id).at(-1))
   useEffect(() => {
     setpin(group.isPinned);
   }, [group.isPinned])
@@ -114,33 +119,33 @@ const Card = ({ group }) => {
                   <h3 className='text-sm font-semibold text-center'>Top Spender</h3>
                   <div className="top-spender-info center-flex  mt-1 flex-col">
                     <div className="top-spender-img size-16 ">
-                      <img src={null} className='Img-c' alt="" />
+                    {TopContributor &&  <img src={Memberdetails( TopContributor.id)?.Image} className='Img-c' alt="" />}
                     </div>
                     <div className="top-spender-info center-flex border w-25 h-6 card-b
                     mt-1 rounded-lg gap-2">
-                      {/* <h4 className='Top-spender-name font-semibold text-[13px] text-text-secondary'>{group.top_spender.name}</h4> */}
+                     { TopContributor && <h4 className='Top-spender-name font-semibold text-[13px] text-text-secondary'>{Memberdetails( TopContributor.id)?.Name}</h4>}      
                     </div>
                   </div>
                 </div>
                 <div className='group-recent-expense h-28 col-span-2'>
                   <h3 className='text-sm font-semibold text-center'>Recent Expense</h3>
-                  <div className="recent-expense-info border h-22 w-58 ml-2 card-b rounded-lg mt-1  center-flex gap-2 px-2">
-                    {/* <div className="expense-logo  size-10 rounded-lg  center-flex shadow-md" style={{background: group.recent_expense.category.gradient}}> 
-                                          {group.recent_expense.category.icon}
+                 {RecentExpense && <div className="recent-expense-info border h-22 w-58 ml-2 card-b rounded-lg mt-1  center-flex gap-2 px-2">
+                    <div className="expense-logo  size-10 rounded-lg  center-flex shadow-md" style={{background:categories[RecentExpense.Category].gradient}}> 
+                         {categories[RecentExpense.Category].icon}
                     </div>
                     <div className='expense-details flex-1  h-15 flex justify-between gap-1 items-center'>
                         <div className='expense-left'>
                                                 <div className="category-date flex items-center gap-1 flex-col">
-                                                    <span className='text-[12px] '>{group.recent_expense.expense}</span>
-                                                    <span className='text-[10px] text-text-secondary'>{group.recent_expense.category.date}</span>
+                                                    <span className='text-[12px] '>{RecentExpense.Name}</span>
+                                                    <span className='text-[10px] text-text-secondary'>{RecentExpense.createdDate}</span>
                                                 </div>
                                             </div>
                                             <div className='expense-right text-right flex flex-col'>
-                                                <h2 className='text-md text-primary font-semibold '>Rs.{Number(group.recent_expense.amount).toLocaleString()}</h2>
+                                                <h2 className='text-md text-primary font-semibold '>Rs.{Number(RecentExpense.totalAmount).toLocaleString()}</h2>
                                                 <span className='text-[10px] text-text-secondary'>Total Amount</span>
                                             </div>
-                    </div> */}
-                  </div>
+                    </div>
+                  </div>}
                 </div>
               </div>
               <div className="group-recent-activiity px-4 pt-2">

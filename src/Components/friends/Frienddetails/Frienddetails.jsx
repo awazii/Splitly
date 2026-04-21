@@ -1,6 +1,5 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { Friends } from '../Friendslist'
 import { IoReturnUpBack } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'

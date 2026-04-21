@@ -4,7 +4,6 @@ import { IoPerson } from "react-icons/io5";
 import { GiBullseye } from "react-icons/gi";
 import { IoMdFlag } from "react-icons/io";
 import { TiTick } from "react-icons/ti";
-import { Friends } from '../../../friends/Friendslist';
 import {  useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectAllFriends } from '../../../../store/FriendsSlice';

@@ -1,5 +1,7 @@
 import { createSlice, nanoid, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
+import { addGroup } from "./GroupSlice"
+import { addExpense, selectAllExpenses } from "./ExpenseSlice"
 const adminId = "admin_01";
 const friendsAdapter = createEntityAdapter()
 const initialState = friendsAdapter.getInitialState({
@@ -15,14 +17,6 @@ const initialState = friendsAdapter.getInitialState({
             netBalance: {
                 total: 0,
                 indicatorid: "settled",
-                details: [
-                    {
-                        friendId: null,
-                        amount: 0,
-                        TransactionIds: [],
-                        indicatorid: null,
-                    }
-                ]
             },
             status: "Admin",
             crews: {
@@ -51,14 +45,6 @@ const FriendsSlice = createSlice({
                         netBalance: {
                             total: 0,
                             indicatorid: "settled",
-                            details: [
-                                {
-                                    friendId: null,
-                                    amount: 0,
-                                    TransactionIds: [],
-                                    indicatorid: null,
-                                }
-                            ]
                         },
                         status: "Member",
                         crews: {
@@ -72,6 +58,39 @@ const FriendsSlice = createSlice({
         },
         deleteFriend: friendsAdapter.removeOne,
         updateFriend: friendsAdapter.updateOne
+    },
+    extraReducers: (builder) => {
+        builder.addCase(addGroup, (state, action) => {
+            const group = action.payload
+            group.Members.forEach(member => {
+                let friend = state.entities[member]
+                if (friend) {
+                    friend.crews.groupCount += 1
+                    friend.crews.groups.push(group.id)
+                }
+
+            })
+        });
+        builder.addCase(addExpense, (state, action) => {
+            const Expense = action.payload
+            Expense.Members.forEach(member => {
+                let friend = state.entities[member.id]
+                if (friend) {
+                    let delta = (Number(member.spent) || 0) - (Number(member.share) || 0)
+                    let spendingdelta = Number(member.spent)
+                    friend.spendings += spendingdelta
+                    friend.netBalance.total += delta
+                    if (friend.netBalance.total > 0) {
+                        friend.netBalance.indicatorid = "creditor";
+                    } else if (friend.netBalance.total < 0) {
+                        friend.netBalance.indicatorid = "debtor";
+                    } else {
+                        friend.netBalance.indicatorid = "settled";
+                    } 
+            }
+        })
+    })
+
     }
 });
 export const { addFriend, deleteFriend, updateFriend } = FriendsSlice.actions;

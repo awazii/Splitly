@@ -2,10 +2,10 @@ import React from 'react';
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { IoPerson } from "react-icons/io5";
 import { GiExpense } from "react-icons/gi";
-import {TotalExpenses ,selectAllExpenses ,FriendsSpendings}  from "../../store/ExpenseSlice"
+import {TotalExpenses ,selectAllExpenses}  from "../../store/ExpenseSlice"
 import { useSelector } from 'react-redux';
 import { TopGroup } from '../../store/GroupSlice';
-import { selectFriendById } from '../../store/FriendsSlice';
+import { selectAllFriends } from '../../store/FriendsSlice';
 import { useNavigate } from 'react-router-dom';
 const InsightCard = ({ icon, title, description, value }) => (
   <div className={`flex flex-col justify-between p-4 rounded-xl shadow-md  w-full bg-white`}>
@@ -24,8 +24,9 @@ export const Insights = () => {
 const Expenses= useSelector(selectAllExpenses)
 const Totalamount = useSelector(TotalExpenses)
 const topGroup = useSelector(TopGroup)
-const HighesContributor= useSelector(FriendsSpendings).sort((a,b)=>b.spent - a.spent)[0]
-const Friendinfo = useSelector(state=>selectFriendById(state,HighesContributor.id))
+const AllFriends = useSelector(selectAllFriends)
+const HighesContributor= [...AllFriends].sort((a,b)=>b.spendings - a.spendings)[0]
+const HighestDebtor = [...AllFriends].sort((a,b)=> a.netBalance.total - b.netBalance.total)[0]
   const insightsData = [
     {
       id: 1,
@@ -37,15 +38,15 @@ const Friendinfo = useSelector(state=>selectFriendById(state,HighesContributor.i
     {
       id: 2,
       title: "Highest Contributor",
-      description: `${Friendinfo.Name}`,
-      value: `Rs. ${HighesContributor.spent.toLocaleString()}`,
+      description: `${HighesContributor.Name}`,
+      value: `Rs. ${HighesContributor.spendings.toLocaleString()}`,
       icon: <IoPerson className="text-[#2196f3] text-xl" />,
     },
     {
       id: 3,
       title: "Highest Debtor",
-      description: "Arshman",
-      value: "Rs. 300",
+      description: `${HighestDebtor.Name}`,
+      value: `Rs. ${Math.abs(HighestDebtor.netBalance.total)}`,
       icon: <IoPerson className="text-[#e53935] text-xl" />,
     },
     {

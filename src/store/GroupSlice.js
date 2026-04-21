@@ -46,7 +46,7 @@ export const selectPinnedGroups = createSelector(
 export const TopGroup = createSelector(
     selectAllGroups,
     (Groups)=>{
-        const sortedGroups= Groups.sort((a,b)=> b.totalAmount-a.totalAmount)
+        const sortedGroups= [...Groups].sort((a,b)=> b.totalAmount-a.totalAmount)
         return sortedGroups[0]    
     }
 )

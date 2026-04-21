@@ -1,6 +1,5 @@
 import React ,{useState} from 'react'
 import { IoIosWallet } from "react-icons/io";
-import { Friends } from '../../friends/Friendslist';
 import { TbCreditCardPay } from "react-icons/tb";
 import { TbListDetails } from "react-icons/tb";
 import { FaMoneyBillTransfer } from "react-icons/fa6";

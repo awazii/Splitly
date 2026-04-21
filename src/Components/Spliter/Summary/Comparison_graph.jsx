@@ -18,7 +18,6 @@ export const Comparisongraph = ({ Expense }) => {
     }
     const data = Expense.Members.map(member => {
         const friend = friends(member.id)
-        console.log(friend)
         return {
             name: friend.Name,
             img: friend.Image,

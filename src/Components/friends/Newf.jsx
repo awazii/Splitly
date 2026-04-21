@@ -11,9 +11,6 @@ import { addFriend, selectAllFriends } from '../../store/FriendsSlice';
 export const Newfriend = () => {
   const friends = useSelector(selectAllFriends);
   const dispatch = useDispatch();
-useEffect(() => {
-      console.log("Current friends in store:", friends);
-}, [friends])
   const [issubmitted, setissubmitted] = useState(false);
   const {
     control,
@@ -29,10 +26,8 @@ useEffect(() => {
       isPinned: false 
     }
   });
-
   const usernamePattern = /^[A-Za-z][0-9A-Za-z_\s]*$/;
   const bioPattern = /^[A-Za-z][A-Za-z\s.,'-]*$/;
-
   const Onsubmit = async (data) => {
     try {
       const imageUrl = await uploadToCloudinary(data.Image);

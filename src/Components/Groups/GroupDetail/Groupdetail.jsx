@@ -53,10 +53,10 @@ export const Groupdetail = () => {
           <Overview CurrentGroup={CurrentGroup} />
         </div>
         <div className="insights col-span-5 row-span-1 border-l">
-          <Insights data={MembersSpendings}/>
+       {  MembersSpendings.length > 0 && <Insights data={MembersSpendings}/>}
         </div>
         <div className="Friends-balance col-span-8 row-span-5 card-b rounded-lg h-170">
-          <Balance  CurrentGroup={CurrentGroup} />
+        <Balance CurrentGroup={CurrentGroup} />
         </div>
         <div className="Recent-&-Status col-span-4 row-span-5 flex flex-col gap-3 ">
           <div className="Extra card-b h-20 shadow-md rounded-lg grid grid-cols-5 border-l p-2">

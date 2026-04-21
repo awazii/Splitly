@@ -1,5 +1,7 @@
 import { createSlice, nanoid, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
+import { REHYDRATE } from "redux-persist";
 import dayjs from "dayjs";
+import { useSelector, useDispatch } from "react-redux";
 import { CategoryColors } from "../Components/dashboard/Analystic";
 const ExpensesAdapter = createEntityAdapter()
 const initialState = ExpensesAdapter.getInitialState();
@@ -10,24 +12,42 @@ const ExpenseSlice = createSlice({
         addExpense: {
             reducer: ExpensesAdapter.addOne,
             prepare: (Groupid, Name, totalAmount, splitMethod, Members, Category) => {
+                const expense = {
+                    id: nanoid(),
+                    Groupid,
+                    Name,
+                    totalAmount,
+                    splitMethod,
+                    Members,
+                    Category,
+                    createdDate: dayjs().format("YYYY-MM-DD")
+                }
                 return {
                     payload: {
-                        id: nanoid(),
-                        Groupid,
-                        Name,
-                        totalAmount,
-                        splitMethod,
-                        Members,
-                        Category,
-                        createdDate: dayjs().format("YYYY-MM-DD")
+                        ...expense,
+                        Settlements: aggregatesettlements(expense)
                     }
                 }
             }
         },
+        updateExpense: ExpensesAdapter.updateOne
+    },
+    extraReducers: (builder) => {
+        builder.addCase(REHYDRATE, (state, action) => {
+            const incoming = action.payload?.Expenses;
+            if (incoming?.entities) {
+                Object.values(incoming.entities).forEach(expense => {
+                    if (expense.Settelments && !expense.Settlements) {
+                        expense.Settlements = expense.Settelments;
+                        delete expense.Settelments;
+                    }
+                });
+            }
+        });
     }
 
 });
-export const { addExpense } = ExpenseSlice.actions;
+export const { addExpense, updateExpense } = ExpenseSlice.actions;
 export const { selectAll: selectAllExpenses, selectById: selectExpenseById } = ExpensesAdapter.getSelectors(state => state.Expenses);
 export const HighestContributors = createSelector(
     selectExpenseById,
@@ -106,5 +126,43 @@ export const ExpenseAnalystics = createSelector(
         return Array.from(map.values());
     }
 );
+export function aggregatesettlements(expense) {
+    let balances = {}
+    expense.Members.forEach(member => {
+        if (!balances[member.id]) {
+            balances[member.id] = 0
+        }
+        balances[member.id] = (Number(member.spent) || 0) - (Number(member.share) || 0)
+    })
+    let debtors = []
+    let creditors = []
+    Object.keys(balances).forEach(id => {
+        const netBalance = Math.round(balances[id]);
+        if (netBalance < 0) {
+            debtors.push({ id, amount: Math.abs(netBalance) });
+        } else if
+            (netBalance > 0) {
+            creditors.push({ id, amount: netBalance });
+        }
+    });
+    debtors.sort((a, b) => b.amount - a.amount);
+    creditors.sort((a, b) => b.amount - a.amount);
+    const Settlements = [];
+    while (debtors.length > 0 && creditors.length > 0) {
+        const currentDebtor = debtors[0];
+        const currentCreditor = creditors[0];
+        const settlementAmount = Math.min(currentDebtor.amount, currentCreditor.amount);
+        Settlements.push({
+            from: currentDebtor.id,
+            to: currentCreditor.id,
+            amount: settlementAmount
+        });
+        currentDebtor.amount -= settlementAmount;
+        currentCreditor.amount -= settlementAmount;
+        if (currentDebtor.amount === 0) debtors.shift();
+        if (currentCreditor.amount === 0) creditors.shift();
+    }
+    return Settlements
+}
 
 export default ExpenseSlice.reducer;
