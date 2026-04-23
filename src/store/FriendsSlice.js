@@ -19,6 +19,7 @@ const initialState = friendsAdapter.getInitialState({
                 indicatorid: "settled",
             },
             status: "Admin",
+            Relationship:[],
             crews: {
                 groupCount: 0,
                 groups: []
@@ -86,11 +87,37 @@ const FriendsSlice = createSlice({
                         friend.netBalance.indicatorid = "debtor";
                     } else {
                         friend.netBalance.indicatorid = "settled";
-                    } 
-            }
+                    }
+                }
+            })
+            Expense.Settlements.forEach(Settlement => {
+                let debtor = state.entities[Settlement.from]
+                let creditor = state.entities[Settlement.to]
+                debtor.Relationship = debtor.Relationship || []
+                creditor.Relationship = creditor.Relationship || []
+                debtor
+                const relationshipEntry = debtor.Relationship.find(r => r.id === creditor.id)
+                const reciprocalEntry = creditor.Relationship.find(r => r.id === debtor.id)
+                if (reciprocalEntry) {
+                    reciprocalEntry.netBalance += Settlement.amount
+                }
+                else {
+                    creditor.Relationship.push({
+                        id: debtor.id,
+                        netBalance: Settlement.amount
+                    })
+                }
+                if (relationshipEntry) {
+                    relationshipEntry.netBalance -= Settlement.amount
+                }
+                else {
+                    debtor.Relationship.push({
+                        id: creditor.id,
+                        netBalance: -Settlement.amount
+                    })
+                }
+            })
         })
-    })
-
     }
 });
 export const { addFriend, deleteFriend, updateFriend } = FriendsSlice.actions;

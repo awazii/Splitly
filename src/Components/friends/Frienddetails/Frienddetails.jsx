@@ -31,7 +31,7 @@ const CurrentFriend = useSelector((state) => selectFriendById(state, Friend));
       </div>
       <div className="friend-container grid container mx-auto grid-cols-3 h-205 gap-3 grid-rows-6">
         <div className='Balance col-span-2 row-span-6 border-l shadow'>
-              {/* <Balancef currentFriend={CurrentFriend} /> */}
+              <Balancef currentFriend={CurrentFriend} />
             </div>
             <div className=' col-span-1 row-span-3 '>
               <Aboutf CurrentFriend={CurrentFriend} />

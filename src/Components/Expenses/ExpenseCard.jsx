@@ -5,7 +5,7 @@ import { categories } from './Expenses';
 import { useSelector } from 'react-redux';
 import { selectGroupById } from '../../store/GroupSlice';
 import { selectFriendById } from '../../store/FriendsSlice';
-export const MemberAvatars = ({ id }) => {
+ const MemberAvatars = ({ id }) => {
     const friend = useSelector(state => selectFriendById(state, id));
     return (
         <div className="member size-7  rounded-lg shadow-md">

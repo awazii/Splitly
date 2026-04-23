@@ -11,7 +11,7 @@ const ExpenseSlice = createSlice({
     reducers: {
         addExpense: {
             reducer: ExpensesAdapter.addOne,
-            prepare: (Groupid, Name, totalAmount, splitMethod, Members, Category) => {
+            prepare: (Groupid, Name, totalAmount, splitMethod, Members, Category, Settlements) => {
                 const expense = {
                     id: nanoid(),
                     Groupid,
@@ -20,12 +20,12 @@ const ExpenseSlice = createSlice({
                     splitMethod,
                     Members,
                     Category,
+                    Settlements,
                     createdDate: dayjs().format("YYYY-MM-DD")
                 }
                 return {
                     payload: {
                         ...expense,
-                        Settlements: aggregatesettlements(expense)
                     }
                 }
             }
@@ -126,9 +126,9 @@ export const ExpenseAnalystics = createSelector(
         return Array.from(map.values());
     }
 );
-export function aggregatesettlements(expense) {
+export function aggregatesettlements(Members) {
     let balances = {}
-    expense.Members.forEach(member => {
+    Members.forEach(member => {
         if (!balances[member.id]) {
             balances[member.id] = 0
         }

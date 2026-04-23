@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom'
 import { Basemodel } from '../../../basemodel';
 import { useDispatch } from 'react-redux';
 import { addExpense } from '../../../../store/ExpenseSlice';
+import { aggregatesettlements } from '../../../../store/ExpenseSlice';
 export const Addexpense = () => {
     const [step, setstep] = useState(1);
     const dispatch = useDispatch();
@@ -149,6 +150,7 @@ export const Addexpense = () => {
             data.splitMethod,
             finalmembers,
             data.Category,
+            aggregatesettlements(finalmembers)
         ))
         await new Promise(resolve => setTimeout(resolve, 2000));
         reset();

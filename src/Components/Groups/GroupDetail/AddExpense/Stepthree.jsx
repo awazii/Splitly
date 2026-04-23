@@ -134,7 +134,7 @@ export const Stepthree = () => {
                             {
                               required: "This field is required",
                             }
-                          )} type="number" placeholder='0' defaultValue={Math.roundShare?.[Splitopt]?.[friend.id] ?? ""} className='w-18 text-left focus:outline-none' onKeyDown={(e) => {
+                          )} type="number" placeholder='0' value={Share[Splitopt][friend.id]} className='w-18 text-left focus:outline-none' onKeyDown={(e) => {
                             if (["e", "E", "+", "-", "."].includes(e.key)) {
                               e.preventDefault();
                             }
