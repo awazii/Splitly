@@ -1,7 +1,7 @@
 import React from 'react'
-import Expensedetailbtn from '../Details';
+import Expensedetailbtn from '../Common/Details';
 import { CategoryExtrator } from '../../utils/CategoryExtractor';
-import { categories } from './Expenses';
+import { categories } from '../../pages/Expenses/Expenses';
 import { useSelector } from 'react-redux';
 import { selectGroupById } from '../../store/GroupSlice';
 import { selectFriendById } from '../../store/FriendsSlice';

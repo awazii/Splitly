@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { IoIosWallet } from "react-icons/io";
-import Addbtn from "./Addfbtn"
+import Addbtn from "../Common/Addfbtn"
 import { Basemodel } from '../../basemodel';
-import { Friendgdetails } from './fgroupdetails/Friendgdetails';
+import { Friendgdetails } from './transactions/Friendgdetails';
 import { useSelector } from 'react-redux';
 import { selectAllFriends } from '../../../store/FriendsSlice';
 import { SpendingCard } from './SpendingCard';

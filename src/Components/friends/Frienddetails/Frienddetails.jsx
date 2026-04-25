@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom'
 import { IoReturnUpBack } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
-import Removebtn from "./Removebtn"
+import Removebtn from "../Common/Removebtn"
 import { Balancef } from './Balancef';
-import { Recent } from '../../dashboard/Recent';
+import { Recent } from '../../../pages/dashboard/Recent';
 import { Aboutf } from './Aboutf';
 import { useSelector } from 'react-redux';
 import {selectFriendById } from '../../../store/FriendsSlice';

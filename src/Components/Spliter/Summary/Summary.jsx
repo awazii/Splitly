@@ -1,6 +1,6 @@
 import React from 'react'
 import { Overview } from './Overview'
-import { Settelments } from './Settelments'
+import { Settlements } from './Settlements'
 import { Insights } from './Insights'
 import {Comparisongraph} from "./Comparison_graph"
 export const SummaryDashboard = () => {
@@ -16,7 +16,7 @@ export const SummaryDashboard = () => {
                 <Comparisongraph/>
             </div>
             <div className="Settlements col-span-2 h-160 row-span-4">
-                <Settelments />
+                <Settlements />
             </div>
         </div>
     )

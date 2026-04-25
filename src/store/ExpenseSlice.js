@@ -2,9 +2,12 @@ import { createSlice, nanoid, createEntityAdapter, createSelector } from "@redux
 import { REHYDRATE } from "redux-persist";
 import dayjs from "dayjs";
 import { useSelector, useDispatch } from "react-redux";
-import { CategoryColors } from "../Components/dashboard/Analystic";
-const ExpensesAdapter = createEntityAdapter()
-const initialState = ExpensesAdapter.getInitialState();
+import { CategoryColors } from "../pages/dashboard/Analystic";
+const ExpensesAdapter = createEntityAdapter( {
+        sortComparer:(a,b)=> b.Time - a.Time
+    })
+const initialState = ExpensesAdapter.getInitialState(  
+);
 const ExpenseSlice = createSlice({
     name: "Expenses",
     initialState,
@@ -21,7 +24,8 @@ const ExpenseSlice = createSlice({
                     Members,
                     Category,
                     Settlements,
-                    createdDate: dayjs().format("YYYY-MM-DD")
+                    createdDate: dayjs().format("YYYY-MM-DD"),
+                    Time: dayjs().format("HH:mm:ss")
                 }
                 return {
                     payload: {
@@ -105,8 +109,8 @@ export const ExpenseAnalystics = createSelector(
     selectAllExpenses,
     (expenses) => {
         const map = new Map();
-
-        expenses.forEach(expense => {
+        const CategoryData = expenses.filter(r=>r.Category!=="Settlement")
+        CategoryData.forEach(expense => {
             const key = expense.Category;
             const current = map.get(key);
 
@@ -164,5 +168,13 @@ export function aggregatesettlements(Members) {
     }
     return Settlements
 }
-
+export const MingleExpenses = createSelector(
+    [selectAllExpenses,  (state, CurrentFriend, Currentbalancewith) => CurrentFriend.id,
+    (state, CurrentFriend, Currentbalancewith) => Currentbalancewith],
+    (expenses, CurrentFriend, Currentbalancewith ) => expenses.filter(e=> e.Settlements.some(s =>
+        (s.from === CurrentFriend && s.to === Currentbalancewith) ||
+        (s.from === Currentbalancewith && s.to === CurrentFriend)
+    )
+    )
+)
 export default ExpenseSlice.reducer;

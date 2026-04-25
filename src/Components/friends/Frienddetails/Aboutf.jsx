@@ -3,7 +3,7 @@ import { MdOutlineDateRange } from "react-icons/md";
 import { IoCard } from "react-icons/io5";
 import { MdGroup } from "react-icons/md";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
-import { indicators } from '../Friendslist';
+import { indicators } from '../../../pages/friends/Friendslist';
 export const Aboutf = ({ CurrentFriend }) => {
     const overvuewData = [
         {

@@ -19,7 +19,7 @@ const initialState = friendsAdapter.getInitialState({
                 indicatorid: "settled",
             },
             status: "Admin",
-            Relationship:[],
+            Relationship: [],
             crews: {
                 groupCount: 0,
                 groups: []
@@ -74,22 +74,24 @@ const FriendsSlice = createSlice({
         });
         builder.addCase(addExpense, (state, action) => {
             const Expense = action.payload
-            Expense.Members.forEach(member => {
-                let friend = state.entities[member.id]
-                if (friend) {
-                    let delta = (Number(member.spent) || 0) - (Number(member.share) || 0)
-                    let spendingdelta = Number(member.spent)
-                    friend.spendings += spendingdelta
-                    friend.netBalance.total += delta
-                    if (friend.netBalance.total > 0) {
-                        friend.netBalance.indicatorid = "creditor";
-                    } else if (friend.netBalance.total < 0) {
-                        friend.netBalance.indicatorid = "debtor";
-                    } else {
-                        friend.netBalance.indicatorid = "settled";
+            if (Expense.Category !== "Settlement") {
+                Expense.Members.forEach(member => {
+                    let friend = state.entities[member.id]
+                    if (friend) {
+                        let delta = (Number(member.spent) || 0) - (Number(member.share) || 0)
+                        let spendingdelta = Number(member.spent)
+                        friend.spendings += spendingdelta
+                        friend.netBalance.total += delta
+                        if (friend.netBalance.total > 0) {
+                            friend.netBalance.indicatorid = "creditor";
+                        } else if (friend.netBalance.total < 0) {
+                            friend.netBalance.indicatorid = "debtor";
+                        } else {
+                            friend.netBalance.indicatorid = "settled";
+                        }
                     }
-                }
-            })
+                })
+            }
             Expense.Settlements.forEach(Settlement => {
                 let debtor = state.entities[Settlement.from]
                 let creditor = state.entities[Settlement.to]
@@ -99,7 +101,13 @@ const FriendsSlice = createSlice({
                 const relationshipEntry = debtor.Relationship.find(r => r.id === creditor.id)
                 const reciprocalEntry = creditor.Relationship.find(r => r.id === debtor.id)
                 if (reciprocalEntry) {
-                    reciprocalEntry.netBalance += Settlement.amount
+                    if (Expense.Category == "Settlement") {
+                        reciprocalEntry.netBalance -= Settlement.amount
+                    }
+                    else {
+
+                        reciprocalEntry.netBalance += Settlement.amount
+                    }
                 }
                 else {
                     creditor.Relationship.push({
@@ -108,7 +116,12 @@ const FriendsSlice = createSlice({
                     })
                 }
                 if (relationshipEntry) {
-                    relationshipEntry.netBalance -= Settlement.amount
+                      if (Expense.Category == "Settlement") {
+                        relationshipEntry.netBalance += Settlement.amount
+                    }
+                    else {
+                        relationshipEntry.netBalance -= Settlement.amount
+                    }
                 }
                 else {
                     debtor.Relationship.push({
@@ -117,6 +130,7 @@ const FriendsSlice = createSlice({
                     })
                 }
             })
+
         })
     }
 });

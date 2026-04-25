@@ -1,12 +1,12 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { Insights } from '../../Spliter/Summary/Insights'
-import { Recent } from '../../dashboard/Recent'
+import { Recent } from '../../../pages/dashboard/Recent'
 import { SiTicktick } from "react-icons/si";
 import { Overview } from './Overview'
 import { Balance } from './Spendings'
 import { IoReturnUpBack } from "react-icons/io5";
-import Terminatebtn from "./Teminatebtn"
+import Terminatebtn from "../Common/Teminatebtn"
 import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
 import { GiExpense } from "react-icons/gi";

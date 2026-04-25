@@ -9,7 +9,7 @@ import { TbPinnedFilled } from "react-icons/tb";
 import { TbPinnedOff } from "react-icons/tb";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
-import { indicators } from './Friendslist';
+import { indicators } from '../../pages/friends/Friendslist';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateFriend } from '../../store/FriendsSlice';
 const Card = ({ friend }) => {

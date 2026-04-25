@@ -1,8 +1,11 @@
 import { createSlice, nanoid, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { addExpense  ,selectAllExpenses } from "./ExpenseSlice"
 import dayjs from "dayjs";
-const GroupsAdapter = createEntityAdapter()
-const initialState = GroupsAdapter.getInitialState();
+const GroupsAdapter = createEntityAdapter({
+        sortComparer:(a,b)=> b.Time - a.Time
+    })
+const initialState = GroupsAdapter.getInitialState(    
+);
 const GroupsSlice = createSlice({
     name: "Groups",
     initialState,
@@ -19,7 +22,8 @@ const GroupsSlice = createSlice({
                         isPinned,
                         statusid: "Active",
                         totalAmount: 0,
-                        joinedDate: dayjs().format("YYYY-MM-DD")
+                        joinedDate: dayjs().format("YYYY-MM-DD"),
+                       Time: dayjs().format("HH:mm:ss")
                     }
                 }
             }

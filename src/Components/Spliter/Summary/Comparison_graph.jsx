@@ -11,7 +11,6 @@ import {
     ResponsiveContainer,
     Legend,
 } from "recharts";
-const getPercent = (value, total) => ((value / total) * 100).toFixed(1);
 export const Comparisongraph = ({ Expense }) => {
     const friends = (id) => {
         return useSelector(state => selectFriendById(state, id))
@@ -75,10 +74,10 @@ export const Comparisongraph = ({ Expense }) => {
                         }}
                         formatter={(val, name, props) => {
                             if (name === "share") {
-                                return [`Rs. ${Number(val).toLocaleString()} (${getPercent(val, Expense.totalAmount)}%)`, "Share"];
+                                return [`Rs. ${Number(val).toLocaleString()}`, "share"];
                             }
                             if (name === "spent") {
-                                return [`Rs. ${Number(val).toLocaleString()} (${getPercent(val, Expense.totalAmount)}%)`, "spent"];
+                                return [`Rs. ${Number(val).toLocaleString()}`, "spent"];
                             }
                             return val;
                         }}

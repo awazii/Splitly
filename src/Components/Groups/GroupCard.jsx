@@ -4,7 +4,7 @@ import { RiFlipHorizontalLine } from "react-icons/ri";
 import { RiFlipHorizontalFill } from "react-icons/ri";
 import { FaMoneyCheck } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
-import Detailbtn from "./detailbtn"
+import Detailbtn from "./Common/detailbtn"
 import dayjs from 'dayjs';
 import { CategoryExtrator } from '../../utils/CategoryExtractor';
 import { updateGroup } from '../../store/GroupSlice';
@@ -14,7 +14,7 @@ import { TbPinnedOff } from "react-icons/tb";
 import { useSelector } from 'react-redux';
 import {FriendsGroupSpendings , GroupExpenses} from '../../store/ExpenseSlice'
 import { Memberdetails } from '../../utils/Memberdetails';
-import { categories } from '../Expenses/Expenses';
+import { categories } from '../../pages/Expenses/Expenses';
 export const statuses = {
   Active: {
     label: "Active",

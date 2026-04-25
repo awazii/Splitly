@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FaCalculator } from "react-icons/fa";
-import Next from '../newexpense/Next';
-import Prev from '../newexpense/Prev';
+import Next from '../Expenses/Common/Next';
+import Prev from '../Expenses/Common/Prev';
 import { Stepone } from './Steponec';
 import { Steptwo } from './Steptwoc';
 import { Stepthree } from './Stepthreec';

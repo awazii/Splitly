@@ -1,7 +1,7 @@
 import React from 'react'
-import CalculatorInput from '../newexpense/addcalinput';
-import Calcheckbox from '../newexpense/Calcheckbox';
-import Choosef from "../choosef"
+import CalculatorInput from '../Expenses/Common/addcalinput';
+import Calcheckbox from '../Expenses/Common/Calcheckbox';
+import Choosef from "../Common/choosef"
 import { IoPerson } from "react-icons/io5";
 import Temoraryinput from './Temoray';
 import Addtemp from './Addtemp';
