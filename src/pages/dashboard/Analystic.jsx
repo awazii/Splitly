@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { PieChart, Pie, Tooltip, Sector } from "recharts";
 import { ExpenseAnalystics } from "../../store/ExpenseSlice";
 import { useSelector } from 'react-redux';
+import { RiPieChart2Line } from "react-icons/ri";
+import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
 export const CategoryColors = {
     "Food & Snacks": {
         name: "Food & Snacks",
@@ -59,63 +61,77 @@ const renderActiveShape = (props) => {
 
 export const Analystic = () => {
     const [activeIndex, setActiveIndex] = useState(null);
-    const CategoryData= useSelector(ExpenseAnalystics);
+    const CategoryData = useSelector(ExpenseAnalystics);
     return (
         <div className='center-flex h-full w-full gap-6'>
-            <PieChart width={650} height={480} tabIndex={-1}>
-                <defs>
-                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                        <feGaussianBlur stdDeviation="4" result="blur" />
-                        <feMerge>
-                            <feMergeNode in="blur" />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                    </filter>
-                </defs>
 
-                <Pie
-                    data={CategoryData}
-                    dataKey="amount"
-                    nameKey="name"
-                    innerRadius={130}
-                    outerRadius={220}
-                    cornerRadius={8}
-                    paddingAngle={2}
-                    activeIndex={activeIndex}
-                    activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveIndex(index)}
-                    onMouseLeave={() => setActiveIndex(null)}
-                />
-                <Tooltip
-                    contentStyle={{
-                        borderRadius: 8,
-                        border: "none",
-                        fontWeight:600,
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                        padding: "10px 14px",
-                        backgroundColor: "#fff",
-                    }}
-                    formatter={(value, name) => {
-                        const formattedValue = Number(value).toLocaleString();
-                        return [`Amount: Rs.${formattedValue}`, name];
-                    }}
-                />
+            {CategoryData.length > 0 ?
+                <>
+                    <PieChart width={650} height={480} tabIndex={-1}>
+                        <defs>
+                            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feMerge>
+                                    <feMergeNode in="blur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
 
-            </PieChart>
-            <div className="des flex-1">
-                <h2 className='text-2xl font-semibold mb-2'>Expenses Breakdown</h2>
-                <p className='text-text-secondary text-sm mb-4 w-70'>How each category adds up</p>
-                {CategoryData.map((category, index) => (
-                    <div key={index} className="category-item flex items-center mb-3">
-                        <div className="color-box w-5 h-5 rounded-md mr-4 shadow-md" style={{ backgroundColor: category.fill }}></div>
-                        <div className="category-info">
-                            <p className='font-semibold'>{category.name}</p>
+                        <Pie
+                            data={CategoryData}
+                            dataKey="amount"
+                            nameKey="name"
+                            innerRadius={130}
+                            outerRadius={220}
+                            cornerRadius={8}
+                            paddingAngle={2}
+                            activeIndex={activeIndex}
+                            activeShape={renderActiveShape}
+                            onMouseEnter={(_, index) => setActiveIndex(index)}
+                            onMouseLeave={() => setActiveIndex(null)}
+                        />
+                        <Tooltip
+                            contentStyle={{
+                                borderRadius: 8,
+                                border: "none",
+                                fontWeight: 600,
+                                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                                padding: "10px 14px",
+                                backgroundColor: "#fff",
+                            }}
+                            formatter={(value, name) => {
+                                const formattedValue = Number(value).toLocaleString();
+                                return [`Amount: Rs.${formattedValue}`, name];
+                            }}
+                        />
 
-                            <p className='text-sm text-text-secondary'>  {category.count} expenses - Rs.{Number(category.amount).toLocaleString()}</p>
-                        </div>
+                    </PieChart>
+                    <div className="des flex-1">
+                        <h2 className='text-2xl font-semibold mb-2'>Expenses Breakdown</h2>
+                        <p className='text-text-secondary text-sm mb-4 w-70'>How each category adds up</p>
+                        {CategoryData.map((category, index) => (
+                            <div key={index} className="category-item flex items-center mb-3">
+                                <div className="color-box w-5 h-5 rounded-md mr-4 shadow-md" style={{ backgroundColor: category.fill }}></div>
+                                <div className="category-info">
+                                    <p className='font-semibold'>{category.name}</p>
+
+                                    <p className='text-sm text-text-secondary'>  {category.count} expenses - Rs.{Number(category.amount).toLocaleString()}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </> : <UniversalEmptyState
+                    
+                    title="No expenses to visualize"
+                    description="Not enough data for a breakdown. Start adding expenses to see your spending across categories."
+                    textsize = ""
+                >
+                      <div className="p-10 shadow-md bg-gray-50 rounded-full">
+                        <RiPieChart2Line className="size-12 text-primary" />
+                      </div>
+                    </UniversalEmptyState>
+            }
         </div>
     );
 };

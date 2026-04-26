@@ -7,7 +7,7 @@ const AnimateOnSightWrapper = ({ children }) => {
     });
 
     return (
-        <div ref={ref} className="w-full min-h-[300px] max-h-[480px] relative">
+        <div ref={ref} className="w-full min-h-[240px] max-h-[480px] relative">
             {inView ? children : null}
         </div>
     );

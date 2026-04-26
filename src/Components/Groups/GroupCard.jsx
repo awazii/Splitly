@@ -12,9 +12,11 @@ import { useDispatch } from 'react-redux';
 import { TbPinnedFilled } from "react-icons/tb";
 import { TbPinnedOff } from "react-icons/tb";
 import { useSelector } from 'react-redux';
-import {FriendsGroupSpendings , GroupExpenses} from '../../store/ExpenseSlice'
+import { FriendsGroupSpendings, GroupExpenses } from '../../store/ExpenseSlice'
 import { Memberdetails } from '../../utils/Memberdetails';
 import { categories } from '../../pages/Expenses/Expenses';
+import { RiUserLine } from "react-icons/ri";
+import { RiFileList3Line } from "react-icons/ri";
 export const statuses = {
   Active: {
     label: "Active",
@@ -31,8 +33,8 @@ const Card = ({ group }) => {
   const [flip, setflip] = useState(false)
   const [pin, setpin] = useState(group.isPinned)
   const dispatch = useDispatch()
-  const TopContributor = useSelector(state=> FriendsGroupSpendings(state,group.id)).sort((a,b)=>b.spent- a.spent)[0]
-  const RecentExpense = useSelector(state=>GroupExpenses(state,group.id).at(-1))
+  const TopContributor = useSelector(state => FriendsGroupSpendings(state, group.id)).sort((a, b) => b.spent - a.spent)[0]
+  const RecentExpense = useSelector(state => GroupExpenses(state, group.id).at(-1))
   useEffect(() => {
     setpin(group.isPinned);
   }, [group.isPinned])
@@ -45,13 +47,13 @@ const Card = ({ group }) => {
       <div className="card">
         <div className={`content shadow-lg ${flip ? "rotate-y-180" : "rotate-y-0"}`}>
           <div className="front bg-[#dddddd] relative">
-            <div className='absolute top-2 left-2 z-10 center-flex gap-1'> 
+            <div className='absolute top-2 left-2 z-10 center-flex gap-1'>
               <button className={`cursor-pointer text-primary text-lg ${!pin ? '' : 'rotate-45'} peer`} onClick={handlePin}>
-              {pin ? <TbPinnedFilled /> : <TbPinnedOff />}
-            </button>
-            <span className='text-sm border-l p-1 shadow peer-hover:opacity-100 opacity-0 rounded-md trans'>
-              {pin ? "Unpin" : "Pin"}
-            </span>
+                {pin ? <TbPinnedFilled /> : <TbPinnedOff />}
+              </button>
+              <span className='text-sm border-l p-1 shadow peer-hover:opacity-100 opacity-0 rounded-md trans'>
+                {pin ? "Unpin" : "Pin"}
+              </span>
             </div>
             <div className="front-content bg-surface">
               <button className="flip border rounded-md border-b-light size-8 center-flex cursor-pointer hover:text-primary hover:scale-105 trans absolute bottom-2 -translate-x-1/2 left-1/2 
@@ -119,33 +121,48 @@ const Card = ({ group }) => {
                   <h3 className='text-sm font-semibold text-center'>Top Spender</h3>
                   <div className="top-spender-info center-flex  mt-1 flex-col">
                     <div className="top-spender-img size-16 ">
-                    {TopContributor &&  <img src={Memberdetails( TopContributor.id)?.Image} className='Img-c' alt="" />}
+                      {TopContributor ? <img src={Memberdetails(TopContributor.id)?.Image} className='Img-c' alt="" />
+                        :
+                        <div className='bg-white size-14 shadow center-flex rounded-full'>
+                          <RiUserLine className='text-primary size-5' />
+                        </div>
+                      }
                     </div>
                     <div className="top-spender-info center-flex border w-25 h-6 card-b
                     mt-1 rounded-lg gap-2">
-                     { TopContributor && <h4 className='Top-spender-name font-semibold text-[13px] text-text-secondary'>{Memberdetails( TopContributor.id)?.Name}</h4>}      
+                      {<h4 className='Top-spender-name font-semibold text-[13px] text-text-secondary'>{TopContributor ? Memberdetails(TopContributor.id)?.Name : " No data yet"}</h4>}
                     </div>
                   </div>
                 </div>
                 <div className='group-recent-expense h-28 col-span-2'>
                   <h3 className='text-sm font-semibold text-center'>Recent Expense</h3>
-                 {RecentExpense && <div className="recent-expense-info border h-22 w-58 ml-2 card-b rounded-lg mt-1  center-flex gap-2 px-2">
-                    <div className="expense-logo  size-10 rounded-lg  center-flex shadow-md" style={{background:categories[RecentExpense.Category].gradient}}> 
-                         {categories[RecentExpense.Category].icon}
-                    </div>
-                    <div className='expense-details flex-1  h-15 flex justify-between gap-1 items-center'>
+                  {RecentExpense ?
+                    <div className="recent-expense-info border h-22 w-58 ml-2 card-b rounded-lg mt-1  center-flex gap-2 px-2">
+                      <div className="expense-logo  size-10 rounded-lg  center-flex shadow-md" style={{ background: categories[RecentExpense.Category].gradient }}>
+                        {categories[RecentExpense.Category].icon}
+                      </div>
+                      <div className='expense-details flex-1  h-15 flex justify-between gap-1 items-center'>
                         <div className='expense-left'>
-                                                <div className="category-date flex items-center gap-1 flex-col">
-                                                    <span className='text-[12px] '>{RecentExpense.Name}</span>
-                                                    <span className='text-[10px] text-text-secondary'>{RecentExpense.createdDate}</span>
-                                                </div>
-                                            </div>
-                                            <div className='expense-right text-right flex flex-col'>
-                                                <h2 className='text-md text-primary font-semibold '>Rs.{Number(RecentExpense.totalAmount).toLocaleString()}</h2>
-                                                <span className='text-[10px] text-text-secondary'>Total Amount</span>
-                                            </div>
+                          <div className="category-date flex items-center gap-1 flex-col">
+                            <span className='text-[12px] '>{RecentExpense.Name}</span>
+                            <span className='text-[10px] text-text-secondary'>{RecentExpense.createdDate}</span>
+                          </div>
+                        </div>
+                        <div className='expense-right text-right flex flex-col'>
+                          <h2 className='text-md text-primary font-semibold '>Rs.{Number(RecentExpense.totalAmount).toLocaleString()}</h2>
+                          <span className='text-[10px] text-text-secondary'>Total Amount</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>}
+                    :
+                    <div className='w-50  mx-auto p-1 center-flex flex-col gap-2 '>
+                      <div className='bg-white size-15 shadow center-flex rounded-full '>
+                        <RiFileList3Line className='text-primary size-6' />
+                      </div>
+                      <p className='text-text-secondary text-sm '>No Expense Available</p>
+                    </div>
+
+                  }
                 </div>
               </div>
               <div className="group-recent-activiity px-4 pt-2">

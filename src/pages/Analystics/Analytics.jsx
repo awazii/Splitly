@@ -4,8 +4,8 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { FriendsByGroupChart } from "./Fchart1";
 import { TotalOwedChart } from "./Fchart2"
 import { MultiPaidVsOwes } from './Fchart3';
-import GroupExpensesChar from './Fchart4'
-import GroupSizeChart from './Fchart5'
+import GroupExpensesChart from './Fchart5'
+import GroupSizeChart from './Fchart4'
 import AnimateOnSightWrapper from '../../utils/intersection'
 export const Analytics = () => {
     return (
@@ -17,9 +17,8 @@ export const Analytics = () => {
                 <h2 className='text-xl font-semibold mb-3 center-flex gap-1 w-fit'>
                     Friends Analytics <span><FaUserFriends /></span>
                 </h2>
-
-                <div className="f-graphs-container grid grid-cols-4 grid-rows-4 gap-3">
-                    <div className="card-b rounded-lg col-span-2 row-span-2">
+                <div className="f-graphs-container grid grid-cols-4 gap-3">
+                    <div className="card-b rounded-lg col-span-2  h-fit">
                         <h3 className="font-semibold mt-4 text-xl text-center">
                             Friend Group Memberships
                         </h3>
@@ -30,7 +29,7 @@ export const Analytics = () => {
                             <FriendsByGroupChart />
                         </AnimateOnSightWrapper>
                     </div>
-                    <div className="card-b rounded-lg col-span-2 row-span-2">
+                    <div className="card-b rounded-lg col-span-2 h-fit">
                         <h3 className="font-semibold mt-4 text-xl text-center">
                             Amounts Owed by Friends
                         </h3>
@@ -42,7 +41,7 @@ export const Analytics = () => {
                         </AnimateOnSightWrapper>
                     </div>
 
-                    <div className="card-b rounded-lg col-span-4 row-span-2">
+                    <div className="card-b rounded-lg col-span-4 h-fit">
                         <h3 className="font-semibold mt-4 text-xl text-center">
                             Friend Balances
                         </h3>
@@ -61,7 +60,7 @@ export const Analytics = () => {
                 </h2>
 
                 <div className="g-graphs-container grid grid-cols-3 gap-3">
-                    <div className="card-b rounded-lg col-span-2">
+                    <div className="card-b rounded-lg col-span-2  h-fit">
                         <h3 className="font-semibold mt-4 text-xl text-center">
                             Group Member Counts
                         </h3>
@@ -72,7 +71,7 @@ export const Analytics = () => {
                             <GroupSizeChart />
                         </AnimateOnSightWrapper>
                     </div>
-                    <div className="card-b rounded-lg col-span-1">
+                    <div className="card-b rounded-lg col-span-1  h-fit">
                         <h3 className="font-semibold mt-4 text-xl text-center">
                             Highest Spending Groups
                         </h3>
@@ -80,7 +79,7 @@ export const Analytics = () => {
                             Top 5 groups by total spend
                         </p>
                         <AnimateOnSightWrapper>
-                            <GroupExpensesChar />
+                            <GroupExpensesChart />
                         </AnimateOnSightWrapper>
                     </div>
                 </div>

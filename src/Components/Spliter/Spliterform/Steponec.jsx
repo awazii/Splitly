@@ -1,10 +1,10 @@
 import React from 'react'
-import CalculatorInput from '../Expenses/Common/addcalinput';
-import Calcheckbox from '../Expenses/Common/Calcheckbox';
-import Choosef from "../Common/choosef"
+import CalculatorInput from '../../Expenses/Common/addcalinput';
+import Calcheckbox from '../../Expenses/Common/Calcheckbox';
+import Choosef from "../../Common/choosef"
 import { IoPerson } from "react-icons/io5";
-import Temoraryinput from './Temoray';
-import Addtemp from './Addtemp';
+import Temporaryinput from '../Common/Temporay';
+import Addtemp from '../Common/Addtemp';
 export const Stepone = ({ allfriends }) => {
     return (
         <>

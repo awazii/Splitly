@@ -1,10 +1,10 @@
 import React from 'react'
-import { Overview } from '../Spliter/Summary/Overview'
-import { Settlements } from '../Spliter/Summary/Settlements'
-import { Insights } from '../Spliter/Summary/Insights'
-import {Comparisongraph} from "../Spliter/Summary/Comparison_graph"
+import { Overview } from './Overview'
+import { Settlements } from './Settlements'
+import { Insights } from './Insights'
+import {Comparisongraph} from "./Comparison_graph"
 import { useSelector } from 'react-redux'
-import {selectExpenseById} from '../../store/ExpenseSlice'
+import {selectExpenseById} from '../../../store/ExpenseSlice'
 export const Expensedetails = ({expenseid}) => {
     const Expense = useSelector(state=>selectExpenseById(state,expenseid))
   return (

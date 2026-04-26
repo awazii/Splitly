@@ -1,8 +1,8 @@
 import React from 'react'
-import { Overview } from './Overview'
-import { Settlements } from './Settlements'
-import { Insights } from './Insights'
-import {Comparisongraph} from "./Comparison_graph"
+import { Overview } from '../../Expenses/Expensedetails/Overview'
+import { Settlements } from '../../Expenses/Expensedetails/Settlements'
+import { Insights } from '../../Expenses/Expensedetails/Insights'
+import {Comparisongraph} from "../../Expenses/Expensedetails/Comparison_graph"
 export const SummaryDashboard = () => {
     return (
         <div className='container mx-auto h-fit mt-2 mb-4 grid grid-cols-5 gap-2 grid-rows-span-6'>

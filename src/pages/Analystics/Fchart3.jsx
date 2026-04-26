@@ -3,6 +3,8 @@ import { FriendsSpendings } from "../../store/ExpenseSlice"
 import { useSelector } from "react-redux";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
 import { Memberdetails } from "../../utils/Memberdetails";
+import { UniversalEmptyState } from "../../Components/UniversalEmptyState";
+import { RiLineChartLine } from "react-icons/ri";
 export const MultiPaidVsOwes = () => {
   const data = useSelector(FriendsSpendings).map(d => (
     {
@@ -13,8 +15,8 @@ export const MultiPaidVsOwes = () => {
     }))
 
   return (
-    <div style={{ width: "100%", height: 480 }}>
-      <ResponsiveContainer>
+    <div style={{ width: "100%", height: 330 }}>
+    {data.length > 0  ? <ResponsiveContainer>
         <LineChart
           data={data}
           margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
@@ -83,7 +85,13 @@ export const MultiPaidVsOwes = () => {
             activeDot={{ r: 7 }}
           />
         </LineChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer> : <UniversalEmptyState
+          title="No data available."
+        >
+          <div className="p-10 shadow-md bg-gray-50 rounded-full">
+            <RiLineChartLine className="size-10 text-primary" />
+          </div>
+        </UniversalEmptyState>}
     </div>
   );
 };

@@ -20,12 +20,14 @@ import { FaArrowDown } from "react-icons/fa6";
 import { FaArrowUp } from "react-icons/fa6";
 import Linechart from './Linechartgraph';
 import { Basemodel } from '../../Components/basemodel';
-import { Expensedetails } from '../../Components/Expenses/Expensedetails';
+import { Expensedetails } from '../../Components/Expenses/Expensedetails/Expensedetails';
 import { useSelector } from 'react-redux';
-import { selectAllExpenses , TotalExpenses } from '../../store/ExpenseSlice';
+import { selectAllExpenses, TotalExpenses } from '../../store/ExpenseSlice';
 import { selectFriendById } from "../../store/FriendsSlice";
 import { selectGroupById } from '../../store/GroupSlice';
 import { ExpenseCard } from '../../Components/Expenses/ExpenseCard';
+import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
+import { RiFileList3Line } from "react-icons/ri";
 export const categories = {
     "Food & Snacks": {
         name: "Food & Snacks",
@@ -65,7 +67,7 @@ export const categories = {
 };
 export const Expense = () => {
     const Raw = useSelector(selectAllExpenses);
-    const Expenses = Raw.filter(r=>r.Category!=="Settlement")
+    const Expenses = Raw.filter(r => r.Category !== "Settlement")
     const Totalexpensesamount = useSelector(TotalExpenses)
     const [popup, setpopup] = useState(false)
     const [CurrentExpenseid, setCurrentExpenseid] = useState("")
@@ -130,15 +132,25 @@ export const Expense = () => {
             </div>
             <div className="Expense-container mx-auto container mt-4">
                 <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-fit'>Expenses<span> <GiExpense /></span></h2>
-                <div className="expenses grid grid-cols-3 gap-3  pb-5">    {Expenses.map((expense, index) => {
+                {
+                  Expenses.length > 0  ? 
+                    <div className="expenses grid grid-cols-3 gap-3  pb-5">    {Expenses.map((expense, index) => {
                     return (
-                        <ExpenseCard key={index} expense={expense} Openmodel={() => { 
+                        <ExpenseCard key={index} expense={expense} Openmodel={() => {
                             setCurrentExpenseid(expense.id)
                             Openmodel()
-                         }} />
+                        }} />
                     )
                 })}
-                </div>
+                </div> : <UniversalEmptyState
+                    title="No expenses found"
+                    description="Your global expense history is empty. Add a new expense to get started."
+                    textsize=""
+                >
+                    <div className="p-10 shadow-md bg-gray-50 rounded-full">
+                        <RiFileList3Line className="size-10 text-primary" />
+                    </div>
+                </UniversalEmptyState>}
             </div>
             <Basemodel isOpen={popup}
                 Closemodel={Closemodel}

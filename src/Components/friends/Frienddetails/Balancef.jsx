@@ -9,8 +9,10 @@ import { Memberdetails } from '../../../utils/Memberdetails';
 import { indicators } from '../../../pages/friends/Friendslist';
 import { useSelector } from 'react-redux';
 import { selectFriendById } from '../../../store/FriendsSlice';
+import { UniversalEmptyState } from '../../UniversalEmptyState'
+import { RiUserHeartLine } from "react-icons/ri";
 const actionbtns = [{ svg: TbListDetails, bg: "bg-primary", label: "Details" }]
-const RelationshipCard = ({ friend, Friend,setCurrentbalancewith, Openmodel }) => {
+const RelationshipCard = ({ friend, Friend, setCurrentbalancewith, Openmodel }) => {
     return (
         <div className={`friend-balance bg-white rounded-lg shadow-md h-fit p-3`}>
             <div className="about-f-container flex items-center gap-2 ">
@@ -80,20 +82,32 @@ export const Balancef = ({ currentFriend }) => {
                     </p>
                 </div>
             </div>
-            <div className="friend-balances flex-1 h-fit mt-3  grid grid-cols-3 gap-3 auto-rows-min">
-                {currentFriend.Relationship?.map((rel, index) => {
-                    const Friend = useSelector(state => selectFriendById(state, rel.id))
-                    return (
-                        <RelationshipCard
-                            key={rel.id}
-                            friend={rel}
-                            Friend={Friend} 
-                            setCurrentbalancewith={setCurrentbalancewith}
-                            Openmodel={Openmodel}
-                        />
-                    )
-                })}
-            </div>
+            {currentFriend.Relationship.length > 0 ?
+                <div className="friend-balances flex-1 h-fit mt-3  grid grid-cols-3 gap-3 auto-rows-min">
+                    {currentFriend.Relationship?.map((rel, index) => {
+                        const Friend = useSelector(state => selectFriendById(state, rel.id))
+                        return (
+                            <RelationshipCard
+                                key={rel.id}
+                                friend={rel}
+                                Friend={Friend}
+                                setCurrentbalancewith={setCurrentbalancewith}
+                                Openmodel={Openmodel}
+                            />
+                        )
+                    })
+                    }
+                </div>
+                : <UniversalEmptyState
+                    title="No shared balances"
+                    description={`No shared balances for ${currentFriend.Name}. They haven't started sharing expenses with anyone yet.`}
+                    textsize=""
+                >
+                    <div className="p-10 shadow-md bg-gray-50 rounded-full">
+                        <RiUserHeartLine className="size-10 text-primary" />
+                    </div>
+                </UniversalEmptyState>
+            }
             <Basemodel isOpen={popup}
                 Closemodel={Closemodel}
                 title={`Balance with ${Memberdetails(Currentbalancewith)?.Name}`}

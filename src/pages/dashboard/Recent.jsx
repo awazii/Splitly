@@ -12,7 +12,10 @@ import Other from "../../assets/groups/default.jpg"
 import { IoPersonAddSharp } from "react-icons/io5";
 import { FaImages } from "react-icons/fa";
 import { HiMiniLanguage } from "react-icons/hi2";
-export const Recent = ({h}) => {
+import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
+import { RiHistoryLine } from "react-icons/ri";
+export const Recent = ({ h ,d }) => {
+    const recentActivites = []
     const groupiconConfig = [
         {
             label: "Credit Card",
@@ -157,49 +160,59 @@ export const Recent = ({h}) => {
                 </div>
                 <div className="headings">
                     <h2 className='text-2xl font-semibold'>Recent Activities</h2>
-                    <p className='text-text-secondary text-sm'>Last 10 Activities</p>
+                    <p className='text-text-secondary text-sm'>{recentActivites.length > 0 ? "Last 10 Activities" : 'No Recent Activity'}</p>
                 </div>
             </div>
             <div className={`activities space-y-3 grid place-items-center ${h} overflow-auto `}>
                 {
-                    // recentActivities?.map((activity, index) => (
-                    //     <div key={index} className="activity w-115  shadow-md h-22 rounded-lg flex gap-2 p-2 flex-row-reverse bg-white">
-                    //         <div className="logo-container m-2 col-span-1 center-flex justify-start">
-                    //             {activity.about === "group" ? <div className="logo rounded-xl size-14 center-flex shadow-lg" style={{ backgroundColor: activity.logo.backgroundColor }}>
-                    //                 {activity.logo.svg}
-                    //             </div> : <div className='logo rounded-xl size-14 center-flex shadow-lg'>
-                    //                 <img className='rounded-lg Img-c' src={activity.friendImg} alt="friend-img" />
-                    //             </div>}
+                    recentActivites.length > 0 ? recentActivities?.map((activity, index) => (
+                        <div key={index} className="activity w-115  shadow-md h-22 rounded-lg flex gap-2 p-2 flex-row-reverse bg-white">
+                            <div className="logo-container m-2 col-span-1 center-flex justify-start">
+                                {activity.about === "group" ? <div className="logo rounded-xl size-14 center-flex shadow-lg" style={{ backgroundColor: activity.logo.backgroundColor }}>
+                                    {activity.logo.svg}
+                                </div> : <div className='logo rounded-xl size-14 center-flex shadow-lg'>
+                                    <img className='rounded-lg Img-c' src={activity.friendImg} alt="friend-img" />
+                                </div>}
 
-                    //         </div>
-                    //         <div className="Date-time-container  w-22 flex flex-col items-center justify-center">
-                    //             <h2 className=' font-semibold '>
-                    //                 {activity.time}
-                    //             </h2>
-                    //             <p className='text-sm text-text-secondary'>{activity.date}</p>
-                    //         </div>
-                    //         <div className="content col-span-4  flex-1 p-2">
-                    //             <h3 className='text-md font-semibold'>{activity.title}</h3>
-                    //             {activity.about === "group" ? <div className="group mt-1 center-flex  w-fit gap-1">
-                    //                 <div className="logo size-8 rounded-full ">
-                    //                     <img src={activity.group.img} className='Img-c' alt="" />
-                    //                 </div>
-                    //                 <div className="info">
-                    //                     <p className=' text-sm text-text-secondary'>{activity.group.name}</p>
-                    //                 </div>
-                    //             </div> : <div className='about-expense mt-1 center-flex  w-fit gap-1'>
-                    //                 <div className="logo size-8 rounded-full center-flex">
-                    //                     {activity.svg}
-                    //                 </div>
-                    //                 <div className="info">
-                    //                     <p className=' text-sm'>{activity.description}</p>
-                    //                 </div>
-                    //             </div>}
+                            </div>
+                            <div className="Date-time-container  w-22 flex flex-col items-center justify-center">
+                                <h2 className=' font-semibold '>
+                                    {activity.time}
+                                </h2>
+                                <p className='text-sm text-text-secondary'>{activity.date}</p>
+                            </div>
+                            <div className="content col-span-4  flex-1 p-2">
+                                <h3 className='text-md font-semibold'>{activity.title}</h3>
+                                {activity.about === "group" ? <div className="group mt-1 center-flex  w-fit gap-1">
+                                    <div className="logo size-8 rounded-full ">
+                                        <img src={activity.group.img} className='Img-c' alt="" />
+                                    </div>
+                                    <div className="info">
+                                        <p className=' text-sm text-text-secondary'>{activity.group.name}</p>
+                                    </div>
+                                </div> : <div className='about-expense mt-1 center-flex  w-fit gap-1'>
+                                    <div className="logo size-8 rounded-full center-flex">
+                                        {activity.svg}
+                                    </div>
+                                    <div className="info">
+                                        <p className=' text-sm'>{activity.description}</p>
+                                    </div>
+                                </div>}
 
-                    //         </div>
+                            </div>
 
-                    //     </div>
-                    // ))
+                        </div>
+                    ))
+                        :
+                        <UniversalEmptyState
+                            title="No Activity to Display"
+                            description={d}
+                            textsize="text-sm"
+                        >
+                            <div className="p-8 shadow-md bg-gray-50 rounded-full">
+                                <RiHistoryLine className="size-8 text-primary" />
+                            </div>
+                        </UniversalEmptyState>
                 }
             </div>
         </div>

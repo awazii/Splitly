@@ -47,6 +47,7 @@ const FriendsSlice = createSlice({
                             total: 0,
                             indicatorid: "settled",
                         },
+                         Relationship: [],
                         status: "Member",
                         crews: {
                             groupCount: 0,

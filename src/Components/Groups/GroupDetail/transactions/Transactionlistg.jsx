@@ -7,6 +7,8 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { categories } from '../../../../pages/Expenses/Expenses';
 import { indicators } from '../../../../pages/friends/Friendslist';
+import { UniversalEmptyState } from '../../../UniversalEmptyState';
+import { RiFileList3Line } from "react-icons/ri";
 export const Transactionlist = ({ setisdetailopen, Currentfriend }) => {
   const { Groupid } = useParams()
   const transactions = useSelector(state => GroupExpenses(state, Groupid)).filter(t => t.Members.some(m => m.id === Currentfriend.id))
@@ -30,7 +32,7 @@ export const Transactionlist = ({ setisdetailopen, Currentfriend }) => {
         <FaHistory className='size-5 ' />
         <h3 className='text-xl font-semibold '>Transaction History</h3>
       </div>
-      <div className="transcations h-[85%] mt-2 overflow-y-auto space-y-2 ">
+      {transactions.length > 0 ? <div className="transcations h-[85%] mt-2 overflow-y-auto space-y-2 ">
         {transactions.map((trans, index) => {
           return (
             <div key={index} className='expense relative bg-white shadow h-32 rounded-lg'>
@@ -61,7 +63,16 @@ export const Transactionlist = ({ setisdetailopen, Currentfriend }) => {
               </div>
             </div>)
         })}
-      </div>
+      </div> :<UniversalEmptyState
+  title="No transactions found"
+  textsize="text-sm"
+  description={<> No transactions found for <span className="font-semibold text-gray-800">{Currentfriend.Name}</span> in this group. 
+   </>}
+>
+  <div className="p-8 shadow-md bg-gray-50 rounded-full">
+    < RiFileList3Line className="size-8 text-primary" />
+  </div>
+</UniversalEmptyState> }
     </div>
   )
 }

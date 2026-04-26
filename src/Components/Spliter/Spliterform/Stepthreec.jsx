@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Select_split from '../Expenses/Common/Select-split';
-import Split_btn from '../Expenses/Common/Split-btn';
+import Select_split from '../../Expenses/Common/Select-split';
+import Split_btn from '../../Expenses/Common/Split-btn';
 import { IoPerson } from "react-icons/io5";
 import { FaRupeeSign } from "react-icons/fa6";
 import { FaPercentage } from "react-icons/fa";

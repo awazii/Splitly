@@ -15,7 +15,7 @@ export const Comparisongraph = ({ Expense }) => {
     const friends = (id) => {
         return useSelector(state => selectFriendById(state, id))
     }
-    const data = Expense.Members.map(member => {
+    const data = Expense?.Members.map(member => {
         const friend = friends(member.id)
         return {
             name: friend.Name,

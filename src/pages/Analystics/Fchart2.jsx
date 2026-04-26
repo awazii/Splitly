@@ -1,6 +1,8 @@
 import React from "react";
 import { selectAllFriends } from "../../store/FriendsSlice";
 import { useSelector } from "react-redux";
+import { UniversalEmptyState } from "../../Components/UniversalEmptyState";
+import { RiLineChartLine } from "react-icons/ri";
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
 } from "recharts";
@@ -12,8 +14,8 @@ export const TotalOwedChart = () => {
     img: friend.Image
   }))
   return (
-    <div style={{ width: "100%", height: 480 }}>
-      <ResponsiveContainer>
+    <div style={{ width: "100%", height: 300 }}>
+      {data.length > 0  ? < ResponsiveContainer >
         <AreaChart
           data={data}
           margin={{ top: 20, right: 30, left: 10, bottom: 20 }}
@@ -70,7 +72,14 @@ export const TotalOwedChart = () => {
           <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0"
           />
         </AreaChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer> : <UniversalEmptyState
+    title="No data available."
+  >
+    <div className="p-10 shadow-md bg-gray-50 rounded-full">
+      <RiLineChartLine className="size-10 text-primary" />
     </div>
+  </UniversalEmptyState>
+} 
+    </div >
   );
 };

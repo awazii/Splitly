@@ -7,10 +7,12 @@ import Input from '../Common/Input'
 import Button from '../Common/searchbtn'
 import { GiExpense } from "react-icons/gi";
 import { Basemodel } from '../basemodel';
-import { Expensedetails } from './Expensedetails';
+import { Expensedetails } from './Expensedetails/Expensedetails';
 import { useSelector } from 'react-redux';
 import { GroupExpenses } from '../../store/ExpenseSlice';
 import { ExpenseCard } from './ExpenseCard';
+import { RiHandCoinLine } from "react-icons/ri";
+import { UniversalEmptyState } from '../UniversalEmptyState';
 export const Expenses = () => {
     const Navigate = useNavigate()
     const { Groupid } = useParams();
@@ -49,15 +51,23 @@ export const Expenses = () => {
             </div>
             <div className="Expense-container mx-auto container mt-4">
                 <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-fit'>Expenses<span> <GiExpense /></span></h2>
-                <div className="expenses grid grid-cols-3 gap-3 overflow-auto">    {Expenses.map((expense, index) => {
+                {Expenses.length > 0 ? <div className="expenses grid grid-cols-3 gap-3 overflow-auto">    {Expenses.map((expense, index) => {
                     return (
-                        <ExpenseCard key={index} expense={expense} Openmodel={() => { 
+                        <ExpenseCard key={index} expense={expense} Openmodel={() => {
                             setCurrentExpenseid(expense.id)
                             Openmodel()
-                         }} ForGroup={true} />
+                        }} ForGroup={true} />
                     )
                 })}
-                </div>
+                </div> : <UniversalEmptyState
+                    title="No expenses in this group"
+                    description="Keep track of shared costs. Add your first expense to this group."
+                    textsize=""
+                >
+                    <div className="p-10 shadow-md bg-gray-50 rounded-full">
+                        <RiHandCoinLine className="size-10 text-primary" />
+                    </div>
+                </UniversalEmptyState>}
             </div>
             <Basemodel isOpen={popup}
                 Closemodel={Closemodel}

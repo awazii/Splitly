@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Spliter } from './Spliter';
+import { Spliter } from './Spliterform/Spliter';
 import { SummaryDashboard } from './Summary/Summary';
-import Resplitbtn from "./Resplit"
+import Resplitbtn from "./Common/Resplit"
 export const temporaryfriends = [{ type: "temporary", name: "ali" }, { type: "temporary", name: "sami" }, { type: "temporary", name: "hassan" }, { type: "temporary", name: "laraib" }];
 export const Spliter_main = () => {
     const [Summary, setSummary] = useState(true)

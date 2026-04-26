@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { Insights } from '../../Spliter/Summary/Insights'
+import { Insights } from '../../Expenses/Expensedetails/Insights'
 import { Recent } from '../../../pages/dashboard/Recent'
 import { SiTicktick } from "react-icons/si";
 import { Overview } from './Overview'
@@ -13,22 +13,23 @@ import { GiExpense } from "react-icons/gi";
 import { MdOutlineDateRange } from "react-icons/md";
 import { statuses } from '../GroupCard'
 import { useSelector } from 'react-redux'
-import { selectGroupById} from '../../../store/GroupSlice'
-import { GroupExpenses }   from '../../../store/ExpenseSlice'
+import { selectGroupById } from '../../../store/GroupSlice'
+import { GroupExpenses } from '../../../store/ExpenseSlice'
 import { FriendsGroupSpendings } from "../../../store/ExpenseSlice"
+import { UniversalEmptyState } from '../../UniversalEmptyState';
 export const Groupdetail = () => {
   const Navigate = useNavigate()
   const { Groupid } = useParams();
   const CurrentGroup = useSelector((state) => selectGroupById(state, Groupid));
-  const GExpenses = useSelector((state)=> GroupExpenses(state,Groupid));
-  const MembersSpendings = useSelector(state=> FriendsGroupSpendings(state,Groupid))
+  const GExpenses = useSelector((state) => GroupExpenses(state, Groupid));
+  const MembersSpendings = useSelector(state => FriendsGroupSpendings(state, Groupid))
   const extra = [{
     value: statuses[CurrentGroup.statusid]?.label, gradient: statuses[CurrentGroup.statusid]?.bgColor, color: statuses[CurrentGroup.statusid]?.textColor, label: "Status"
   }, {
     value: CurrentGroup.joinedDate, icon: <MdOutlineDateRange className='text-white size-5' />,
     gradient: 'linear-gradient(135deg, #ffcc70, #f9a825, #ff6f61, #d84315)', label: "Created on"
   }, {
-    value: GExpenses.length , icon: <GiExpense className='text-white size-5' />,
+    value: GExpenses.length, icon: <GiExpense className='text-white size-5' />,
     gradient: 'linear-gradient(135deg, #a0d8ef, #00aaff, #0055aa)', label: "Expense Count"
   },
   ]
@@ -52,11 +53,11 @@ export const Groupdetail = () => {
         <div className="overview col-span-7 row-span-1 ">
           <Overview CurrentGroup={CurrentGroup} />
         </div>
-        <div className="insights col-span-5 row-span-1 border-l">
-       {  MembersSpendings.length > 0 && <Insights data={MembersSpendings}/>}
+        <div className="insights col-span-5 row-span-1 ">
+           <Insights data={MembersSpendings} />
         </div>
         <div className="Friends-balance col-span-8 row-span-5 card-b rounded-lg h-170">
-        <Balance CurrentGroup={CurrentGroup} />
+          <Balance CurrentGroup={CurrentGroup} />
         </div>
         <div className="Recent-&-Status col-span-4 row-span-5 flex flex-col gap-3 ">
           <div className="Extra card-b h-20 shadow-md rounded-lg grid grid-cols-5 border-l p-2">
@@ -83,10 +84,13 @@ export const Groupdetail = () => {
           </div>
           <div className="Recent-container  border-l flex-1 card-b shadow-md">
             <div className="recent h-[540px] border-l m-2">
-              {/* <Recent h={`h-[400px]`} /> */}
+              <Recent h={`h-[400px]`} d={<>
+                No recent activity in <span className="font-semibold text-gray-800">{CurrentGroup.Name}</span>.
+                All expenses, settlements, and updates for this group will appear here.
+              </>} />
             </div>
             <div className='btn-container w-full center-flex  flex-col gap-3 mt-2'>
-              <button className="allexpenses text-primary underline  cursor-pointer font-semibold" onClick={()=>{
+              <button className="allexpenses text-primary underline  cursor-pointer font-semibold" onClick={() => {
                 Navigate("./Expenses")
               }}>
                 See all Expenses
