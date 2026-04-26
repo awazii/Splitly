@@ -28,6 +28,7 @@ import { selectGroupById } from '../../store/GroupSlice';
 import { ExpenseCard } from '../../Components/Expenses/ExpenseCard';
 import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
 import { RiFileList3Line } from "react-icons/ri";
+import dayjs from 'dayjs';
 export const categories = {
     "Food & Snacks": {
         name: "Food & Snacks",
@@ -65,10 +66,63 @@ export const categories = {
         icon: <IoSparklesSharp className="size-6 text-white" />
     }
 };
+const getSevenDayChartData = (expenses) => {
+    return Array.from({ length: 7 }, (_, i) => {
+        const dateStr = dayjs().subtract(6 - i, 'day').format('YYYY-MM-DD');
+        const dayExpenses = expenses.filter(e => e.createdDate === dateStr);
+
+        return {
+            date: dayjs(dateStr).format('MMM DD'),
+            amount: dayExpenses.reduce((sum, e) => sum + Number(e.totalAmount), 0),
+            count: dayExpenses.length || 0
+        };
+    });
+};
+const getDailyComparison = (expenses, type) => {
+    const todayStr = dayjs().format('YYYY-MM-DD');
+    const yesterdayStr = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
+    const todayTotalraw = expenses
+        .filter(e => e.createdDate === todayStr)
+    const todayTotal = type === "count" ? todayTotalraw.length : todayTotalraw.reduce((sum, e) => sum + Number(e.totalAmount), 0);
+
+    const yesterdayTotalraw = expenses
+        .filter(e => e.createdDate === yesterdayStr)
+    const yesterdayTotal = type === "count" ? yesterdayTotalraw.length :
+        yesterdayTotalraw.reduce((sum, e) => sum + Number(e.totalAmount), 0);
+
+    const diff = todayTotal - yesterdayTotal;
+    let percentage = 0;
+    if (yesterdayTotal !== 0) {
+        percentage = (diff / yesterdayTotal) * 100;
+    } else {
+        percentage = todayTotal > 0 ? 100 : 0;
+    }
+
+    return {
+        percentage: Math.round(Math.abs(percentage)),
+        isIncreasing: diff >= 0
+    };
+};
 export const Expense = () => {
     const Raw = useSelector(selectAllExpenses);
     const Expenses = Raw.filter(r => r.Category !== "Settlement")
     const Totalexpensesamount = useSelector(TotalExpenses)
+    const SevenDayExpenseData = getSevenDayChartData(Expenses)
+    const SevenDayExpenseAmount = SevenDayExpenseData.map(e => (
+        {
+            date: e.date,
+            amount: e.amount
+        }
+    ))
+    const SevenDayExpensecount = SevenDayExpenseData.map(e => (
+        {
+            date: e.date,
+            count: e.count
+        }
+    )
+    )
+    const dailyamountComparison = getDailyComparison(Expenses, "amount")
+    const dailycountComparison = getDailyComparison(Expenses, "count")
     const [popup, setpopup] = useState(false)
     const [CurrentExpenseid, setCurrentExpenseid] = useState("")
     const Openmodel = () => {
@@ -80,9 +134,9 @@ export const Expense = () => {
     const expenseoverview = [
         {
             label: "Total Expenses",
-            weeklyreport: {
-                percenpage: 12,
-                isIncrease: true,
+            dailyreport: {
+                percentage: dailyamountComparison.percentage,
+                isIncrease: dailyamountComparison.isIncreasing,
             },
             amount: Totalexpensesamount.toLocaleString(),
             icon: <FaMoneyCheck className='text-white size-10' />,
@@ -91,9 +145,9 @@ export const Expense = () => {
         {
             label: "Expense Count",
             amount: Expenses.length,
-            weeklyreport: {
-                percenpage: 8,
-                isIncrease: false,
+            dailyreport: {
+                percentage: dailycountComparison.percentage,
+                isIncrease: dailycountComparison.isIncreasing,
             },
             icon: <GiExpense className='text-white size-10' />,
             gradient: 'linear-gradient(135deg, #3F51B5 0%, #2196F3 50%, #00BCD4 100%)',
@@ -115,8 +169,8 @@ export const Expense = () => {
                         <div className="info center-flex flex-col mt-1">
                             <div className="label font-semibold text-xl">{item.label}</div>
                             <div className="amount text-2xl  mt-1">{`${index === 0 ? "Rs." : ""}${item.amount.toLocaleString()}`}</div>
-                            <p className={`weekly-report ${item.weeklyreport.isIncrease ? "text-green-500" : "text-red-500"} center-flex gap-1`}>{item.weeklyreport.isIncrease ? <FaArrowUp className='size-4' /> : <FaArrowDown className='size-4' />} {`${item.weeklyreport.percenpage}% from last week`}</p>
-                            <Linechart type={item.label === "Total Expenses" ? "expenses" : "count"} />
+                            <p className={`weekly-report ${item.dailyreport.isIncrease ? "text-green-500" : "text-red-500"} center-flex gap-1`}>{item.dailyreport.isIncrease ? <FaArrowUp className='size-4' /> : <FaArrowDown className='size-4' />} {`${item.dailyreport.percentage}% from Yesterday`}</p>
+                            <Linechart data={index === 0 ? SevenDayExpenseAmount : SevenDayExpensecount} type={item.label === "Total Expenses" ? "expenses" : "count"} />
                         </div>
                     </div>
                 ))}
@@ -133,24 +187,24 @@ export const Expense = () => {
             <div className="Expense-container mx-auto container mt-4">
                 <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-fit'>Expenses<span> <GiExpense /></span></h2>
                 {
-                  Expenses.length > 0  ? 
-                    <div className="expenses grid grid-cols-3 gap-3  pb-5">    {Expenses.map((expense, index) => {
-                    return (
-                        <ExpenseCard key={index} expense={expense} Openmodel={() => {
-                            setCurrentExpenseid(expense.id)
-                            Openmodel()
-                        }} />
-                    )
-                })}
-                </div> : <UniversalEmptyState
-                    title="No expenses found"
-                    description="Your global expense history is empty. Add a new expense to get started."
-                    textsize=""
-                >
-                    <div className="p-10 shadow-md bg-gray-50 rounded-full">
-                        <RiFileList3Line className="size-10 text-primary" />
-                    </div>
-                </UniversalEmptyState>}
+                    Expenses.length > 0 ?
+                        <div className="expenses grid grid-cols-3 gap-3  pb-5">    {Expenses.map((expense, index) => {
+                            return (
+                                <ExpenseCard key={index} expense={expense} Openmodel={() => {
+                                    setCurrentExpenseid(expense.id)
+                                    Openmodel()
+                                }} />
+                            )
+                        })}
+                        </div> : <UniversalEmptyState
+                            title="No expenses found"
+                            description="Your global expense history is empty. Add a new expense to get started."
+                            textsize=""
+                        >
+                            <div className="p-10 shadow-md bg-gray-50 rounded-full">
+                                <RiFileList3Line className="size-10 text-primary" />
+                            </div>
+                        </UniversalEmptyState>}
             </div>
             <Basemodel isOpen={popup}
                 Closemodel={Closemodel}
