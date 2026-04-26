@@ -29,7 +29,7 @@ export const Settle = ({ CurrentFriend, Currentbalancewith, setissettlementopen,
     amount,
     "",
     [
-      { id: CurrentFriend.id, spent: amount, share: amount },
+      { id: CurrentFriend.id, spent: '', share: '' },
       { id: Currentbalancewith, spent: '', share: '' }
     ],
     "Settlement",

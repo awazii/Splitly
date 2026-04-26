@@ -7,7 +7,7 @@ import { selectAllGroups } from "../../store/GroupSlice";
 import { UniversalEmptyState } from "../../Components/UniversalEmptyState";
 import { RiBarChart2Line } from "react-icons/ri";
 const GroupExpensesChart = () => {
-  const GroupData = useSelector(selectAllGroups).filter(g => g.Spendings > 0).map(g => (
+  const GroupData = useSelector(selectAllGroups).filter(g => g.totalAmount > 0).map(g => (
     {
       name: g.Name,
       icon: CategoryExtrator(g).Img,

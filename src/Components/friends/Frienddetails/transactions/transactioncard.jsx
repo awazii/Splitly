@@ -9,13 +9,19 @@ import { GiPayMoney } from "react-icons/gi";
 import { GiReceiveMoney } from "react-icons/gi";
 import { TiTick } from "react-icons/ti";
 import { selectAllExpenses } from '../../../../store/ExpenseSlice';
+import { Memberdetails } from '../../../../utils/Memberdetails';
 export const Transactioncard = ({ trans, Currentbalancewith, CurrentFriend ,setisdetailopen }) => {
     const group = useSelector(state => selectGroupById(state, trans.Groupid))
+    const currentwith = Memberdetails(Currentbalancewith)
     const Settlement = trans.Settlements.find(s =>
             (s.from === CurrentFriend.id && s.to === Currentbalancewith) ||
             (s.from === Currentbalancewith && s.to === CurrentFriend.id)
         )
      const textcolor = Settlement.to === Currentbalancewith  ? indicators.debtor.balancetextClass : indicators.creditor.balancetextClass 
+     function SettlementTitle() {
+        let title = Settlement.to === Currentbalancewith ?  trans.Name : `Payment from ${currentwith.Name}`
+        return title
+     }
     function AmountDetails() { 
         const descripion =  Settlement.to === Currentbalancewith ? ' You borrowed' : 'You lent '
         return (
@@ -48,7 +54,7 @@ export const Transactioncard = ({ trans, Currentbalancewith, CurrentFriend ,seti
                 }
                 <div className='expense-details flex-1  h-15 flex justify-between gap-1 items-center'>
                     <div className='expense-left'>
-                        <h2 className='font-semibold line-clamp-1 '>{!trans.payment ? trans.Name : `${trans.title} ${Currentbalancewith.name}`}</h2>
+                        <h2 className='font-semibold line-clamp-1 '>{ trans.Category==="Settlement" ? SettlementTitle() : trans.Name}</h2>
                         <div className="category-date flex items-center gap-1">
                             <span className='text-sm text-text-secondary'>{!trans.payment ? trans.Category : "Settlement"}</span>
                             <span className='text-sm text-text-secondary'>•</span>
