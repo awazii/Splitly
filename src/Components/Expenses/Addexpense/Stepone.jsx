@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CalculatorInput from '../Common/addcalinput';
 import Expensecheck from '../../Groups/Common/gcheck';
-import Selectall from '../../Groups/Common/Selectall';
+import Selectall from '../../Common/Selectall';
 import Categories from "../Common/expensecategories"
 import { useParams } from 'react-router-dom';
 import { selectGroupById } from '../../../store/GroupSlice';

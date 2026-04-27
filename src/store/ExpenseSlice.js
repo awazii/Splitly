@@ -71,7 +71,10 @@ export const GroupTotalExpenses = createSelector(
 );
 export const TotalExpenses = createSelector(
     selectAllExpenses,
-    (expenses) => expenses.reduce((total, expense) => total + Number(expense.totalAmount || 0), 0)
+    (expenses) => {
+        const ExpensesWithoutsettlement = expenses.filter(e=>e.Category!== "Settlement")
+        
+      return  ExpensesWithoutsettlement.reduce((total, expense) => total + Number(expense.totalAmount || 0), 0)}
 )
 function aggregateFriendSpendings(expenses) {
     const map = new Map();

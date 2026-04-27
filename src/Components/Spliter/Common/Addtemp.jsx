@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaUserPlus } from "react-icons/fa6";
-const Button = () => {
+const Button = ({onClick}) => {
   return (
     <StyledWrapper>
-      <button className="cssbuttons-io-button">
+      <button onClick={onClick} className="cssbuttons-io-button">
         Add
         <div className="icon">
             <FaUserPlus className=' text-white ' />

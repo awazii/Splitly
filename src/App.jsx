@@ -11,7 +11,7 @@ import { Grouplist } from './pages//Group/Grouplist'
 import { Newg } from './Components/Groups/AddGroup/Newg'
 import { Expense } from './pages/Expenses/Expenses'
 import { Analytics } from './pages/Analystics/Analytics'
-import { Spliter_main } from './Components/Spliter/Spliter_main'
+import { Spliter_main } from './pages/Spliter/Spliter_main'
 import { Groupdetail } from './Components/Groups/GroupDetail/Groupdetail'
 import Addexpense from "./Components/Expenses/Common/New"
 import { Expenses } from './Components/Expenses/GroupExpenses'

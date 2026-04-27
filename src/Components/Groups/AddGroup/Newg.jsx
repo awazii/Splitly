@@ -1,6 +1,6 @@
-import React, { useState, useEffect, use } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Gcheckbox from "../Common/gcheck"
-import Selectall from "../Common/Selectall"
+import Selectall from "../../Common/Selectall"
 import Checkbox from "../../Common/Check"
 import Input from "../Common/addginput"
 import Newbtn from "../Common/Newgbtn"
@@ -36,7 +36,6 @@ export const Newg = React.memo(() => {
   const AllFriends = useSelector(selectAllFriends);
   const PinnedFriends = useSelector(selectPinnedFriends);
   const AllGroups = useSelector(selectAllGroups);
-  const [Friends, setFriends] = useState(AllFriends)
   const [isPinselected, setisPinselected] = useState(false)
   const [Selectedfriends, setSelectedfriends] = useState([])
   const [issubmitted, setissubmitted] = useState(false);
@@ -50,9 +49,9 @@ export const Newg = React.memo(() => {
     },
   })
   const GroupnamePattern = /^[A-Za-z][A-Za-z0-9\s,._-]*$/;
-  useEffect(() => {
-    isPinselected ? setFriends(PinnedFriends) : setFriends(AllFriends)
-  }, [isPinselected])
+ const Friends = useMemo(() => {
+         return isPinselected ? PinnedFriends : AllFriends;
+     }, [isPinselected, AllFriends, PinnedFriends]);
   const onsubmit = async (data) => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     dispatch(addGroup(
@@ -73,10 +72,6 @@ export const Newg = React.memo(() => {
   useEffect(() => {
     setValue("Members", Selectedfriends, { shouldValidate: true });
   }, [Selectedfriends, setValue])
-  useEffect(() => {
-   console.log("Current groups in store:", AllGroups);
-  }, [AllGroups])
-  
   return (
     <div className='container card-b rounded-2xl mx-auto h-fit w-180  my-6 p-3 relative l center-flex flex-col gap-0  '>
       <div className="title center-flex flex-col gap-0">

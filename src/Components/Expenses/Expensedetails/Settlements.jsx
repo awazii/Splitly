@@ -35,54 +35,70 @@ export const Settlements = ({ Expense }) => {
             })
         }
     })
+    function GetTemp(id) {
+        const temp = Expense.temporary.find(t => t.id === id)
+        return temp
+    }
     return (
         <div className='size-full card-b rounded-lg shadow p-4'>
             <h3 className='font-semibold text-lg center-flex w-fit gap-2'> Final Settlements<span><FaMoneyBillTransfer className='size-6 ' /></span></h3>
             {
-             Settlements.length > 0 ?   
-                <div className='debts h-138 mt-2 overflow-auto space-y-4 '>
-                {Settlements.map((settlement, index) => (
-                    <div key={index} className="debt  w-full min-h-30  center-flex justify-between px-5 gap-2 ">
-                        <div className="Debtor w-80 shadow-md rounded-lg h-25 center-flex gap-2 bg-white relative">
-                            <div className="flag absolute top-2 right-2 scale-x-[-1]"><GiPayMoney className='text-red-600 size-5' /></div>
-                            <div className="logo size-13 rounded-full">
-                                <img src={Memberdetails(settlement.from)?.Image} className='Img-c border-none' alt="" />
-                            </div>
-                            <div className="info w-35">
-                                <div className="name font-semibold text-sm">{Memberdetails(settlement.from)?.Name}</div>
-                                <div className="description text-[12px]  text-text-secondary"> {Memberdetails(settlement.from)?.Bio}</div>
-                                <p className='font-semibold text-right text-red-600'>Rs. {settlement.totalAmount.toLocaleString()}</p>
-                            </div>
-                        </div>
-                        <div className="marker w-20  h-10 rounded-2xl center-flex">
-                            <FaArrowRightLong className='text-primary size-10' />
-                        </div>
-                        <div className="creditors w-75 space-y-2 my-2">
-                            {settlement.to.map((to, index) => (
-                                <div key={index} className="creditor shadow-md rounded-lg h-25 center-flex gap-2 bg-white relative">
-                                    <div className="flag absolute top-2 right-2"><GiReceiveMoney className='text-green-600 size-5' /></div>
-                         <div className="logo  size-13 rounded-full">
-                            <img src={Memberdetails(to.id)?.Image} className='Img-c border-none' alt="" />
+                Settlements.length > 0 ?
+                    <div className='debts h-138 mt-2 overflow-auto space-y-4 '>
+                        {Settlements.map((settlement, index) => (
+                            <div key={index} className="debt  w-full min-h-30  center-flex justify-between px-5 gap-2 ">
+                                <div className="Debtor w-80 shadow-md rounded-lg h-25 center-flex gap-2 bg-white relative">
+                                    <div className="flag absolute top-2 right-2 scale-x-[-1]"><GiPayMoney className='text-red-600 size-5' /></div>
+                                    <div className="logo size-13 rounded-full">
+                                         {GetTemp(settlement.from)?.type === "temporary" ? (
+                                                    <div className="friend-img-container size-12 bg-neutral-300 rounded-full center-flex">
+                                                        <IoPerson className='size-5 text-neutral-500' />
+                                                    </div>
+                                                ) : (
+                                                    <img src={Memberdetails(settlement.from)?.Image} className='Img-c' alt="friend-img" />
+                                                )}
                                     </div>
                                     <div className="info w-35">
-                                        <div className="name font-semibold text-sm">{Memberdetails(to.id)?.Name}</div>
-                                        <p className="description text-[12px] text-text-secondary">{Memberdetails(to.id)?.Bio || "temporary"}</p>
-                                        <p className='font-semibold text-right text-green-600 '>Rs. {to.amount}</p>
+                                        <div className="name font-semibold text-sm">{Memberdetails(settlement.from)?.Name || GetTemp(settlement.from)?.Name}</div>
+                                        <div className="description text-[12px]  text-text-secondary"> {Memberdetails(settlement.from)?.Bio ||"temporary" }</div>
+                                        <p className='font-semibold text-right text-red-600'>Rs. {settlement.totalAmount.toLocaleString()}</p>
                                     </div>
                                 </div>
-                            ))}
+                                <div className="marker w-20  h-10 rounded-2xl center-flex">
+                                    <FaArrowRightLong className='text-primary size-10' />
+                                </div>
+                                <div className="creditors w-75 space-y-2 my-2">
+                                    {settlement.to.map((to, index) => (
+                                        <div key={index} className="creditor shadow-md rounded-lg h-25 center-flex gap-2 bg-white relative">
+                                            <div className="flag absolute top-2 right-2"><GiReceiveMoney className='text-green-600 size-5' /></div>
+                                            <div className="logo  size-13 rounded-full">
+                                                {GetTemp(to.id)?.type === "temporary" ? (
+                                                    <div className="friend-img-container size-12 bg-neutral-300 rounded-full center-flex">
+                                                        <IoPerson className='size-5 text-neutral-500' />
+                                                    </div>
+                                                ) : (
+                                                    <img src={Memberdetails(to.id)?.Image} className='Img-c' alt="friend-img" />
+                                                )}
+                                            </div>
+                                            <div className="info w-35">
+                                                <div className="name font-semibold text-sm">{Memberdetails(to.id)?.Name || GetTemp(to.id)?.Name}</div>
+                                                <p className="description text-[12px] text-text-secondary">{Memberdetails(to.id)?.Bio || "temporary"}</p>
+                                                <p className='font-semibold text-right text-green-600 '>Rs. {to.amount}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div> : <UniversalEmptyState
+                        title="No settlements"
+                        textsize="text-sm"
+                        description='No partial payments or settlements have been made for this expense.'
+                    >
+                        <div className="p-8 shadow-md bg-gray-50 rounded-full">
+                            <RiHandCoinLine className="size-8 text-primary" />
                         </div>
-                    </div>
-                ))}
-            </div> : <UniversalEmptyState
-                title="No settlements"
-                textsize="text-sm"
-                description='No partial payments or settlements have been made for this expense.'
-            >
-                <div className="p-8 shadow-md bg-gray-50 rounded-full">
-                    <RiHandCoinLine className="size-8 text-primary" />
-                </div>
-            </UniversalEmptyState>}
+                    </UniversalEmptyState>}
 
         </div>
     )

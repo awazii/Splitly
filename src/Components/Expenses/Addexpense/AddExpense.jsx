@@ -11,7 +11,73 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
 import { Basemodel } from '../../basemodel';
 import { useDispatch } from 'react-redux';
-import { aggregatesettlements ,addExpense } from '../../../store/ExpenseSlice';
+import { aggregatesettlements, addExpense } from '../../../store/ExpenseSlice';
+export const handleNext = async (step, setstep, methods) => {
+    let isStepValid = false;
+    const { trigger, getValues, setValue, setError, clearErrors } = methods;
+    if (step == 1) {
+        isStepValid = await trigger(["expenseName", "totalAmount", 'splitMembers', 'Category'])
+        if (isStepValid) {
+            const selectedFriends = getValues("splitMembers") || [];
+            const existingMasterData = getValues("MasterMembers") || [];
+            const MasterData = selectedFriends.map(friendId => {
+                const existingfriend = existingMasterData.find(f => f.id === friendId);
+                if (existingfriend) {
+                    return existingfriend;
+                }
+                else {
+                    return {
+                        id: friendId,
+                        spent: "",
+                        share: ""
+                    }
+                }
+            })
+            setValue("MasterMembers", MasterData);
+        }
+    }
+    else if (step == 2) {
+        const totalAmount = Number(getValues("totalAmount"));
+        const Collected = getValues("MasterMembers").reduce((sum, member) => sum + Number(member.spent || 0), 0);
+        const difference = Math.abs(totalAmount - Collected);
+        if ((Collected !== totalAmount) && (Collected <= totalAmount)) {
+            setError("stepTwoTotal", {
+                type: "manual",
+                message: `Off by Rs. ${difference}. Total must be Rs. ${totalAmount}.`
+            });
+            isStepValid = false;
+        }
+        else if (Collected > totalAmount) {
+            setError("stepTwoTotal", {
+                type: "manual",
+                message: `Amount collected cannot exceed total amount. Reduce by Rs. ${difference}.`
+            });
+            isStepValid = false;
+        }
+        else {
+            const shareobject = getValues("Share")
+            const memberids = getValues("splitMembers")
+            const baseshare = Math.floor(totalAmount / memberids.length);
+            let reminder = totalAmount % memberids.length;
+            memberids.forEach((id, index) => {
+                let finalshare = baseshare
+                if (reminder > 0) {
+                    finalshare += 1;
+                    reminder -= 1;
+                }
+                shareobject["Equally"][id] = finalshare;
+                shareobject["Unequally"][id] = shareobject["Unequally"][id] || "";
+                shareobject["By Percentage"][id] = shareobject["By Percentage"][id] || "";
+            })
+            setValue("Share", shareobject);
+            clearErrors("stepTwoTotal");
+            isStepValid = true;
+        }
+    }
+    if (isStepValid) {
+        setstep(step + 1);
+    }
+}
 export const Addexpense = () => {
     const [step, setstep] = useState(1);
     const dispatch = useDispatch();
@@ -40,75 +106,7 @@ export const Addexpense = () => {
             }
         }
     })
-    const { trigger, handleSubmit, getValues, setValue, setError, clearErrors ,reset ,formState:{isSubmitting} } = methods;
-    const handleNext = async () => {
-        let isStepValid = false;
-        if (step == 1) {
-            isStepValid = await trigger(["expenseName", "totalAmount", 'splitMembers', 'Category'])
-            if (isStepValid) {
-                const selectedFriends = getValues("splitMembers") || [];
-                const existingMasterData = getValues("MasterMembers") || [];
-                const MasterData = selectedFriends.map(friendId => {
-                    const existingfriend = existingMasterData.find(f => f.id === friendId);
-                    if (existingfriend) {
-                        return existingfriend;
-                    }
-                    else {
-                        return {
-                            id: friendId,
-                            spent: "",
-                            share: ""
-                        }
-                    }
-                })
-                setValue("MasterMembers", MasterData);
-            }
-        }
-        else if (step == 2) {
-            const totalAmount = Number(getValues("totalAmount"));
-            const Collected = getValues("MasterMembers").reduce((sum, member) => sum + Number(member.spent || 0), 0);
-            const difference = Math.abs(totalAmount - Collected);
-            if ((Collected !== totalAmount) && (Collected <= totalAmount)) {
-                setError("stepTwoTotal", {
-                    type: "manual",
-                    message: `Off by Rs. ${difference}. Total must be Rs. ${totalAmount}.`
-                });
-                isStepValid = false;
-            }
-            else if (Collected > totalAmount) {
-                setError("stepTwoTotal", {
-                    type: "manual",
-                    message: `Amount collected cannot exceed total amount. Reduce by Rs. ${difference}.`
-                });
-                isStepValid = false;
-            }
-            else {
-                const shareobject = getValues("Share")
-                const memberids = getValues("splitMembers")
-                const baseshare = Math.floor(totalAmount / memberids.length);
-                let reminder = totalAmount % memberids.length;
-                memberids.forEach((id, index) => {
-                    let finalshare = baseshare
-                    if (reminder > 0) {
-                        finalshare += 1;
-                        reminder -= 1;
-                    }
-                    shareobject["Equally"][id] = finalshare;
-                    shareobject["Unequally"][id] = shareobject["Unequally"][id] || "";
-                    shareobject["By Percentage"][id] = shareobject["By Percentage"][id] || "";
-                })
-                setValue("Share", shareobject);
-                clearErrors("stepTwoTotal");
-                isStepValid = true;
-            }
-        }
-        else if (step == 3) {
-            isStepValid = await trigger(["splitMethod", "sharedBy"])
-        }
-        if (isStepValid) {
-            setstep(step + 1);
-        }
-    }
+    const { handleSubmit, getValues, setValue, setError, clearErrors, reset, formState: { isSubmitting } } = methods;
     const onSubmit = async (data) => {
         if (data.splitMethod === "By Percentage") {
             const totalPercent = Object.values(data.Share["By Percentage"] || {})
@@ -130,16 +128,9 @@ export const Addexpense = () => {
         }
         const finalmembers = data.MasterMembers.map(member => {
             const share = data.Share[data.splitMethod][member.id] || 0;
-            if (data.splitMethod === "By Percentage") {
-                return {
-                    ...member,
-                    share: Math.round((share / 100) * data.totalAmount)
-                }
-            }
-            return {
-                ...member,
-                share: share
-            }
+            return data.splitMethod === "By Percentage"
+                ? { ...member, share: Math.round((share / 100) * data.totalAmount) }
+                : { ...member, share };
         }
         )
         dispatch(addExpense(
@@ -200,18 +191,18 @@ export const Addexpense = () => {
                     </div>
                 </div>
                 {
-                    step !== 3 && (<button type="button" className="next absolute bottom-4 right-6" onClick={() => handleNext()}>
+                    step !== 3 && (<button type="button" className="next absolute bottom-4 right-6" onClick={() => handleNext(step, setstep, methods)}>
                         <Next />
                     </button>)
                 }
                 {
-                    step !== 1 && (<button type="button" className="prev absolute bottom-4 left-6" onClick={() =>{
-                        if (!isSubmitting){
+                    step !== 1 && (<button type="button" className="prev absolute bottom-4 left-6" onClick={() => {
+                        if (!isSubmitting) {
                             setstep(step - 1)
                         }
-                    }     
-                     
-                     }>
+                    }
+
+                    }>
                         <Prev />
                     </button>)
                 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { selectFriendById } from "../../../store/FriendsSlice";
 import { useSelector } from "react-redux";
+import { IoPerson } from "react-icons/io5";
 import {
     BarChart,
     Bar,
@@ -17,12 +18,25 @@ export const Comparisongraph = ({ Expense }) => {
     }
     const data = Expense?.Members.map(member => {
         const friend = friends(member.id)
-        return {
-            name: friend.Name,
-            img: friend.Image,
-            spent: member.spent,
-            share: member.share,
+        let obj = {}
+        if (friend) {
+            obj = {
+                name: friend?.Name,
+                img: friend?.Image,
+                spent: member?.spent,
+                share: member?.share,
+            }
         }
+        else {
+            let temp = Expense.temporary.find(t => t.id === member.id)
+            obj = {
+                name: temp?.Name,
+                type: temp.type,
+                spent: member?.spent,
+                share: member?.share,
+            }
+        }
+        return obj
     })
     return (
         <div style={{ width: "100%", height: 640 }}>
@@ -41,16 +55,23 @@ export const Comparisongraph = ({ Expense }) => {
                             const imgSrc = item?.img;
                             return (
                                 <foreignObject x={x - 40} y={y - 15} width={40} height={40}>
-                                    <img
-                                        src={imgSrc}
-                                        alt={payload.value}
-                                        style={{
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: "50%",
-                                            objectFit: "cover",
-                                        }}
-                                    />
+                                    {
+                                        imgSrc ? <img
+                                            src={imgSrc}
+                                            alt={payload.value}
+                                            style={{
+                                                width: 40,
+                                                height: 40,
+                                                borderRadius: "50%",
+                                                objectFit: "cover",
+                                            }}
+                                        /> :
+                                            <div className="friend-img-container size-7 bg-neutral-300 rounded-full center-flex">
+                                                <IoPerson className='size-3 text-neutral-500' />
+                                            </div>
+                                    }
+
+
                                 </foreignObject>
                             );
                         }}

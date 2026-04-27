@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Button = () => {
+import { deleteSplit } from '../../../store/SpliterSlice';
+import { useDispatch} from 'react-redux';
+const Button = ({id}) => {
+  const dispatch = useDispatch()
+   const handleDelete = () => {
+    dispatch(deleteSplit(id)); 
+  };
   return (
     <StyledWrapper>
-      <button className="cssbuttons-io-button">
+      <button className="cssbuttons-io-button" onClick={handleDelete}>
         Recalculate
         <div className="icon">
           <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

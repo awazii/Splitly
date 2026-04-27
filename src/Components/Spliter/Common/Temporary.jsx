@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Input = () => {
+const Input = ({value , onChange}) => {
   return (
     <StyledWrapper>
       <label className="label">
@@ -10,7 +10,7 @@ const Input = () => {
             <path stroke="currentColor" strokeWidth="1.25" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
         </span>
-        <input type="text" className="input" placeholder="Add temporary friend" autoComplete="off" />
+        <input type="text" value={value} className="input" placeholder="Add temporary friend" autoComplete="off" onChange={onChange} /> 
       </label>
     </StyledWrapper>
   );

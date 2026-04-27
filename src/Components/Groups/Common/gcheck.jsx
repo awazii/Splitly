@@ -11,7 +11,7 @@ const Checkbox = ({children , setSelected, Selected , id }) => {
   return (
     <StyledWrapper>
       <label className='cursor-pointer center-flex gap-1'>
-   <input type="checkbox" className="ui-checkbox"  checked={Selected.includes(id)} onChange={Toggleselect}/>
+   <input type="checkbox" className="ui-checkbox"  checked={Selected?.includes(id)} onChange={Toggleselect}/>
          {children}
       </label>
     </StyledWrapper>

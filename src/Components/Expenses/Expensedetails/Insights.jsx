@@ -8,18 +8,26 @@ import { Memberdetails } from '../../../utils/Memberdetails';
 import { RiArrowDownLine } from "react-icons/ri";
 import { UniversalEmptyState } from '../../UniversalEmptyState';
 import { RiArrowUpLine } from "react-icons/ri";
+import { selectAllSplits } from '../../../store/SpliterSlice';
+import { IoPerson } from 'react-icons/io5';
 export const Insights = ({ data }) => {
     const sortedmembers = data && [...data].sort((a, b) => b.spent - a.spent)
     const HighesContributor = sortedmembers && sortedmembers[0]
+    console.log( Memberdetails(HighesContributor?.id))
     const rawDebtor = sortedmembers && sortedmembers[data.length - 1];
     const debtorBalance = rawDebtor ? Math.abs(rawDebtor.spent - rawDebtor.share) : 0;
     const HighestDebtor = debtorBalance > 0 ? rawDebtor : null;
+    function GetTemp(id) {
+        const Splits= useSelector(selectAllSplits)[0]
+        const temp = Splits.temporary.find(t => t.id === id)
+        return temp
+    }
     const insights = [
         {
             label: "Highest Debtor",
             svg: <GiReceiveMoney className='text-white size-7' />,
             color: "#dc2626",
-            about: Memberdetails(HighestDebtor?.id),
+            about: Memberdetails(HighestDebtor?.id) || GetTemp(HighestDebtor?.id),
             totalamount: Math.abs(HighestDebtor?.spent - HighestDebtor?.share)
         },
         {
@@ -27,7 +35,7 @@ export const Insights = ({ data }) => {
             svg: <FaCoins className='text-white size-7' />,
             totalamount: HighesContributor?.spent,
             color: "#16A34A",
-            about: Memberdetails(HighesContributor?.id)
+            about: Memberdetails(HighesContributor?.id) || GetTemp(HighesContributor?.id)
         }
     ]
     return (
@@ -42,7 +50,12 @@ export const Insights = ({ data }) => {
                             <div className="label font-semibold text-lg">{insight.label}</div>
                             {insight.about && <div className="about center-flex gap-2 justify-between ">
                                 <div className="logo rounded-lg  size-7">
-                                    <img src={insight.about.Image} className='rounded-lg Img-c' alt="profile-pic " />
+                                    {
+                                        insight.about.type !== "temporary" ? <img src={insight.about.Image} className='rounded-full Img-c' alt="profile-pic " /> : <div className="friend-img-container size-7 bg-neutral-300 rounded-full center-flex">
+                                            <IoPerson className='size-3 text-neutral-500' />
+                                        </div>
+                                    }
+
                                 </div>
                                 <p className="name text-sm">{insight.about.Name}</p>
                             </div>}
