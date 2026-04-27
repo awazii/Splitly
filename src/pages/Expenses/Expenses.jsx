@@ -30,42 +30,41 @@ import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
 import { RiFileList3Line } from "react-icons/ri";
 import dayjs from 'dayjs';
 export const categories = {
-    "Food & Snacks": {
-        name: "Food & Snacks",
-        gradient: "linear-gradient(135deg, #FF9A8B 0%, #FF6A88 50%, #FF99AC 100%)",
-        icon: <LuUtensils className="size-6 text-white" />
-    },
-    "Drinks & Beverages": {
-        name: "Drinks & Beverages",
-        gradient: "linear-gradient(135deg, #43CBFF 0%, #9708CC 100%)",
-        icon: <RiDrinks2Line className="size-6 text-white" />
-    },
-    "Vapes & Smoking": {
-        name: "Vapes & Smoking",
-        gradient: "linear-gradient(135deg, #00DBDE 0%, #FC00FF 100%)",
-        icon: <MdSmokeFree className="size-6 text-white" />
-    },
-    "Transport": {
-        name: "Transport",
-        gradient: "linear-gradient(135deg, #FAD961 0%, #F76B1C 100%)",
-        icon: <FaCar className="size-6 text-white" />
-    },
-    "Hotel & Stay": {
-        name: "Hotel & Stay",
-        gradient: "linear-gradient(135deg, #F7971E 0%, #FFD200 100%)",
-        icon: <MdHotel className="size-6 text-white" />
-    },
-    "Movie & Events": {
-        name: "Movie & Events",
-        gradient: "linear-gradient(135deg, #C471F5 0%, #FA71CD 100%)",
-        icon: <IoTicketSharp className="size-6 text-white" />
-    },
-    "Others": {
-        name: "Others",
-        gradient: "linear-gradient(135deg, #43CBFF 0%, #9708CC 50%, #DD2476 100%)",
-        icon: <IoSparklesSharp className="size-6 text-white" />
-    }
-};
+  "Food & Snacks": {
+    name: "Food & Snacks",
+    gradient: "linear-gradient(135deg, #FF9A8B 0%, #FF6A88 50%, #FF99AC 100%)",
+    icon: LuUtensils
+  },
+  "Drinks & Beverages": {
+    name: "Drinks & Beverages",
+    gradient: "linear-gradient(135deg, #43CBFF 0%, #9708CC 100%)",
+    icon: RiDrinks2Line
+  },
+  "Vapes & Smoking": {
+    name: "Vapes & Smoking",
+    gradient: "linear-gradient(135deg, #00DBDE 0%, #FC00FF 100%)",
+    icon: MdSmokeFree
+  },
+  "Transport": {
+    name: "Transport",
+    gradient: "linear-gradient(135deg, #FAD961 0%, #F76B1C 100%)",
+    icon: FaCar
+  },
+  "Hotel & Stay": {
+    name: "Hotel & Stay",
+    gradient: "linear-gradient(135deg, #F7971E 0%, #FFD200 100%)",
+    icon: MdHotel
+  },
+  "Movie & Events": {
+    name: "Movie & Events",
+    gradient: "linear-gradient(135deg, #C471F5 0%, #FA71CD 100%)",
+    icon: IoTicketSharp
+  },
+  "Others": {
+    name: "Others",
+    gradient: "linear-gradient(135deg, #43CBFF 0%, #9708CC 50%, #DD2476 100%)",
+    icon: IoSparklesSharp
+  }}
 const getSevenDayChartData = (expenses) => {
     return Array.from({ length: 7 }, (_, i) => {
         const dateStr = dayjs().subtract(6 - i, 'day').format('YYYY-MM-DD');

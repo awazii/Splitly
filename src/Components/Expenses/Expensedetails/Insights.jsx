@@ -19,7 +19,7 @@ export const Insights = ({ data }) => {
     const HighestDebtor = debtorBalance > 0 ? rawDebtor : null;
     function GetTemp(id) {
         const Splits= useSelector(selectAllSplits)[0]
-        const temp = Splits.temporary.find(t => t.id === id)
+        const temp = Splits?.temporary.find(t => t.id === id)
         return temp
     }
     const insights = [

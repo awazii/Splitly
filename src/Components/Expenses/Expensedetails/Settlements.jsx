@@ -36,7 +36,7 @@ export const Settlements = ({ Expense }) => {
         }
     })
     function GetTemp(id) {
-        const temp = Expense.temporary.find(t => t.id === id)
+        const temp = Expense.temporary?.find(t => t.id === id)
         return temp
     }
     return (

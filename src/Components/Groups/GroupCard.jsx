@@ -34,7 +34,8 @@ const Card = ({ group }) => {
   const [pin, setpin] = useState(group.isPinned)
   const dispatch = useDispatch()
   const TopContributor = useSelector(state => FriendsGroupSpendings(state, group.id)).sort((a, b) => b.spent - a.spent)[0]
-  const RecentExpense = useSelector(state => GroupExpenses(state, group.id).at(-1))
+  const RecentExpense = useSelector(state => GroupExpenses(state, group.id).at(0))
+  const Icon = categories[RecentExpense.Category].icon;
   useEffect(() => {
     setpin(group.isPinned);
   }, [group.isPinned])
@@ -139,7 +140,7 @@ const Card = ({ group }) => {
                   {RecentExpense ?
                     <div className="recent-expense-info border h-22 w-58 ml-2 card-b rounded-lg mt-1  center-flex gap-2 px-2">
                       <div className="expense-logo  size-10 rounded-lg  center-flex shadow-md" style={{ background: categories[RecentExpense.Category].gradient }}>
-                        {categories[RecentExpense.Category].icon}
+                       <Icon className="size-5 text-white" />
                       </div>
                       <div className='expense-details flex-1  h-15 flex justify-between gap-1 items-center'>
                         <div className='expense-left'>
