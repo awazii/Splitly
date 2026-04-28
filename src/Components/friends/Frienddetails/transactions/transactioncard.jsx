@@ -13,6 +13,7 @@ import { Memberdetails } from '../../../../utils/Memberdetails';
 export const Transactioncard = ({ trans, Currentbalancewith, CurrentFriend ,setisdetailopen }) => {
     const group = useSelector(state => selectGroupById(state, trans.Groupid))
     const currentwith = Memberdetails(Currentbalancewith)
+     const Icon = categories[trans.Category]?.icon;
     const Settlement = trans.Settlements.find(s =>
             (s.from === CurrentFriend.id && s.to === Currentbalancewith) ||
             (s.from === Currentbalancewith && s.to === CurrentFriend.id)
@@ -46,7 +47,7 @@ export const Transactioncard = ({ trans, Currentbalancewith, CurrentFriend ,seti
         <div className='expense relative bg-white shadow h-32 rounded-lg'>      
             <div className="expense-info  w-[92%] h-20 mx-auto mt-1  rounded-lg center-flex gap-3">
                 {trans.Category !=="Settlement" ? <div className="expense-logo  size-13 rounded-lg  center-flex shadow-md" style={{ background: categories[trans.Category]?.gradient }}>
-                    {categories[trans.Category]?.icon}
+                    <Icon className="size-5 text-white" />
                 </div> :
                     <div className={`expense-logo  size-13 rounded-lg  center-flex shadow-md ${ Settlement.to === Currentbalancewith ? indicators.debtor.balancebgClass : indicators.creditor.balancebgClass  }`}>  
                      { Settlement.to === Currentbalancewith ? <GiPayMoney className="text-white size-6"/> : <GiReceiveMoney className="text-white size-6"/>  }

@@ -7,7 +7,6 @@ import { selectGroupById } from '../../store/GroupSlice';
 import { selectFriendById } from '../../store/FriendsSlice';
  const MemberAvatars = ({ id }) => {
     const friend = useSelector(state => selectFriendById(state, id));
-    const Icon = categories[expense.Category].icon;
     return (
         <div className="member size-7  rounded-lg shadow-md">
             <img src={friend?.Image || ""} alt="" className='Img-c rounded-lg' />
@@ -16,6 +15,7 @@ import { selectFriendById } from '../../store/FriendsSlice';
 }
 export const ExpenseCard = ({ expense, Openmodel, ForGroup }) => {
     const group = useSelector(state => selectGroupById(state, expense.Groupid));
+      const Icon = categories[expense.Category].icon;
     return (
         <div className='expense relative card-b h-40 rounded-lg'>
             <div className='expense-detail-btn absolute bottom-4 right-5'>

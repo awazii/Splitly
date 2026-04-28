@@ -58,15 +58,14 @@ export const Comparisongraph = ({ Expense }) => {
                                     {
                                         imgSrc ? <img
                                             src={imgSrc}
-                                            alt={payload.value}
+                                            alt={payload.value} 
+                                            className="size-8"
                                             style={{
-                                                width: 40,
-                                                height: 40,
                                                 borderRadius: "50%",
                                                 objectFit: "cover",
                                             }}
                                         /> :
-                                            <div className="friend-img-container size-7 bg-neutral-300 rounded-full center-flex">
+                                            <div className="friend-img-container size-8 bg-neutral-300 rounded-full center-flex">
                                                 <IoPerson className='size-3 text-neutral-500' />
                                             </div>
                                     }

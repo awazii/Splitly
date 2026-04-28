@@ -26,6 +26,12 @@ export const Transactionlist = ({ setisdetailopen, Currentfriend }) => {
       </div>
     )
   }
+  const Geticon =({Category})=>{
+     const Icon = categories[Category]?.icon;
+    return(
+      <Icon className="size-5 text-white" />
+    )
+  }
   return (
     <div className="transactions-container h-full px-2 ">
       <div className="title w-fit center-flex gap-1 text-gray-800">
@@ -40,7 +46,7 @@ export const Transactionlist = ({ setisdetailopen, Currentfriend }) => {
               </div>
               <div className="expense-info  w-[92%] h-20 mx-auto mt-1  rounded-lg center-flex gap-3">
                 <div className="expense-logo  size-13 rounded-lg  center-flex shadow-md" style={{ background: categories[trans.Category]?.gradient }}>
-                  {categories[trans.Category]?.icon}
+                         <Geticon Category={trans.Category}/>
                 </div>
                 <div className='expense-details flex-1  h-15 flex justify-between gap-1 items-center'>
                   <div className='expense-left'>

@@ -15,6 +15,7 @@ export const Transationdetail = ({ Currentbalancewith, setisdetailopen, isdetail
         (s.from === Currentbalancewith && s.to === CurrentFriend.id)
     )
     const textcolor = Settlement.to === Currentbalancewith ? indicators.debtor.balancetextClass : indicators.creditor.balancetextClass
+    const Icon = categories[trans.Category]?.icon;
     const bgcolor = Settlement.to === Currentbalancewith ? indicators.debtor.balancebgClass : indicators.creditor.balancebgClass
 
     const descripion = Settlement.to === Currentbalancewith ? ' You borrowed' : 'You lent '
@@ -29,7 +30,7 @@ export const Transationdetail = ({ Currentbalancewith, setisdetailopen, isdetail
             <div className="transaction-info w-[60%] mx-auto mt-2 py-4 bg-white rounded-xl h-fit shadow-md center-flex flex-col">
                 <div className="expense-info center-flex gap-2 flex-col">
                     <div className="expense-logo size-15 rounded-full  center-flex shadow-md" style={{ background: categories[trans.Category]?.gradient }}>
-                        {categories[trans.Category]?.icon}
+                         <Icon className="size-5 text-white" />
                     </div>
                     <p className='expense-name'>{trans.Name}</p>
                 </div>

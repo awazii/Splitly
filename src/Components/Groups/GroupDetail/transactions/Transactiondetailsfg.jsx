@@ -11,6 +11,7 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfri
     const currentTransaction = isdetailopen.trans
     const Friend = currentTransaction.Members.find(f => f.id === Currentfriend.id)
     const netbalance = Number(Friend.spent || 0) - Number(Friend.share || 0)
+      const Icon = categories[currentTransaction.Category]?.icon;
     return (
         <div className='transaction-details h-[94%] overflow-auto space-'>
             <div className="header center-flex w-fit gap-1 text-gray-800">
@@ -22,7 +23,7 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfri
             <div className="transaction-info w-[50%] mx-auto my-2 py-4 bg-white rounded-xl h-fit shadow-md center-flex flex-col">
                 <div className="expense-info center-flex gap-2 flex-col">
                     <div className="expense-logo size-15 rounded-full  center-flex shadow-md" style={{ background: categories[currentTransaction.Category]?.gradient }}>
-                        {categories[currentTransaction.Category]?.icon}
+                        <Icon className="size-5 text-white" />
                     </div>
                     <p className='expense-name'>{currentTransaction.Name}</p>
                 </div>
