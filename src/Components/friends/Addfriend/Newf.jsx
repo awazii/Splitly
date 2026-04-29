@@ -1,4 +1,4 @@
-import React ,{useState ,useEffect} from 'react'; // Fixed: 'use' was imported but not needed
+import React ,{useState ,useEffect} from 'react';
 import { FaUserPlus } from "react-icons/fa";
 import Newbtn from "../Common/Newfbtn";
 import Checkbox from "../../Common/Check";
@@ -31,7 +31,6 @@ export const Newfriend = () => {
   const Onsubmit = async (data) => {
     try {
       const imageUrl = await uploadToCloudinary(data.Image);
-
       if (imageUrl) {
         dispatch(addFriend(
           data.Name,

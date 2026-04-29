@@ -12,12 +12,8 @@ useEffect(() => {
     const [imgprev, setimgprev] = useState(false)
     const handleimg = (e) => {
         const file = e.target.files[0];
-        if (file && file.type.startsWith("image/")) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setimgprev(reader.result);
-          };
-          reader.readAsDataURL(file);
+        if (file && file.type.startsWith("image/")) {         
+            setimgprev(URL.createObjectURL(file));
           onChange(file);
         }
       };

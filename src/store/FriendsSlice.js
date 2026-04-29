@@ -2,38 +2,25 @@ import { createSlice, nanoid, createEntityAdapter, createSelector } from "@redux
 import dayjs from "dayjs";
 import { addGroup } from "./GroupSlice"
 import { addExpense, selectAllExpenses } from "./ExpenseSlice"
-const adminId = "admin_01";
 const friendsAdapter = createEntityAdapter()
-const initialState = friendsAdapter.getInitialState({
-    ids: [adminId],
-    entities: {
-        [adminId]: {
-            id: adminId,
-            Name: "Awais",
-            Bio: "Full Stack Developer",
-            Image: "https://res.cloudinary.com/dllocncsk/image/upload/v1774531405/glrkslojmpugzrwes3a6.jpg",
-            isPinned: true,
-            spendings: 0,
-            netBalance: {
-                total: 0,
-                indicatorid: "settled",
-            },
-            status: "Admin",
-            Relationship: [],
-            crews: {
-                groupCount: 0,
-                groups: []
-            },
-            joinedDate: dayjs().format("YYYY-MM-DD")
-        }
-    }
-});
+const initialState = friendsAdapter.getInitialState();
 const FriendsSlice = createSlice({
     name: "Friends",
     initialState,
     reducers: {
         addFriend: {
-            reducer: friendsAdapter.addOne,
+            reducer: (state, action) => {
+                const isFirstUser = state.ids.length === 0;
+                const finalPayload = isFirstUser
+                    ? {
+                        ...action.payload,
+                        id: "admin_01",
+                        status: "Admin",
+                        isPinned: true
+                    }
+                    : action.payload;
+                friendsAdapter.addOne(state, finalPayload);
+            },
             prepare: (Name, Bio, Image, isPinned) => {
                 return {
                     payload: {
@@ -42,12 +29,13 @@ const FriendsSlice = createSlice({
                         Bio,
                         Image,
                         isPinned,
+                        isBanned: false,
                         spendings: 0,
                         netBalance: {
                             total: 0,
                             indicatorid: "settled",
                         },
-                         Relationship: [],
+                        Relationship: [],
                         status: "Member",
                         crews: {
                             groupCount: 0,
@@ -55,9 +43,10 @@ const FriendsSlice = createSlice({
                         },
                         joinedDate: dayjs().format("YYYY-MM-DD")
                     }
-                }
+                };
             }
-        },
+        }
+        ,
         deleteFriend: friendsAdapter.removeOne,
         updateFriend: friendsAdapter.updateOne
     },
@@ -117,7 +106,7 @@ const FriendsSlice = createSlice({
                     })
                 }
                 if (relationshipEntry) {
-                      if (Expense.Category == "Settlement") {
+                    if (Expense.Category == "Settlement") {
                         relationshipEntry.netBalance += Settlement.amount
                     }
                     else {
@@ -142,3 +131,23 @@ export const selectPinnedFriends = createSelector(
     (friends) => friends.filter(friend => friend.isPinned)
 );
 export default FriendsSlice.reducer;
+// {
+//             id: adminId,
+//             Name: "Awais",
+//             Bio: "Full Stack Developer",
+//             Image: "https://res.cloudinary.com/dllocncsk/image/upload/v1774531405/glrkslojmpugzrwes3a6.jpg",
+//             isPinned: true,
+//             isBanned: false,
+//             spendings: 0,
+//             netBalance: {
+//                 total: 0,
+//                 indicatorid: "settled",
+//             },
+//             status: "Admin",
+//             Relationship: [],
+//             crews: {
+//                 groupCount: 0,
+//                 groups: []
+//             },
+//             joinedDate: dayjs().format("YYYY-MM-DD")
+//         }

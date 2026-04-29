@@ -12,7 +12,6 @@ import { navbarVariants, navitemVariants } from "../utils/animation";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 export const Navbar = () => {
-  const navigate = useNavigate()
   const [navlist] = useState([
     { icon: <MdSpaceDashboard />, label: "Dashboard", link: "/" },
     { icon: <FaUserFriends />, label: "Friends", link: "/Friends" },
@@ -58,9 +57,7 @@ export const Navbar = () => {
           ))}
         </motion.ul>
         <div className="settings absolute bottom-8 left-6">
-          <button className="setting-icon size-10 blurred center-flex rounded-2xl cursor-pointer" onClick={()=>{
-            navigate("/NewUser")
-          }}>
+          <button className="setting-icon size-10 blurred center-flex rounded-2xl cursor-pointer">
             <IoSettingsSharp className="size-6  rounded-md p-1" />
           </button>
         </div>

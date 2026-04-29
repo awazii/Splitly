@@ -17,19 +17,34 @@ import Addexpense from "./Components/Expenses/Common/New";
 import { Expenses } from "./Components/Expenses/GroupExpenses";
 import { Frienddetails } from "./Components/friends/Frienddetails/Frienddetails";
 import { SplitlyOnboarding } from "./Components/info"
+import { selectAllFriends } from "./store/FriendsSlice";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 function App() {
-  const [loading, setLoading] = useState(true);
-
+  const [Loading, setLoading] = useState(true);
+  const friends = useSelector(selectAllFriends)
+  const ProtectedDashboard = () => {
+    const friends = useSelector(selectAllFriends);
+    if (friends.length === 0) {
+      return <Navigate to="/NewUser" replace />;
+    }
+    return <Dashboard />;
+  };
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 1500);
     return () => clearTimeout(timer);
   }, []);
-
+  if (Loading) return <Loader />;
   const router = createBrowserRouter([
     {
       element: <Main />,
       children: [
-        { index: true, element: <Dashboard /> },
+        {
+          path: "/",
+          element: <ProtectedDashboard />
+        },
         {
           path: "/Friends",
           element: <Friends />,
@@ -57,9 +72,6 @@ function App() {
       ],
     },
   ]);
-
-  if (loading) return <Loader />;
-
   return <RouterProvider router={router} />;
 }
 

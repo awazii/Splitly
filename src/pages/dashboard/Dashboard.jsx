@@ -34,7 +34,7 @@ export const Dashboard = () => {
         className="header col-span-6 h-15 flex items-center rounded-2xl justify-between p-2"
       >
         <h2 className="text-2xl font-medium p-4">
-          Welcome aboard, {admin.Name}!
+          Welcome aboard, {admin?.Name}!
         </h2>
         <Addgroup />
       </motion.div>
