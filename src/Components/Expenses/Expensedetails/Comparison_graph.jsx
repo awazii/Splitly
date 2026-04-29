@@ -31,7 +31,7 @@ export const Comparisongraph = ({ Expense }) => {
             let temp = Expense.temporary.find(t => t.id === member.id)
             obj = {
                 name: temp?.Name,
-                type: temp.type,
+                type: temp?.type,
                 spent: member?.spent,
                 share: member?.share,
             }

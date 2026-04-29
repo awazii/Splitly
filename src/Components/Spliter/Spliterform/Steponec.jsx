@@ -11,11 +11,11 @@ import { selectAllFriends, selectPinnedFriends } from '../../../store/FriendsSli
 import { useFormContext, Controller } from 'react-hook-form';
 import { useState } from 'react';
 export const Stepone = ({ }) => {
-    const { control, register, setValue, trigger, getValues, watch, setError ,clearErrors, formState: { errors } } = useFormContext();
+    const { control, register, setValue, trigger, getValues, watch, setError, clearErrors, formState: { errors } } = useFormContext();
     const temporary = watch("temporary") || [];
     const AllFriends = useSelector(selectAllFriends)
     const PinnedFriends = useSelector(selectPinnedFriends);
-     const CurrentExpensemembers = getValues("splitMembers");
+    const CurrentExpensemembers = getValues("splitMembers");
     const [SelectedFriends, setSelectedFriends] = useState(CurrentExpensemembers)
     const [isPinselected, setisPinselected] = useState(false)
     const NamePattern = /^[A-Za-z][A-Za-z0-9\s,._&'-]*$/;
@@ -33,7 +33,11 @@ export const Stepone = ({ }) => {
             });
             return;
         }
-        clearErrors("tempname");                  
+        const exists = current.some(
+            friend => friend.Name.toLowerCase() === value.toLowerCase()
+        );
+        if(exists) return
+        clearErrors("tempname");
         const id = `temp_${current.length + 1}`;
         const newFriend = { id, Name: name, type: "temporary" };
         setValue("temporary", [...current, newFriend]);
@@ -109,7 +113,7 @@ export const Stepone = ({ }) => {
                         <h4 className='text-md font-semibold my-2 '>Select who shares this cost
                         </h4>
                         <div className='center-flex gap-2'>
-                            <div className=' w-25 py-2 px-3 bg-highlight  rounded-lg  '>
+                            <div className=' w-25 py-2 px-3 bg-neutral-100  rounded-lg  '>
                                 <Selectall Selected={SelectedFriends}
                                     setSelected={setSelectedFriends} members={Friends}>
                                     <h5 className='text-[13px] text-text-secondary'>Select all</h5>
@@ -155,7 +159,7 @@ export const Stepone = ({ }) => {
                         <div className="friend-lists  max-h-80 overflow-auto  grid grid-cols-6  gap-3  border-b-light px-2 ">
                             {Friends.map((friend, index) => {
                                 return (
-                                    <label key={index} className='select-friend rounded-lg shadow-md  bg-highlight flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans h-38'>
+                                    <label key={index} className='select-friend rounded-lg shadow-md  bg-neutral-100 flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans h-38'>
                                         <div className="friend-img-container size-16">
                                             {friend.type === "temporary" ? (
                                                 <div className="friend-img-container size-16 bg-neutral-300 rounded-full center-flex">

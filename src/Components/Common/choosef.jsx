@@ -8,7 +8,7 @@ const Radio = ({ setisPinselected }) => {
   ];
   return (
     <StyledWrapper>
-      <div className="radio-inputs">
+      <div className="radio-inputs bg-neutral-100">
        { options.map((option, index) => (
           <label key={index} className="radio1">
             <input type="radio" name="radio1" defaultChecked={option.value === "All"}  onChange={() => setisPinselected(option.value === "Pinned")} />
@@ -26,7 +26,6 @@ const StyledWrapper = styled.div`
     display: flex;
     gap:5px;
     border-radius: 0.5rem;
-    background-color: #eee;
     box-sizing: border-box;
     box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
     padding: 0.20rem;

@@ -4,7 +4,7 @@ import { Groupcategories} from '../../../pages/Group/Grouplist';
 const Radio = ({value ,onChange}) => {
   return (
     <StyledWrapper>
-      <div className="radio-inputs">
+      <div className="radio-inputs bg-neutral-100">
         {Groupcategories.map(category => (
           <label key={category.id} className="radio">
             <input type="radio" name="category" value={category.id} onChange={onChange} checked={value === category.id} />
@@ -23,7 +23,6 @@ const StyledWrapper = styled.div`
     flex-wrap: wrap;
     gap:15px;
     border-radius: 0.5rem;
-    background-color: #eee;
     box-sizing: border-box;
     box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
     padding: 0.25rem;

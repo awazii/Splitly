@@ -33,8 +33,8 @@ function handlePin() {
     <StyledWrapper>
       <div className="card ">
         <div className={`content shadow-lg ${flip ? "rotate-y-180" : "rotate-y-0"}`}>
-          <div className="front bg-b-light ">
-            <div className="front-content  flex justify-center gap-2 bg-surface relative">
+          <div className="front bg-neutral-200 ">
+            <div className="front-content  flex justify-center gap-2 bg-white relative">
               <div className="h-42 center-flex w-full  flex-col pt-5">
                 <div className="flex items-center py-3 w-full">
                   <div className='about-f center-flex w-80 gap-3 px-5 '>
@@ -81,8 +81,8 @@ function handlePin() {
               </button>
             </div>
           </div>
-          <div className="back">
-            <div className="back-content flex flex-col items-center">
+          <div className="back bg-white">
+            <div className="back-content flex flex-col items-center ">
               <div className='grid  h-50 w-full p-2 grid-rows-3 grid-cols-2 gap-1'>
                 <div className=' row-span-2 place-items-center self-center'>
                   <div className=' size-15 rounded-full center-flex ' style={{ background: "  linear-gradient(135deg, #FF9800 0%, #FF5722 50%, #F44336 100%)" }}><MdGroup className='size-6 text-white' /></div>
@@ -182,7 +182,6 @@ const StyledWrapper = styled.div`
   .back {
     transform: rotateY(180deg);
     color: black;
-    background-color:#f5f5f5;
     border: 1px solid #c4cad1;
   }
     .back-content{

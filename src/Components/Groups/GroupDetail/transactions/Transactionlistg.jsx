@@ -21,7 +21,7 @@ export const Transactionlist = ({ setisdetailopen, Currentfriend }) => {
     netBalance === 0 ? Math.abs(member.spent) : Math.abs(netBalance);
     return (
       <div className='expense-right text-right'>
-        <h2 className={`text-xl font-semibold ${textcolor}`}>{`Rs. ${displayAmount}`}</h2>
+        <h2 className={`text-xl font-semibold ${textcolor}`}>{`Rs. ${displayAmount.toLocaleString()}`}</h2>
         <span className='text-[12px] text-text-secondary'>{netBalance > 0 ? 'You lent ' : netBalance === 0 ? 'You paid' : ' You borrowed'}</span>
       </div>
     )

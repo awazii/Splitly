@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaCalculator } from "react-icons/fa";
 import Next from '../../Expenses/Common/Next';
 import Prev from '../../Expenses/Common/Prev';
@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { handleNext } from '../../Expenses/Addexpense/AddExpense';
 import { addSplit } from '../../../store/SpliterSlice';
 import { aggregatesettlements } from '../../../store/ExpenseSlice';
+import { motion, AnimatePresence } from 'framer-motion';
 export const Spliter = () => {
     const [step, setstep] = useState(1);
     const dispatch = useDispatch()
@@ -35,7 +36,7 @@ export const Spliter = () => {
             }
         }
     })
-    const { trigger, handleSubmit,register, getValues, setValue, setError, clearErrors, reset, formState: { isSubmitting } } = methods;
+    const { trigger, handleSubmit, register, getValues, setValue, setError, clearErrors, reset, formState: { isSubmitting } } = methods;
     const onSubmit = async (data) => {
         if (data.splitMethod === "By Percentage") {
             const totalPercent = Object.values(data.Share["By Percentage"] || {})
@@ -71,20 +72,22 @@ export const Spliter = () => {
         )
         await new Promise(resolve => setTimeout(resolve, 2000));
         dispatch(addSplit(
-                    data.expenseName,
-                    data.totalAmount,
-                    data.splitMethod,
-                    finalmembers,
-                    data.Category,
-                    aggregatesettlements(finalmembers),
-                    data.temporary
-                ))
+            data.expenseName,
+            data.totalAmount,
+            data.splitMethod,
+            finalmembers,
+            data.Category,
+            aggregatesettlements(finalmembers),
+            data.temporary
+        ))
         reset();
         setstep(1);
     }
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} className="Expense-calculator w-260 h-188 card-b rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">
+            <motion.form
+                layout
+                onSubmit={handleSubmit(onSubmit)} className=" w-260 h-188 bg-white shadow-md rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">
                 <div className="header  center-flex flex-col gap-1">
                     <div className="logo rounded-full size-18 center-flex" style={{
                         background: "linear-gradient(135deg, #FF9800 0%, #FF5722 50%, #F44336 100%)"
@@ -95,7 +98,41 @@ export const Spliter = () => {
                     <p className='text-text-secondary text-sm'>Split Bills instantly without a group</p>
                 </div>
                 <div className="current-step">
-                    {step === 1 ? <Stepone /> : step === 2 ? <Steptwo /> : <Stepthree />}
+                    <AnimatePresence mode="wait">
+                        {step === 1 && (
+                            <motion.div
+                                key="step1"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Stepone />
+                            </motion.div>
+                        )}
+                        {step === 2 && (
+                            <motion.div
+                                key="step2"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Steptwo />
+                            </motion.div>
+                        )}
+                        {step === 3 && (
+                            <motion.div
+                                key="step3"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Stepthree />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
                 <div className="progress center-flex flex-col mt-6  absolute bottom-4 left-1/2 transform -translate-x-1/2">
                     <h3 className='text-text-secondary'>Step {step} of 3</h3>
@@ -104,12 +141,12 @@ export const Spliter = () => {
                     </div>
                 </div>
                 {
-                    step !== 3 && (<button className="next absolute bottom-4 right-6" onClick={() => handleNext(step, setstep, methods)}>
+                    step !== 3 && (<button type='button' className="next absolute bottom-4 right-6" onClick={() => handleNext(step, setstep, methods)}>
                         <Next />
                     </button>)
                 }
                 {
-                    step !== 1 && (<button className="prev absolute bottom-4 left-6" onClick={() => {
+                    step !== 1 && (<button type='button' className="prev absolute bottom-4 left-6" onClick={() => {
                         if (!isSubmitting) {
                             setstep(step - 1)
                         }
@@ -117,7 +154,7 @@ export const Spliter = () => {
                         <Prev />
                     </button>)
                 }
-            </form>
+            </motion.form>
         </FormProvider>
     )
 }

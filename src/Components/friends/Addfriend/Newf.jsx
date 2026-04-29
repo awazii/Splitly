@@ -50,7 +50,7 @@ export const Newfriend = () => {
   };
 
   return (
-    <div className='container card-b rounded-2xl mx-auto h-fit w-100 my-20 p-3'>
+    <div className='container bg-white  shadow-lg rounded-2xl mx-auto h-fit w-100 my-20 p-3'>
       <div className="title center-flex flex-col gap-0">
         <h2 className='text-2xl font-semibold flex items-center gap-2 text-center p-2 pb-0'>
           Add New Friend <span><FaUserPlus /></span>

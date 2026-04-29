@@ -4,7 +4,7 @@ import { categories } from '../../../pages/Expenses/Expenses';
 const Radio = ({ start , end , value, onChange }) => {
   return (
     <StyledWrapper>
-      <div className="radio-inputs">
+      <div className="radio-inputs bg-neutral-100">
         {Object.values(categories).slice(start,end).map((category, i) => (
           <label key={i} className="radio">
               <input type="radio" name="radio" value={category.name} checked={value === category.name} onChange={onChange} />
@@ -23,7 +23,6 @@ const StyledWrapper = styled.div`
     flex-wrap: wrap;
     gap:15px;
     border-radius: 0.5rem;
-    background-color: #eee;
     box-sizing: border-box;
     box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
     padding: 0.25rem;

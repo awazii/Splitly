@@ -21,7 +21,7 @@ export const SpendingCard = ({ friend, Openmodel, setCurrentfriend }) => {
         }]
     const MemberExpenses = useSelector(state => FriendGroupSpendings(state, Groupid, friend.id,));
     return (
-        <div className={`friend-balance bg-white rounded-lg shadow-md h-fit p-3`}>
+        <div className={`friend-balance border-l rounded-lg shadow-md h-fit p-3`}>
             <div className="about-f-cotainer flex items-center gap-2 ">
                 <div className="about-f flex-1 center-flex gap-3">
                     <div className="logo size-18 rounded-full ">

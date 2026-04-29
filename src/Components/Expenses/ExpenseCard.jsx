@@ -17,13 +17,13 @@ export const ExpenseCard = ({ expense, Openmodel, ForGroup }) => {
     const group = useSelector(state => selectGroupById(state, expense.Groupid));
       const Icon = categories[expense.Category].icon;
     return (
-        <div className='expense relative card-b h-40 rounded-lg'>
+        <div className='expense relative bg-white shadow-md h-40 rounded-lg'>
             <div className='expense-detail-btn absolute bottom-4 right-5'>
                 <Expensedetailbtn Openmodel={Openmodel} />
             </div>
             <div className="expense-info  w-[92%] h-20 mx-auto mt-1  rounded-lg center-flex gap-3">
                 <div className="expense-logo  size-15 rounded-lg  center-flex shadow-md" style={{ background: categories[expense.Category].gradient }}>
-                    <Icon className="size-10 text-white" />
+                    <Icon className="size-6 text-white" />
                 </div>
                 <div className='expense-details flex-1  h-15 flex justify-between gap-1 items-center'>
                     <div className='expense-left'>

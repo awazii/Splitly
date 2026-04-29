@@ -19,7 +19,7 @@ export const Stepthreehelper = ({ Friends, Splits }) => {
     return (
         <div className=' h-fit mt-2 grid grid-cols-5  rounded-lg gap-3  p-2'>
             <div className="friends-splits-container col-span-3 flex flex-col gap-2">
-                <div className="progress h-30 rounded-lg shadow-md  p-4 bg-white ">
+                <div className="progress h-30 rounded-lg shadow-md  p-4 border-l ">
                     <h3 className='font-semibold text-text-secondary'>Total Expense Amount</h3>
                     {Splitopt === "By Percentage" ? <>
                         <div className="amounts flex justify-between mt-2">
@@ -31,7 +31,7 @@ export const Stepthreehelper = ({ Friends, Splits }) => {
                             <div className="font-bold ">Rs.{Number(TotalAmount).toLocaleString()}</div>
                         </div>}
                     <div className="progress-bar-container relative">
-                        <div className="progress-bar w-full h-3 bg-gray-200 rounded-full mt-1 overflow-hidden">
+                        <div className="progress-bar w-full h-3 bg-neutral-200 shadow rounded-full mt-1 overflow-hidden">
                             <div className={`progress  bg-primary h-3 rounded-full`} style={
                                 {
                                     width: Splitopt === "By Percentage" ? `${currentpercentage}%` : Splitopt === "Unequally" ? `${(currentamount / TotalAmount) * 100}%` : "100%"
@@ -52,7 +52,7 @@ export const Stepthreehelper = ({ Friends, Splits }) => {
                     <div className="friends-splits-list grid grid-cols-3 gap-3  overflow-auto   h-85">
                         {Friends.map((friend, index) => {
                             return (
-                                <div key={index} className='friend-split  rounded-lg shadow-md  bg-highlight flex flex-col items-center justify-center gap-2 pt-1 relative cursor-pointer trans h-48'>
+                                <div key={index} className='friend-split  rounded-lg shadow-md  bg-neutral-100 flex flex-col items-center justify-center gap-2 pt-1 relative cursor-pointer trans h-43'>
                                     <div className="info center-flex flex-col">
                                         <div className="friend-img-container size-16">
                                             {friend.type === "temporary" ? (

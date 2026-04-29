@@ -39,8 +39,8 @@ useEffect(() => {
                     <input  id="file" type="file" accept="image/png, image/jpeg"
  onChange={handleimg} />
                 </label> : 
-                <div className='Img-prev-container  h-full p-4 mx-auto center-flex flex-col'>
-                            <div className="img-prev size-30 rounded-full ">
+                <div className='Img-prev-container  h-full p-4 mx-auto center-flex flex-col '>
+                            <div className="img-prev size-30 rounded-full shadow-md ">
                                 <img src={imgprev} className='w-full h-full rounded-full object-cover ' alt="" />
                             </div>            
                              <Removeimg removeimg={removeimg} /> 

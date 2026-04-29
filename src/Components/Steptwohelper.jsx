@@ -10,7 +10,7 @@ export const Steptwohelper = ({ Friends, paymentdata }) => {
     <>
       <div className="payment-container h-20 p-2 grid grid-cols-3 gap-4  mt-3">
         {paymentdata.map((item, index) => (
-          <div key={index} className={`${item.label}  bg-white rounded-lg shadow-md h-full flex flex-col justify-center relative`}>
+          <div key={index} className={`${item.label}  border-l rounded-lg shadow-md h-full flex flex-col justify-center relative`}>
             <div className={`logo absolute top-0 right-0 rounded-full m-2 ${item.label === "Amount Collected" ? "bg-green-500 p-1" : ""}  center-flex`}>
               {item.logo}
             </div>
@@ -28,10 +28,10 @@ export const Steptwohelper = ({ Friends, paymentdata }) => {
           </h4>
           {errors.stepTwoTotal && <p className='text-red-500 text-sm  mt-2 text-end'>{errors.stepTwoTotal.message}</p>}
         </div>
-        <div className="friends-payments grid grid-cols-2  gap-3 max-h-100 overflow-auto border-l p-2">
+        <div className="friends-payments grid grid-cols-2  gap-3 max-h-100 overflow-auto p-2">
           {Friends.map((friend, index) => {
             return (
-              <div key={index} className="friend-payment bg-highlight rounded-lg p-4 flex  gap-3 h-22 justify-between items-center shadow-md relative">
+              <div key={index} className="friend-payment bg-neutral-100 rounded-lg p-4 flex  gap-3 h-22 justify-between items-center shadow-md relative">
                 <div className="friend-info center-flex  gap-2 ">
                   <div className="friend-img-container size-16">
                     {friend.type === "temporary" ? (

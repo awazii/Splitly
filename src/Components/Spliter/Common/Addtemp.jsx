@@ -4,7 +4,7 @@ import { FaUserPlus } from "react-icons/fa6";
 const Button = ({onClick}) => {
   return (
     <StyledWrapper>
-      <button onClick={onClick} className="cssbuttons-io-button">
+      <button type='button' onClick={onClick} className="cssbuttons-io-button">
         Add
         <div className="icon">
             <FaUserPlus className=' text-white ' />

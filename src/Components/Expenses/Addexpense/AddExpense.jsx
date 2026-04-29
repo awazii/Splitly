@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom'
 import { Basemodel } from '../../basemodel';
 import { useDispatch } from 'react-redux';
 import { aggregatesettlements, addExpense } from '../../../store/ExpenseSlice';
+import { motion, AnimatePresence } from 'framer-motion';
 export const handleNext = async (step, setstep, methods) => {
     let isStepValid = false;
     const { trigger, getValues, setValue, setError, clearErrors } = methods;
@@ -176,13 +177,47 @@ export const Addexpense = () => {
                     </button>
                 </div>
             </Basemodel>
-            <form onSubmit={handleSubmit(onSubmit)} className="Add-expense-form w-250 h-175 card-b rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">
+            <motion.form layout onSubmit={handleSubmit(onSubmit)} className="Add-expense-form w-250 h-175 bg-white shadow-md rounded-2xl  mx-auto mt-10 py-4 pb-2 px-6 relative">
                 <div className="title center-flex flex-col gap-0">
                     <h2 className='text-2xl font-semibold flex items-center gap-2 text-center p-2 pb-0'>Add New Expense<span><GiExpense /></span></h2>
                     <h4 className="text-text-secondary mr-2">Smart Splits, Stress-Free Settlements</h4>
                 </div>
                 <div className="current-step">
-                    {step === 1 ? <Stepone /> : step === 2 ? <Steptwo /> : <Stepthree />}
+                    <AnimatePresence mode="wait">
+                        {step === 1 && (
+                            <motion.div
+                                key="step1"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Stepone />
+                            </motion.div>
+                        )}
+                        {step === 2 && (
+                            <motion.div
+                                key="step2"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Steptwo />
+                            </motion.div>
+                        )}
+                        {step === 3 && (
+                            <motion.div
+                                key="step3"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Stepthree />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
                 <div className="progress center-flex flex-col mt-6  absolute bottom-4 left-1/2 transform -translate-x-1/2">
                     <h3 className='text-text-secondary'>Step {step} of 3</h3>
@@ -206,7 +241,7 @@ export const Addexpense = () => {
                         <Prev />
                     </button>)
                 }
-            </form>
+            </motion.form>
         </FormProvider>
     )
 }

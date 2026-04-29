@@ -35,7 +35,7 @@ const Card = ({ group }) => {
   const dispatch = useDispatch()
   const TopContributor = useSelector(state => FriendsGroupSpendings(state, group.id)).sort((a, b) => b.spent - a.spent)[0]
   const RecentExpense = useSelector(state => GroupExpenses(state, group.id).at(0))
-  const Icon = categories[RecentExpense.Category].icon;
+  const Icon = categories[RecentExpense?.Category]?.icon;
   useEffect(() => {
     setpin(group.isPinned);
   }, [group.isPinned])
@@ -47,7 +47,7 @@ const Card = ({ group }) => {
     <StyledWrapper>
       <div className="card">
         <div className={`content shadow-lg ${flip ? "rotate-y-180" : "rotate-y-0"}`}>
-          <div className="front bg-[#dddddd] relative">
+          <div className="front  bg-neutral-200 relative">
             <div className='absolute top-2 left-2 z-10 center-flex gap-1'>
               <button className={`cursor-pointer text-primary text-lg ${!pin ? '' : 'rotate-45'} peer`} onClick={handlePin}>
                 {pin ? <TbPinnedFilled /> : <TbPinnedOff />}
@@ -56,7 +56,7 @@ const Card = ({ group }) => {
                 {pin ? "Unpin" : "Pin"}
               </span>
             </div>
-            <div className="front-content bg-surface">
+            <div className="front-content bg-white">
               <button className="flip border rounded-md border-b-light size-8 center-flex cursor-pointer hover:text-primary hover:scale-105 trans absolute bottom-2 -translate-x-1/2 left-1/2 
                             " onClick={() => {
                   setflip(!flip)
@@ -107,8 +107,8 @@ const Card = ({ group }) => {
               </div>
             </div>
           </div>
-          <div className="back">
-            <div className="back-content">
+          <div className="back bg-white">
+            <div className="back-content ">
               <button className="flip border rounded-md border-b-light size-8 center-flex cursor-pointer hover:text-primary hover:scale-105 trans absolute bottom-2 -translate-x-1/2 left-1/2 " onClick={() => {
                 setflip(!flip)
               }}>
@@ -124,12 +124,12 @@ const Card = ({ group }) => {
                     <div className="top-spender-img size-16 ">
                       {TopContributor ? <img src={Memberdetails(TopContributor.id)?.Image} className='Img-c' alt="" />
                         :
-                        <div className='bg-white size-14 shadow center-flex rounded-full'>
+                        <div className='border-l size-14 shadow center-flex rounded-full'>
                           <RiUserLine className='text-primary size-5' />
                         </div>
                       }
                     </div>
-                    <div className="top-spender-info center-flex border w-25 h-6 card-b
+                    <div className="top-spender-info center-flex border w-25 h-6 border-l
                     mt-1 rounded-lg gap-2">
                       {<h4 className='Top-spender-name font-semibold text-[13px] text-text-secondary'>{TopContributor ? Memberdetails(TopContributor.id)?.Name : " No data yet"}</h4>}
                     </div>
@@ -138,7 +138,7 @@ const Card = ({ group }) => {
                 <div className='group-recent-expense h-28 col-span-2'>
                   <h3 className='text-sm font-semibold text-center'>Recent Expense</h3>
                   {RecentExpense ?
-                    <div className="recent-expense-info border h-22 w-58 ml-2 card-b rounded-lg mt-1  center-flex gap-2 px-2">
+                    <div className="recent-expense-info border h-22 w-58 ml-2 border-l rounded-lg mt-1  center-flex gap-2 px-2">
                       <div className="expense-logo  size-10 rounded-lg  center-flex shadow-md" style={{ background: categories[RecentExpense.Category].gradient }}>
                        <Icon className="size-5 text-white" />
                       </div>
@@ -157,7 +157,7 @@ const Card = ({ group }) => {
                     </div>
                     :
                     <div className='w-50  mx-auto p-1 center-flex flex-col gap-2 '>
-                      <div className='bg-white size-15 shadow center-flex rounded-full '>
+                      <div className='border-l size-15 shadow center-flex rounded-full '>
                         <RiFileList3Line className='text-primary size-6' />
                       </div>
                       <p className='text-text-secondary text-sm '>No Expense Available</p>
@@ -247,7 +247,6 @@ const StyledWrapper = styled.div`
   .back {
     transform: rotateY(180deg);
     color: black;
-    background-color:#f5f5f5;
     border: 1px solid #c4cad1;
   }
     .back-content{

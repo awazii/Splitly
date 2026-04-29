@@ -9,8 +9,13 @@ import { selectAllFriends } from '../../store/FriendsSlice';
 import { useNavigate } from 'react-router-dom';
 import { RiBarChart2Line } from "react-icons/ri";
 import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
+import { headerVariants, sectionVariants, itemVariants ,pageContainerVariants } from "../../utils/animation";
+import { motion } from "framer-motion";
 const InsightCard = ({ icon, title, description, value }) => (
-  <div className={`flex flex-col justify-between p-4 rounded-xl shadow-md  w-full bg-white`}>
+  <motion.div
+    variants={sectionVariants}
+    className="flex flex-col justify-between p-4 rounded-xl shadow-md w-full border-l"
+  >
     <div className="flex items-center gap-3 mb-2">
       {icon}
       <div>
@@ -19,7 +24,7 @@ const InsightCard = ({ icon, title, description, value }) => (
       </div>
     </div>
     <p className="text-md font-bold text-gray-900">{value}</p>
-  </div>
+  </motion.div>
 );
 export const Insights = () => {
   const Navigate = useNavigate()
@@ -48,7 +53,7 @@ export const Insights = () => {
       id: 3,
       title: "Highest Debtor",
       description: `${HighestDebtor?.Name}`,
-      value: `Rs. ${Math.abs(HighestDebtor?.netBalance.total)}`,
+      value: `Rs. ${Math.abs(HighestDebtor?.netBalance.total).toLocaleString()}`,
       icon: <IoPerson className="text-[#e53935] text-xl" />,
     },
     {
@@ -62,24 +67,48 @@ export const Insights = () => {
 
   return (
     <div className="w-full max-w-xl mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
+      <motion.div
+        variants={headerVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex justify-between items-center mb-4"
+      >
         <h2 className="text-2xl font-bold text-gray-800">Insights</h2>
-        <button className="text-primary text-sm font-semibold hover:underline cursor-pointer" onClick={() => { Navigate("/Analytics") }}>View Analystics</button>
-      </div>
-      {Expenses.length > 0 ?
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-       { insightsData.map(item => (
-          <InsightCard key={item.id} {...item} />
+        <button
+          className="text-primary text-sm font-semibold hover:underline cursor-pointer"
+          onClick={() => { Navigate("/Analytics") }}
+        >
+          View Analytics
+        </button>
+      </motion.div>
+      {Expenses.length > 0 ? (
+        <motion.div
+          variants={pageContainerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        >
+          {insightsData.map(item => (
+            <InsightCard key={item.id} {...item} />
           ))}
-        </div> :<UniversalEmptyState
+        </motion.div>
+      ) : (
+        <motion.div
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <UniversalEmptyState
             title="No expenses to visualize"
             description="Not enough data for a breakdown. Start adding expenses to see your spending across categories."
             textsize="text-sm"
           >
-            <div className="p-8 shadow-md bg-gray-50 rounded-full">
+            <div className="p-8 shadow-md border-l rounded-full">
               <RiBarChart2Line className="size-8 text-primary" />
             </div>
-          </UniversalEmptyState> }
+          </UniversalEmptyState>
+        </motion.div>
+      )}
     </div>
   );
 };

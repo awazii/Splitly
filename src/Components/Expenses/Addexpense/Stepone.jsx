@@ -122,7 +122,7 @@ export const Stepone = () => {
                         <h4 className='text-md font-semibold my-2 '>Select who shares this cost        </h4>
                            {errors.splitMembers && <p className='text-red-500 text-sm  mt-2'>{errors.splitMembers.message}</p>}
                         <div className='center-flex gap-2'>
-                            <div className=' w-25 py-2 px-3 bg-highlight  rounded-lg  '>
+                            <div className=' w-25 py-2 px-3 bg-neutral-100  rounded-lg  '>
                                 <Selectall Selected={SelectedFriends}
                                     setSelected={setSelectedFriends} members={Groupmembers}>
                                     <h5 className='text-[13px] text-text-secondary'>Select all</h5>
@@ -133,7 +133,7 @@ export const Stepone = () => {
                     <div className='select-friends mx-auto mt-3'>  
                    <div className="friend-lists h-60 overflow-auto  grid grid-cols-6  gap-3  border-b-light px-2 border-l p-2 ">
                         {Groupmembers.map((friend, index) => {
-                            return (<label key={index} className='select-friend rounded-lg shadow-md  bg-highlight flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans h-38'>
+                            return (<label key={index} className='select-friend rounded-lg shadow-md  bg-neutral-100 flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans h-38'>
                                 <div className="friend-img-container size-16">
                                     <img src={friend.Image} className='Img-c' alt="friend-img" />
                                 </div>

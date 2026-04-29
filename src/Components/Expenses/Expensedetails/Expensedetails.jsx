@@ -15,7 +15,7 @@ export const Expensedetails = ({expenseid}) => {
                 <div className="insights col-span-2 row-span-1">
                   <Insights data={Expense.Members}/>
                 </div>
-                <div className="Comparisan-graph card-b col-span-3 row-span-4 rounded-lg h-160">
+                <div className="Comparisan-graph bg-white shadow-md col-span-3 row-span-4 rounded-lg h-160">
                     <Comparisongraph Expense={Expense}/>
                 </div>
                 <div className="Settlements col-span-2 h-160 row-span-4">

@@ -16,7 +16,7 @@ const RenderSelectfriends = React.memo(({ Friends, setSelectedfriends, Selectedf
   return (<div className="friend-lists w-165 h-60 overflow-auto  grid grid-cols-5  gap-3  border-b-light px-2 border p-2 rounded-lg">
     {Friends.map((friend, index) => {
       return (
-        <label key={index} className='select-friend rounded-lg shadow-md h-30 bg-highlight flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans'>
+        <label key={index} className='select-friend rounded-lg shadow-md h-30 bg-neutral-100 flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans'>
           <div className="friend-img-container size-16">
             <img src={friend.Image} className='Img-c' alt="friend-img" />
           </div>
@@ -73,7 +73,7 @@ export const Newg = React.memo(() => {
     setValue("Members", Selectedfriends, { shouldValidate: true });
   }, [Selectedfriends, setValue])
   return (
-    <div className='container card-b rounded-2xl mx-auto h-fit w-180  my-6 p-3 relative l center-flex flex-col gap-0  '>
+    <div className='container bg-white shadow-lg rounded-2xl mx-auto h-fit w-180  my-6 p-3 relative l center-flex flex-col gap-0  '>
       <div className="title center-flex flex-col gap-0">
         <h2 className='text-2xl font-semibold flex items-center gap-2 text-center p-2 pb-0'>Add New Group<span><HiMiniUserGroup /></span></h2>
         <h4 className='text-text-secondary mr-2'>Start with intention. End with legacy.</h4>
@@ -130,7 +130,7 @@ export const Newg = React.memo(() => {
             <h4 className='text-md font-semibold my-2 '>Who's coming with you?
             </h4>
             <div className='center-flex gap-2'>
-              <div className=' w-25 py-2 px-3 bg-highlight  rounded-lg  '>
+              <div className=' w-25 py-2 px-3 bg-neutral-100 rounded-lg  '>
                 <Selectall setSelected={setSelectedfriends} members={Friends} Selected={Selectedfriends}>
                   <h5 className='text-[13px] text-text-secondary'>Select all</h5>
                 </Selectall>

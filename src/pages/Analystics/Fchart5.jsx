@@ -72,7 +72,7 @@ const GroupExpensesChart = () => {
       </ResponsiveContainer> : <UniversalEmptyState
         title="No data available."
       >
-        <div className="p-10 shadow-md bg-gray-50 rounded-full">
+        <div className="p-10 shadow-md border-l rounded-full">
           <RiBarChart2Line className="size-10 text-primary" />
         </div>
       </UniversalEmptyState>}

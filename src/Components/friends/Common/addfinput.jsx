@@ -49,7 +49,7 @@ const StyledWrapper = styled.div`
 
   .input:focus ~ label, input:valid ~ label {
    transform: translateY(-50%) scale(0.8);
-   background-color: #f5f5f5;
+   background-color: white;
    padding: 0 .2em;
    color:#ff6b35;
   }`;
