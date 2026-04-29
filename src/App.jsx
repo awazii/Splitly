@@ -23,12 +23,11 @@ import { Navigate } from "react-router-dom";
 function App() {
   const [Loading, setLoading] = useState(true);
   const friends = useSelector(selectAllFriends)
-  const ProtectedDashboard = () => {
-    const friends = useSelector(selectAllFriends);
+  const ProtectedRoute = ({ children }) => {
     if (friends.length === 0) {
       return <Navigate to="/NewUser" replace />;
     }
-    return <Dashboard />;
+    return children;
   };
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -43,32 +42,40 @@ function App() {
       children: [
         {
           path: "/",
-          element: <ProtectedDashboard />
+          element: (
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/Friends",
-          element: <Friends />,
+          element: (
+            <ProtectedRoute>
+              <Friends />
+            </ProtectedRoute>
+          ),
           children: [
             { index: true, element: <Friendslist /> },
             { path: "Addfriend", element: <Newfriend /> },
           ],
         },
-        { path: "/Friends/:Friend", element: <Frienddetails /> },
+        { path: "/Friends/:Friend", element: <ProtectedRoute><Frienddetails /></ProtectedRoute> },
         {
           path: "/Groups",
-          element: <Groups />,
+          element: <ProtectedRoute><Groups /></ProtectedRoute>,
           children: [
             { index: true, element: <Grouplist /> },
             { path: "AddGroup", element: <Newg /> },
           ],
         },
-        { path: "/Groups/:Groupid", element: <Groupdetail /> },
-        { path: "/Groups/:Groupid/AddExpense", element: <Addexpense /> },
-        { path: "/Groups/:Groupid/Expenses", element: <Expenses /> },
-        { path: "/Expenses", element: <Expense /> },
-        { path: "/Analytics", element: <Analytics /> },
-        { path: "/Spliter", element: <Spliter_main /> },
-        { path: '/NewUser', element: <SplitlyOnboarding /> }
+        { path: "/Groups/:Groupid", element: <ProtectedRoute><Groupdetail /></ProtectedRoute> },
+        { path: "/Groups/:Groupid/AddExpense", element: <ProtectedRoute><Addexpense /></ProtectedRoute> },
+        { path: "/Groups/:Groupid/Expenses", element: <ProtectedRoute><Expenses /></ProtectedRoute> },
+        { path: "/Expenses", element: <ProtectedRoute><Expense /></ProtectedRoute> },
+        { path: "/Analytics", element: <ProtectedRoute><Analytics /></ProtectedRoute> },
+        { path: "/Spliter", element: <ProtectedRoute><Spliter_main /></ProtectedRoute> },
+        { path: "/NewUser", element: <SplitlyOnboarding /> },
       ],
     },
   ]);
