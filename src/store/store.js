@@ -6,11 +6,13 @@ import GroupReducer from "./GroupSlice";
 import ExpenseReducer from "./ExpenseSlice";
 import SpliterReducer from './SpliterSlice'
 import { Spliter } from "../Components/Spliter/Spliterform/Spliter";
+import userReducer from "./UserSlice";
 const rootReducer = combineReducers({
   Friends: FriendsReducer,
   Groups: GroupReducer,
   Expenses: ExpenseReducer,
-  Spliter:SpliterReducer
+  Spliter:SpliterReducer,
+  user: userReducer,
 });
 const persistConfig = {
   key: "root",

@@ -144,9 +144,9 @@ export const Addexpense = () => {
             aggregatesettlements(finalmembers)
         ))
         await new Promise(resolve => setTimeout(resolve, 2000));
+        Openmodel();
         reset();
         setstep(1);
-        Openmodel();
     };
     return (
         <FormProvider {...methods}>

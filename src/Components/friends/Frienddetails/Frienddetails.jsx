@@ -37,7 +37,7 @@ export const Frienddetails = () => {
         </div>
       </div>
       <div className="friend-container grid container mx-auto grid-cols-3 h-205 gap-3 grid-rows-6">
-        <div className='Balance col-span-2 row-span-6 border-l shadow'>
+        <div className='Balance col-span-2 row-span-6 border-l shadow '>
           <Balancef currentFriend={CurrentFriend} />
         </div>
 

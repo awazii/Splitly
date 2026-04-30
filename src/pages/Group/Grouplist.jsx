@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef ,useEffect } from 'react'
 import Input from '../../Components/Common/Input'
 import Button from '../../Components/Common/searchbtn'
 import { HiMiniUserGroup } from "react-icons/hi2";
@@ -46,6 +46,17 @@ export const Grouplist = () => {
   function UnPin(group) {
     dispatch(updateGroup({ id: group.id, changes: { isPinned: false } }));
   }
+useEffect(() => {
+  console.log(PinnedGroups)
+
+}, [PinnedGroups])
+useEffect(() => {
+  console.log('Component mounted ')
+
+  return () => {
+    console.log('Component unmounted ')
+  }
+},)
 
   return (
     <motion.div
@@ -54,7 +65,6 @@ export const Grouplist = () => {
       animate="visible"
       className='Groups'
     >
-      {/* Search + Filter */}
       <motion.div variants={itemVariants} className='flex items-center justify-between mt-3'>
         <div className="search flex gap-4 py-2 items-center">
           <Input variant={"Group"} />
@@ -71,7 +81,7 @@ export const Grouplist = () => {
         {PinnedGroups.length > 0 ? (
           <motion.div variants={pageContainerVariants} className="pinned-groups grid grid-cols-5 gap-3 border-b border-b-light pb-5">
             {PinnedGroups.map((group, index) => (
-              <motion.div key={index} variants={cardVariants} className='pinned-friend bg-white shadow-md px-1 py-4 pb-2 h-fit rounded-lg relative flex flex-col gap-2 items-center'>
+              <motion.div key={group.id} variants={cardVariants} className='pinned-friend bg-white shadow-md px-1 py-4 pb-2 h-fit rounded-lg relative flex flex-col gap-2 items-center'>
                 <div className="about flex items-center gap-3">
                   <div className="profile border size-19 rounded-full border-b-light">
                     <img className='Img-c' src={CategoryExtrator(group).Img} alt="" />

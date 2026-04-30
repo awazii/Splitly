@@ -27,7 +27,7 @@ export const Transactioncard = ({ trans, Currentbalancewith, CurrentFriend ,seti
         const descripion =  Settlement.to === Currentbalancewith ? ' You borrowed' : 'You lent '
         return (
             <div className='expense-right text-right'>
-                <h2 className={`text-xl font-semibold ${textcolor}`}>{`Rs. ${Settlement.amount}`}</h2>
+                <h2 className={`text-xl font-semibold ${textcolor}`}>{`Rs. ${Settlement.amount.toLocaleString()}`}</h2>
                 <span className='text-[12px] text-text-secondary'>{ descripion }</span> 
             </div>
         )
@@ -37,7 +37,7 @@ export const Transactioncard = ({ trans, Currentbalancewith, CurrentFriend ,seti
          const descripion =  Settlement.to === Currentbalancewith ? "You sent" : "You Received"
         return (
              <div className='expense-right text-right'>
-                <h2 className={`text-xl font-semibold ${textcolor}`}>{`Rs. ${payment}`}</h2>
+                <h2 className={`text-xl font-semibold ${textcolor}`}>{`Rs. ${payment.toLocaleString()}`}</h2>
                 <span className='text-[12px] text-text-secondary'>{descripion}</span>
             </div>
         )

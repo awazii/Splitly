@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef ,useEffect } from 'react'
 import Input from '../../Components/Common/Input'
 import Button from '../../Components/Common/searchbtn'
 import { TbPinnedFilled } from "react-icons/tb";
@@ -40,7 +40,20 @@ export const Friendslist = () => {
     el.classList.add("highlight-glow");
     setTimeout(() => el.classList.remove("highlight-glow"), 3000);
   };
-
+  function UnPin(friend) {
+    dispatch(updatefriend({ id: friend.id, changes: { isPinned: false } }));
+  }
+  useEffect(() => {
+    console.log(pinnedFriends)
+  
+  }, [pinnedFriends])
+  useEffect(() => {
+    console.log('Component mounted ')
+  
+    return () => {
+      console.log('Component unmounted ')
+    }
+  },)
   return (
     <motion.div
       variants={pageContainerVariants}
@@ -61,9 +74,9 @@ export const Friendslist = () => {
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>
           Pinned <span><TbPinnedFilled className='rotate-45' /></span>
         </h2>
-        <motion.div variants={pageContainerVariants} className="pinned-friends grid grid-cols-6 gap-3 border-b border-b-light pb-5">
+       { pinnedFriends.length > 0 && (<motion.div variants={pageContainerVariants} className="pinned-friends grid grid-cols-6 gap-3 border-b border-b-light pb-5">
           {pinnedFriends.map((friend, index) => (
-            <motion.div key={index} variants={cardVariants} className='pinned-friend bg-white shadow-md w-60 px-1 py-4 pb-2 h-fit rounded-lg relative flex flex-col gap-2 items-center'>
+            <motion.div key={friend.id} variants={cardVariants} className='pinned-friend bg-white shadow-md w-60 px-1 py-4 pb-2 h-fit rounded-lg relative flex flex-col gap-2 items-center'>
               <div className="about flex center-flex gap-3">
                 <div className="profile border size-16 rounded-full border-b-light">
                   <img className='Img-c' src={friend.Image} alt="" />
@@ -78,7 +91,7 @@ export const Friendslist = () => {
                   <div className='absolute right-0 top-0'>
                     <button
                       className='unpin-btn m-1 cursor-pointer text-lg text-primary font-bold rotate-45'
-                      onClick={() => dispatch(updateFriend({ id: friend.id, changes: { isPinned: false } }))}
+                      onClick={() =>UnPin(friend) }
                     >
                       <TbPinnedFilled />
                     </button>
@@ -94,19 +107,19 @@ export const Friendslist = () => {
               </button>
             </motion.div>
           ))}
-        </motion.div>
+        </motion.div>)}
       </motion.div>
       <motion.div variants={itemVariants} className="friendslist-container min-h-60 border-b-light p-2">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>
           Friends <span><FaUserFriends /></span>
         </h2>
-        <motion.div variants={pageContainerVariants} className="friendslist grid grid-cols-4 gap-x-2 gap-y-2 mb-5">
+       {Friends.length > 0 && <motion.div variants={pageContainerVariants} className="friendslist grid grid-cols-4 gap-x-2 gap-y-2 mb-5">
           {Friends.map((friend) => (
             <motion.div key={friend.id} variants={cardVariants} ref={(el) => Setref(el, friend.id)}>
               <FriendCard friend={friend} />
             </motion.div>
           ))}
-        </motion.div>
+        </motion.div>}
       </motion.div>
     </motion.div>
   )

@@ -44,11 +44,6 @@ export const Settlements = ({ Expense }) => {
           initial="hidden"
           animate="visible"
           className='debts h-138 mt-2 overflow-auto space-y-4'
-          onAnimationComplete={() => {
-
-    document.querySelector(".debts")?.classList.remove("overflow-hidden");
-    document.querySelector(".debts")?.classList.add("overflow-auto");
-  }}
         >
           {Settlements.map((settlement, index) => (
             <div
@@ -120,6 +115,7 @@ export const Settlements = ({ Expense }) => {
           variants={cardVariants}
           initial="hidden"
           animate="visible"
+          className='h-full'
         >
           <UniversalEmptyState
             title="No settlements"

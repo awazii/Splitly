@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { Loader } from "./Components/loader";
 import { Dashboard } from "./pages/dashboard/Dashboard";
 import { Friends } from "./pages/friends/Friends";
@@ -16,26 +16,29 @@ import { Groupdetail } from "./Components/Groups/GroupDetail/Groupdetail";
 import Addexpense from "./Components/Expenses/Common/New";
 import { Expenses } from "./Components/Expenses/GroupExpenses";
 import { Frienddetails } from "./Components/friends/Frienddetails/Frienddetails";
-import { SplitlyOnboarding } from "./Components/info"
-import { selectAllFriends } from "./store/FriendsSlice";
+import { SplitlyOnboarding } from "./Components/NewUser";
+import { selectIsNewUser } from "./store/UserSlice";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
 function App() {
   const [Loading, setLoading] = useState(true);
-  const friends = useSelector(selectAllFriends)
-  const ProtectedRoute = ({ children }) => {
-    if (friends.length === 0) {
+  const isNewUser = useSelector(selectIsNewUser);
+  const ProtectedRoute = ({ children, redirectIf }) => {
+    if (redirectIf === "noFriends" && isNewUser ) {
       return <Navigate to="/NewUser" replace />;
+    }
+    if (redirectIf === "hasFriends" && !isNewUser) {
+      return <Navigate to="/" replace />;
     }
     return children;
   };
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 1500);
+    const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
+
   if (Loading) return <Loader />;
+
   const router = createBrowserRouter([
     {
       element: <Main />,
@@ -43,7 +46,7 @@ function App() {
         {
           path: "/",
           element: (
-            <ProtectedRoute>
+            <ProtectedRoute redirectIf="noFriends">
               <Dashboard />
             </ProtectedRoute>
           ),
@@ -51,34 +54,95 @@ function App() {
         {
           path: "/Friends",
           element: (
-            <ProtectedRoute>
+            <ProtectedRoute redirectIf="noFriends">
               <Friends />
             </ProtectedRoute>
           ),
           children: [
-            { index: true, element: <Friendslist /> },
+            { path: '', element: <Friendslist /> },
             { path: "Addfriend", element: <Newfriend /> },
           ],
         },
-        { path: "/Friends/:Friend", element: <ProtectedRoute><Frienddetails /></ProtectedRoute> },
+        {
+          path: "/Friends/:Friend",
+          element: (
+            <ProtectedRoute redirectIf="noFriends">
+              <Frienddetails />
+            </ProtectedRoute>
+          ),
+        },
         {
           path: "/Groups",
-          element: <ProtectedRoute><Groups /></ProtectedRoute>,
+          element: (
+            <ProtectedRoute redirectIf="noFriends">
+              <Groups />
+            </ProtectedRoute>
+          ),
           children: [
             { index: true, element: <Grouplist /> },
             { path: "AddGroup", element: <Newg /> },
           ],
         },
-        { path: "/Groups/:Groupid", element: <ProtectedRoute><Groupdetail /></ProtectedRoute> },
-        { path: "/Groups/:Groupid/AddExpense", element: <ProtectedRoute><Addexpense /></ProtectedRoute> },
-        { path: "/Groups/:Groupid/Expenses", element: <ProtectedRoute><Expenses /></ProtectedRoute> },
-        { path: "/Expenses", element: <ProtectedRoute><Expense /></ProtectedRoute> },
-        { path: "/Analytics", element: <ProtectedRoute><Analytics /></ProtectedRoute> },
-        { path: "/Spliter", element: <ProtectedRoute><Spliter_main /></ProtectedRoute> },
-        { path: "/NewUser", element: <SplitlyOnboarding /> },
+        {
+          path: "/Groups/:Groupid",
+          element: (
+            <ProtectedRoute redirectIf="noFriends">
+              <Groupdetail />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/Groups/:Groupid/AddExpense",
+          element: (
+            <ProtectedRoute redirectIf="noFriends">
+              <Addexpense />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/Groups/:Groupid/Expenses",
+          element: (
+            <ProtectedRoute redirectIf="noFriends">
+              <Expenses />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/Expenses",
+          element: (
+            <ProtectedRoute redirectIf="noFriends">
+              <Expense />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/Analytics",
+          element: (
+            <ProtectedRoute redirectIf="noFriends">
+              <Analytics />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/Spliter",
+          element: (
+            <ProtectedRoute redirectIf="noFriends">
+              <Spliter_main />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/NewUser",
+          element: (
+            <ProtectedRoute redirectIf="hasFriends">
+              <SplitlyOnboarding />
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
   ]);
+
   return <RouterProvider router={router} />;
 }
 

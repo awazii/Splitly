@@ -131,23 +131,3 @@ export const selectPinnedFriends = createSelector(
     (friends) => friends.filter(friend => friend.isPinned)
 );
 export default FriendsSlice.reducer;
-// {
-//             id: adminId,
-//             Name: "Awais",
-//             Bio: "Full Stack Developer",
-//             Image: "https://res.cloudinary.com/dllocncsk/image/upload/v1774531405/glrkslojmpugzrwes3a6.jpg",
-//             isPinned: true,
-//             isBanned: false,
-//             spendings: 0,
-//             netBalance: {
-//                 total: 0,
-//                 indicatorid: "settled",
-//             },
-//             status: "Admin",
-//             Relationship: [],
-//             crews: {
-//                 groupCount: 0,
-//                 groups: []
-//             },
-//             joinedDate: dayjs().format("YYYY-MM-DD")
-//         }

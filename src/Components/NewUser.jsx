@@ -9,15 +9,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { uploadToCloudinary } from '../utils/Uploadimg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWatch } from 'react-hook-form';
-import Loader from '../Components/Common/loader';
+import Loader from './Common/loader';
 import { addFriend } from '../store/FriendsSlice';
 import { useNavigate } from 'react-router-dom';
+import { setNewUser } from '../store/UserSlice';
 export const SplitlyOnboarding = ({ onFinish }) => {
     const [step, setStep] = useState(0);
     const [CurrentImage, setCurrentImage] = useState("")
     const dispatch = useDispatch()
     const [Finalform, setFinalform] = useState({})
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -65,7 +66,7 @@ export const SplitlyOnboarding = ({ onFinish }) => {
         }
     };
     const GetStarted = () => {
-        console.log(Finalform)
+        dispatch(setNewUser(false));
         dispatch(addFriend(
             Finalform.Name,
             Finalform.Bio,
@@ -241,7 +242,7 @@ export const SplitlyOnboarding = ({ onFinish }) => {
                                 <button
                                     disabled={!CurrentForm.Name}
                                     type='submit'
-                                    className={`w-full mt-8 p-4 bg-primary cursor-pointer hover:bg-orange-600 text-white font-bold rounded-2xl shadow-xl shadow-blue-100 flex items-center justify-center gap-2 disabled:opacity-50`}
+                                    className={`w-full mt-8 p-4 bg-primary hover:bg-orange-600 text-white font-bold rounded-2xl shadow-xl shadow-blue-100 flex items-center justify-center gap-2 disabled:opacity-50 ${isSubmitting ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                                 >
                                     {isSubmitting && <Loader />}
                                     {!isSubmitting && <>Next <HiArrowRight /></>}

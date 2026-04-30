@@ -95,7 +95,7 @@ export const Balancef = ({ currentFriend }) => {
           variants={pageContainerVariants}
           initial="hidden"
           animate="visible"
-          className="friend-balances flex-1 h-fit mt-3 grid grid-cols-3 gap-3 auto-rows-min"
+          className="friend-balances flex-1 h-fit mt-3 grid grid-cols-3 gap-3 auto-rows-min "
         >
           {currentFriend.Relationship?.map((rel) => {
             const Friend = useSelector(state => selectFriendById(state, rel.id));
@@ -111,7 +111,7 @@ export const Balancef = ({ currentFriend }) => {
           })}
         </motion.div>
       ) : (
-        <motion.div variants={cardVariants} initial="hidden" animate="visible">
+        <motion.div variants={cardVariants} className='flex-1' initial="hidden" animate="visible">
           <UniversalEmptyState
             title="No shared balances"
             description={`No shared balances for ${currentFriend.Name}. They haven't started sharing expenses with anyone yet.`}
