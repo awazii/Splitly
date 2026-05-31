@@ -75,7 +75,10 @@ export const Frienddetails = () => {
             <UniversalEmptyState
               title="This User has been removed or does not exist."
               textsize="text-sm"
-              button={true}
+              button={{
+                type:"Friends",
+                Link:"/Friends"
+              }}
             >
               <div className="p-8 shadow-md border-l rounded-full">
                 <TbUserX className="size-8 text-primary" />

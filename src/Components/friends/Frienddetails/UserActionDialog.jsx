@@ -6,12 +6,10 @@ import {
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import { FaBan } from "react-icons/fa";
 import { TbUserCheck } from "react-icons/tb";
-import { useNavigate } from 'react-router-dom';
 import { pageContainerVariants, cardVariants, headerVariants } from "../../../utils/animation";
 import { motion } from "framer-motion";
 const ConfirmAction = ({ friend, isnew, isbanned, Closemodel, setIsConfirmed }) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const paragraphs = {
         remove:
             "Removing this user will delete them from your list. Since they are not part of any group, no balances or shared expenses will be affected.",
@@ -71,8 +69,7 @@ const ConfirmAction = ({ friend, isnew, isbanned, Closemodel, setIsConfirmed }) 
     );
 };
 
-const ActionResult = ({ isnew, friend, User, Closemodel }) => {
-    console.log(isnew)
+const ActionResult = ({ friend, User, Closemodel }) => {
     const resultTexts = {
         remove: ` has been successfully removed from your friends list.`,
         ban: ` has been banned. They can no longer join new groups or be added to new expenses, and their profile cannot be updated.`,

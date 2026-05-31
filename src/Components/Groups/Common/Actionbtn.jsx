@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { MdDelete } from "react-icons/md";
-const Button = () => {
+import { TbSnowflake } from "react-icons/tb";
+const Button = ({ isnew, onClick }) => {
   return (
-    <StyledWrapper>
-      <button className="cssbuttons-io-button">
-        Terminate
+    <StyledWrapper $isnew={isnew}>
+      <button className={`cssbuttons-io-button `} onClick={onClick}>
+        {isnew ? "Delete" : "Freeze"}
         <div className="icon">
-         <MdDelete className=' size-6' />
+         {isnew ? <MdDelete className=' size-6' /> : <TbSnowflake className=' size-6' />}
         </div>
       </button>
     </StyledWrapper>
@@ -16,7 +17,7 @@ const Button = () => {
 
 const StyledWrapper = styled.div`
   .cssbuttons-io-button {
-    background: #dd131d;
+  background: ${props => props.$isnew ? '#dd131d' : '#38BDF8'};
     color: white;
     font-family: inherit;
     padding: 0.35em;
@@ -28,7 +29,7 @@ const StyledWrapper = styled.div`
     letter-spacing: 0.05em;
     display: flex;
     align-items: center;
-    box-shadow: inset 0 0 1.6em -0.6em #cc5329;
+    box-shadow: inset 0 0 1.6em -0.6em ${props => props.$isnew ? '#cc5329' : '#1E3A8A'};
     overflow: hidden;
     position: relative;
     height: 2.8em;
@@ -57,7 +58,7 @@ const StyledWrapper = styled.div`
   .cssbuttons-io-button .icon svg {
     width: 1.1em;
     transition: transform 0.3s;
-    color: #dd131d;
+    color: ${props => props.$isnew ? '#dd131d' : '#38BDF8'};
   }
 
   .cssbuttons-io-button:hover .icon svg {

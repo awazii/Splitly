@@ -15,6 +15,7 @@ import { RiHandCoinLine } from "react-icons/ri";
 import { UniversalEmptyState } from '../UniversalEmptyState';
 import { motion } from "framer-motion";
 import { pageContainerVariants, itemVariants, cardVariants } from "../../utils/animation";
+import { selectGroupById } from '../../store/GroupSlice';
 import {
   HiTag,
   HiCurrencyDollar,
@@ -67,6 +68,7 @@ export const expenseGroupFilters = [
 export const Expenses = () => {
   const Navigate = useNavigate()
   const { Groupid } = useParams();
+  const Group = useSelector(state=>selectGroupById(state,Groupid))
   const [popup, setpopup] = useState(false)
   const Expenses = useSelector(state => GroupExpenses(state, Groupid));
   const [CurrentExpenseid, setCurrentExpenseid] = useState("")
@@ -91,9 +93,9 @@ export const Expenses = () => {
           </button>
           <h3 className='text-3xl'>Expenses</h3>
         </div>
-        <div className="actions center-flex gap-3">
+       {Group.statusid !== "Freeze" && <div className="actions center-flex gap-3">
           <Addexpensebtn />
-        </div>
+        </div>}
       </motion.div>
       <motion.div variants={itemVariants} className='flex items-center justify-between mt-3 mx-9'>
         <div className="search flex gap-4 py-2 items-center mt-4">

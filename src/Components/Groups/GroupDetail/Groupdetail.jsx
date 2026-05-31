@@ -1,10 +1,10 @@
-import React from 'react'
+import React ,{useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Insights } from '../../Expenses/Expensedetails/Insights'
 import { Recent } from '../../../pages/dashboard/Recent'
 import { Overview } from './Overview'
 import { Balance } from './Spendings'
-import Terminatebtn from "../Common/Teminatebtn"
+import Actionbtn from "../Common/Actionbtn"
 import { IoReturnUpBack, IoSettingsOutline } from "react-icons/io5";
 import { GiExpense } from "react-icons/gi";
 import { MdOutlineDateRange } from "react-icons/md";
@@ -15,28 +15,32 @@ import { GroupExpenses, FriendsGroupSpendings } from "../../../store/ExpenseSlic
 import { UniversalEmptyState } from '../../UniversalEmptyState';
 import { cardVariants, cardContentVariants, pageContainerVariants } from "../../../utils/animation";
 import { motion } from 'framer-motion'
+import { Basemodel } from '../../basemodel';
+import {GroupActionDialog} from './GroupActionDialog'
+import { MdGroupOff } from "react-icons/md";
 export const Groupdetail = () => {
   const Navigate = useNavigate()
   const { Groupid } = useParams();
+  const [restrictpopup, setrestrictpopup] = useState(false)
   const CurrentGroup = useSelector((state) => selectGroupById(state, Groupid));
   const GExpenses = useSelector((state) => GroupExpenses(state, Groupid));
   const MembersSpendings = useSelector(state => FriendsGroupSpendings(state, Groupid))
-
+  const isnew = GExpenses.length === 0 && MembersSpendings.length === 0
   const extra = [
     {
-      value: statuses[CurrentGroup.statusid]?.label,
-      gradient: statuses[CurrentGroup.statusid]?.bgColor,
-      color: statuses[CurrentGroup.statusid]?.textColor,
+      value: statuses[CurrentGroup?.statusid]?.label,
+      gradient: statuses[CurrentGroup?.statusid]?.bgColor,
+      color: statuses[CurrentGroup?.statusid]?.textColor,
       label: "Status"
     },
     {
-      value: CurrentGroup.joinedDate,
+      value: CurrentGroup?.joinedDate,
       icon: <MdOutlineDateRange className='text-white size-5' />,
       gradient: 'linear-gradient(135deg, #ffcc70, #f9a825, #ff6f61, #d84315)',
       label: "Created on"
     },
     {
-      value: GExpenses.length,
+      value: GExpenses?.length,
       icon: <GiExpense className='text-white size-5' />,
       gradient: 'linear-gradient(135deg, #a0d8ef, #00aaff, #0055aa)',
       label: "Expense Count"
@@ -45,7 +49,8 @@ export const Groupdetail = () => {
 
   return (
     <div className='Indiviual-group h-full scrollbar-hide overflow-auto'>
-      <div className="header h-25 flex px-10 items-center justify-between">
+    { CurrentGroup ? (
+      <> <div className="header h-25 flex px-10 items-center justify-between">
         <div className="group-name center-flex gap-3">
           <button
             className="backbtn card-b p-2 rounded-full cursor-pointer group trans hover:scale-102 active:scale-95"
@@ -55,12 +60,12 @@ export const Groupdetail = () => {
           </button>
           <h3 className='text-3xl'>{CurrentGroup.Name}</h3>
         </div>
-        <div className="actions center-flex gap-3">
-          <Terminatebtn />
+       {CurrentGroup.statusid!== "Freeze" && <div className="actions center-flex gap-3">
+          <Actionbtn isnew={isnew} onClick={() => setrestrictpopup(true)} />
           <div className="settingbtn card-b size-11 rounded-lg center-flex group trans hover:scale-102 active:scale-95 cursor-pointer">
             <IoSettingsOutline className='size-5 group-hover:text-primary' />
           </div>
-        </div>
+        </div>}
       </div>
       <div className='grid container mx-auto grid-cols-12 grid-rows-6 gap-3'>
         <div className="overview col-span-7 row-span-1">
@@ -95,7 +100,11 @@ export const Groupdetail = () => {
                   <h3 className="font-semibold">
                     {ex.label === "Status" ? ex.label : ex.value}
                   </h3>
-                  <p className="font-semibold text-[13px] center-flex gap-1">
+                  <p className={`font-semibold text-[13px] center-flex gap-1 `}
+                  style={{
+                    color : ex.label === "Status" ? ex.color :''
+                  }}
+                  >
                     {ex.label === "Status" ? <span className='size-3 rounded-full' style={{ background: ex.gradient }}></span> : ""}
                     {ex.label !== "Status" ? ex.label : ex.value}
                   </p>
@@ -120,7 +129,29 @@ export const Groupdetail = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> </>) :(
+              <motion.div variants={pageContainerVariants}
+                initial="hidden"
+                animate="visible"
+                className='h-full center-flex'>
+                <motion.div variants={cardVariants}>
+                  <UniversalEmptyState
+                    title="This Group has been removed or does not exist."
+                    textsize="text-sm"
+                    button={{type:"Groups",
+                      Link : "/Groups"         
+                    }}
+                  >
+                    <div className="p-8 shadow-md border-l rounded-full">
+                      <MdGroupOff className="size-8 text-primary" />
+                    </div>
+                  </UniversalEmptyState>
+                </motion.div>
+              </motion.div>
+            )}
+     <Basemodel isOpen={restrictpopup} Closemodel={() => setrestrictpopup(false)}>
+        <GroupActionDialog groupId={CurrentGroup?.id} isnew={isnew} Closemodel={() => setrestrictpopup(false)} />
+     </Basemodel> 
     </div>
   )
 }

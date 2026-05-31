@@ -21,15 +21,17 @@ import {FaBan} from "react-icons/fa";
 export const statuses = {
   Active: {
     label: "Active",
-    textColor: "#16A34A",
-    bgColor: "#2FA85A"
+    textColor: "#16A34A", 
+    bgColor: "#2FA85A"   
   },
-  Closed: {
-    label: "Closed",
-    textColor: "#DC2626",
-    bgColor: "#FF4C4C"
-  }
+ Freeze: {
+  label: "Freeze",
+textColor: "#0369A1",
+  bgColor: "#0284C7",  
+}
+
 };
+
 const Card = ({ group }) => {
   const [flip, setflip] = useState(false)
   const [pin, setpin] = useState(group.isPinned)
