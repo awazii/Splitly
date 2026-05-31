@@ -11,8 +11,9 @@ const ConfirmAction = ({ group, isnew, Closemodel, setIsConfirmed }) => {
     remove:
       "Removing this group will delete it from your list. This action only applies to new groups that have no balances or shared expenses. Once removed, the group will no longer be accessible.",
     freeze:
-      "Freezing this group permanently prevents any new expenses or edits. The group becomes locked like history, and past records remain visible but cannot be changed."
+      "Freezing this group permanently prevents any new expenses, edits, or adding new members. The group becomes locked like history, and past records remain visible but cannot be changed."
   };
+
   function handleAction() {
     if (isnew) {
       dispatch(deleteGroup(group.id));
@@ -61,24 +62,25 @@ const ConfirmAction = ({ group, isnew, Closemodel, setIsConfirmed }) => {
     </div>
   );
 }
-const ActionResult = ({group,Groupinfo,Closemodel}) => {
+const ActionResult = ({ group, Groupinfo, Closemodel }) => {
   const groupResultTexts = {
     remove: ` has been successfully removed from your groups list.`,
-    freeze: ` has been frozen permanently. You can no longer edit or add new expenses in this group. It is now locked as history.`
+    freeze: ` has been frozen permanently. You can no longer edit, add new expenses, or add new members in this group. It is now locked as history.`
   };
-  const IconComponent = Groupinfo.isnew ? MdGroupRemove : TbSnowflake 
+
+  const IconComponent = Groupinfo.isnew ? MdGroupRemove : TbSnowflake
   return (
-          <motion.div variants={headerVariants} className="w-full h-full center-flex flex-col gap-4 p-4">
-              <div className="p-8 shadow-md rounded-full bg-white">
-                  <IconComponent className={`size-8 ${Groupinfo?.isnew ? "text-red-500" : "text-sky-500"}`} />
-              </div>
-              <div className={`center-flex flex-col gap-2 `}>
-                  <h3 className='text-xl font-semibold'>Group {Groupinfo?.isnew ?   "Deleted" : "Frozen"}</h3>
-                  <p className='text-sm text-center w-90 text-text-secondary'> <span className="font-semibold text-black">{Groupinfo?.name}</span> {groupResultTexts[Groupinfo?.isnew ? "remove" : "freeze"]}</p>
-              </div>
-              < button onClick={() => Closemodel()} className="px-4 py-2  rounded-lg bg-black text-white hover:bg-orange-600 transition-colors cursor-pointer"> Return to Group Page</button>
-          </motion.div>
-      );
+    <motion.div variants={headerVariants} className="w-full h-full center-flex flex-col gap-4 p-4">
+      <div className="p-8 shadow-md rounded-full bg-white">
+        <IconComponent className={`size-8 ${Groupinfo?.isnew ? "text-red-500" : "text-sky-500"}`} />
+      </div>
+      <div className={`center-flex flex-col gap-2 `}>
+        <h3 className='text-xl font-semibold'>Group {Groupinfo?.isnew ? "Deleted" : "Frozen"}</h3>
+        <p className='text-sm text-center w-90 text-text-secondary'> <span className="font-semibold text-black">{Groupinfo?.name}</span> {groupResultTexts[Groupinfo?.isnew ? "remove" : "freeze"]}</p>
+      </div>
+      < button onClick={() => Closemodel()} className="px-4 py-2  rounded-lg bg-black text-white hover:bg-orange-600 transition-colors cursor-pointer"> Return to Group Page</button>
+    </motion.div>
+  );
 }
 export const GroupActionDialog = ({ isnew, groupId, Closemodel }) => {
   const [isConfirmed, setIsConfirmed] = useState(false);

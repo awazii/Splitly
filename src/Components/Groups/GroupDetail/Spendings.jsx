@@ -34,9 +34,9 @@ export const Balance = ({ CurrentGroup }) => {
             Track individual contributions across your group
           </p>
         </div>
-        <div className="add-friend mr-3">
+      {CurrentGroup.statusid !== "Freeze"  && <div className="add-friend mr-3">
           <Addbtn />
-        </div>
+        </div>}
       </motion.div>
       <motion.div
         variants={pageContainerVariants}
