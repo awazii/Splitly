@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MdDelete } from "react-icons/md";
+import { MdGroupRemove } from "react-icons/md";
 import { TbSnowflake } from "react-icons/tb";
 const Button = ({ isnew, onClick }) => {
   return (
@@ -8,7 +8,7 @@ const Button = ({ isnew, onClick }) => {
       <button className={`cssbuttons-io-button `} onClick={onClick}>
         {isnew ? "Delete" : "Freeze"}
         <div className="icon">
-         {isnew ? <MdDelete className=' size-6' /> : <TbSnowflake className=' size-6' />}
+         {isnew ? <MdGroupRemove className=' size-6' /> : <TbSnowflake className=' size-6' />}
         </div>
       </button>
     </StyledWrapper>
