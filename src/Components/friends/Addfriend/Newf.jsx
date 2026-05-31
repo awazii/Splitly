@@ -35,7 +35,6 @@ async function  uploadImage (image) {
 }
   const Onsubmit = async (data) => {
   const imageUrl = await  uploadImage(data.Image) 
-  console.log(data , imageUrl)
   setissubmitted(true)
        dispatch(addFriend(
         data.Name,
@@ -43,6 +42,10 @@ async function  uploadImage (image) {
         imageUrl,
         data.isPinned
       ));  
+      setTimeout(() => {
+        setissubmitted(false);
+      }, 2000);
+      reset();
   };
   return (
     <div className='container bg-white shadow-lg rounded-2xl mx-auto h-fit w-100 my-20 p-3'>
@@ -140,6 +143,7 @@ async function  uploadImage (image) {
           )}
         />
         <Newbtn isSubmitting={isSubmitting} />
+          {isSubmitting && <p className="text-gray-500 mt-2">Adding friend...</p>}
         {issubmitted &&  <p className='text-green-500'>Friend Added Successfully!</p>}
       </form>
     </div>

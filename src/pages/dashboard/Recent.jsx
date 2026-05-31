@@ -15,6 +15,7 @@ import { HiMiniLanguage } from "react-icons/hi2";
 import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
 import { RiHistoryLine } from "react-icons/ri";
 import { pageContainerVariants, cardVariants, headerVariants } from "../../utils/animation";
+import { TbActivityHeartbeat } from "react-icons/tb";
 import { motion } from "framer-motion";
 export const Recent = ({ h ,d }) => {
     const recentActivites = []
@@ -163,7 +164,7 @@ export const Recent = ({ h ,d }) => {
         className="recent-header px-6 py-4 flex items-center justify-between flex-row-reverse"
       >
         <div className="logo w-fit rounded-lg p-2">
-          <LuActivity className='text-primary size-7' />
+          <TbActivityHeartbeat className='text-primary size-9' />
         </div>
         <div className="headings">
           <h2 className='text-2xl font-semibold'>Recent Activities</h2>

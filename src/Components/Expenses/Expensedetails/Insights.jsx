@@ -8,7 +8,7 @@ import { UniversalEmptyState } from '../../UniversalEmptyState';
 import { selectAllSplits } from '../../../store/SpliterSlice';
 import { useSelector } from 'react-redux';
 import { pageContainerVariants, cardContentVariants } from "../../../utils/animation";
-
+import { FaBan } from "react-icons/fa"
 export const Insights = ({ data }) => {
     const sortedmembers = data && [...data].sort((a, b) => b.spent - a.spent);
     const HighesContributor = sortedmembers && sortedmembers[0];
@@ -28,14 +28,17 @@ export const Insights = ({ data }) => {
             svg: <GiReceiveMoney className='text-white size-7' />,
             color: "#dc2626",
             about: Memberdetails(HighestDebtor?.id) || GetTemp(HighestDebtor?.id),
-            totalamount: Math.abs(HighestDebtor?.spent - HighestDebtor?.share)
+            totalamount: Math.abs(HighestDebtor?.spent - HighestDebtor?.share),
+            isBanned : HighestDebtor ? Memberdetails(HighestDebtor.id)?.isBanned : false
         },
         {
             label: "Highest Contributor",
             svg: <FaCoins className='text-white size-7' />,
             totalamount: HighesContributor?.spent,
             color: "#16A34A",
-            about: Memberdetails(HighesContributor?.id) || GetTemp(HighesContributor?.id)
+            about: Memberdetails(HighesContributor?.id) || GetTemp(HighesContributor?.id),
+            isBanned : HighesContributor ? Memberdetails(HighesContributor.id)?.isBanned : false
+
         }
     ];
 
@@ -59,9 +62,14 @@ export const Insights = ({ data }) => {
                         <div className="label font-semibold text-lg">{insight.label}</div>
                         {insight.about && (
                             <div className="about center-flex gap-2 justify-between">
-                                <div className="logo rounded-lg size-7">
+                                <div className={`logo  size-7 relative  ${insight.about.type !== "temporary" ? "rounded-full" : ""} center-flex ${insight.isBanned ? "border-red-500" : "border-primary"} border-2`}>
                                     {insight.about.type !== "temporary" ? (
-                                        <img src={insight.about.Image} className='rounded-full Img-c' alt="profile-pic" />
+                                        <>
+                                            <img src={insight.about.Image} className='rounded-full Img-c' alt="profile-pic" />
+                                            <div className={`absolute top-8/13 right-4 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${insight.isBanned ? "block" : "hidden"}`}>
+                                                <FaBan className="size-1" /> 
+                                            </div>
+                                        </>
                                     ) : (
                                         <div className="friend-img-container size-7 bg-neutral-300 rounded-full center-flex">
                                             <IoPerson className='size-3 text-neutral-500' />

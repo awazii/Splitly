@@ -17,6 +17,7 @@ import { Memberdetails } from '../../utils/Memberdetails';
 import { categories } from '../../pages/Expenses/Expenses';
 import { RiUserLine } from "react-icons/ri";
 import { RiFileList3Line } from "react-icons/ri";
+import {FaBan} from "react-icons/fa";
 export const statuses = {
   Active: {
     label: "Active",
@@ -120,9 +121,15 @@ const Card = ({ group }) => {
               <div className='grid grid-cols-3 pb-3 pt-2 border-b-light border-b mx-1'>
                 <div className='top-spender-container border-r-1 border-b-light h-28'>
                   <h3 className='text-sm font-semibold text-center'>Top Spender</h3>
-                  <div className="top-spender-info center-flex  mt-1 flex-col">
-                    <div className="top-spender-img size-16 ">
-                      {TopContributor ? <img src={Memberdetails(TopContributor.id)?.Image} className='Img-c' alt="" />
+                  <div className={`top-spender-info center-flex  mt-1 flex-col`}>
+                    <div className={`"top-spender-img size-16 relative  ${Memberdetails(TopContributor?.id)?.isBanned ? "border-red-500" : "border-primary"} ${
+                      TopContributor ? "border" : " border-gray-400"
+                    }  rounded-full center-flex `}>
+                      {TopContributor ? <> <img src={Memberdetails(TopContributor.id)?.Image} className='Img-c' alt="" />
+                      <div className={`absolute top-9/12 left-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${Memberdetails(TopContributor.id)?.isBanned ? "block" : "hidden"}`}>
+                      <FaBan className="size-2" />
+                    </div>
+                    </>
                         :
                         <div className='border-l size-14 shadow center-flex rounded-full'>
                           <RiUserLine className='text-primary size-5' />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { motion } from "framer-motion";
 import { MdOutlineDateRange } from "react-icons/md";
 import { IoCard } from "react-icons/io5";
@@ -6,8 +6,17 @@ import { MdGroup } from "react-icons/md";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { indicators } from '../../../pages/friends/Friendslist';
 import { headerVariants, pageContainerVariants, cardVariants } from "../../../utils/animation";
-
+import {Basemodel} from '../../basemodel'
+import {selectAllGroups} from '../../../store/GroupSlice'
+import { useSelector } from 'react-redux';
+import { Groupinvolved } from './Groupinvolved';
+import { FaBan } from "react-icons/fa";
 export const Aboutf = ({ CurrentFriend }) => {
+  const groups = useSelector(selectAllGroups);
+  const friendGroups = groups.filter(group => CurrentFriend.crews.groups.includes(group.id));
+ const [isopen, setisopen] = useState(false)
+ const Openmodel = () => setisopen(true)
+ const Closemodel = () => setisopen(false)
   const overvuewData = [
     {
       label: "Net Balance",
@@ -37,7 +46,6 @@ export const Aboutf = ({ CurrentFriend }) => {
 
   return (
     <div className='size-full card-b rounded-lg p-4 shadow'>
-      {/* Header */}
       <motion.h2
         variants={headerVariants}
         initial="hidden"
@@ -46,16 +54,17 @@ export const Aboutf = ({ CurrentFriend }) => {
       >
         About Friend
       </motion.h2>
-
-      {/* Profile section */}
       <motion.div
         variants={cardVariants}
         initial="hidden"
         animate="visible"
         className="about-f center-flex flex-col gap-2"
       >
-        <div className="logo rounded-full size-34 center-flex border-primary border-3">
+        <div className={`logo rounded-full size-34 center-flex ${CurrentFriend.isBanned ? "border-red-500" : "border-primary"} border-3 relative`}>
           <img src={CurrentFriend.Image} className='Img-c p-1' alt="profile-image" />
+          <div className={`absolute top-9/12 left-1 p-3 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${CurrentFriend.isBanned ? "block" : "hidden"}`}>
+                              <FaBan className="size-4" />
+                          </div>
         </div>
         <div className="info center-flex flex-col">
           <h3 className='font-semibold text-2xl'>
@@ -64,11 +73,11 @@ export const Aboutf = ({ CurrentFriend }) => {
               {CurrentFriend.id === "admin_01" ? " (Admin)" : ""}
             </span>
           </h3>
-          <p className='text-text-secondary text-lg'>{CurrentFriend.Bio}</p>
+          <p className={`${CurrentFriend.isBanned ? "text-red-500 font-semibold" : "text-text-secondary"} text-lg`}>
+            {CurrentFriend.isBanned ? "(Banned)" : CurrentFriend.Bio}
+          </p>
         </div>
       </motion.div>
-
-      {/* Overview data grid */}
       <motion.div
         variants={pageContainerVariants}
         initial="hidden"
@@ -86,8 +95,8 @@ export const Aboutf = ({ CurrentFriend }) => {
             </div>
             <div className="info flex-col flex-1">
               <h4 className='font-semibold'>{data.label}</h4>
-              {data.label === "Groups Involved" ? (
-                <button className='underline cursor-pointer text-sm text-primary font-semibold'>
+              {data.label === "Groups Involved"  ? (
+                <button className={`underline cursor-pointer text-sm text-primary font-semibold`} onClick={Openmodel}>
                   {data.value}
                 </button>
               ) : (
@@ -107,6 +116,9 @@ export const Aboutf = ({ CurrentFriend }) => {
           </motion.div>
         ))}
       </motion.div>
+      <Basemodel isOpen={isopen} Closemodel={Closemodel} title={"Groups Involved"}>
+       <Groupinvolved friendGroups={friendGroups} friend = {CurrentFriend} />
+      </Basemodel>
     </div>
   );
 };

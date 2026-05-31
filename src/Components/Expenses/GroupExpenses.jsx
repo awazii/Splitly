@@ -15,14 +15,62 @@ import { RiHandCoinLine } from "react-icons/ri";
 import { UniversalEmptyState } from '../UniversalEmptyState';
 import { motion } from "framer-motion";
 import { pageContainerVariants, itemVariants, cardVariants } from "../../utils/animation";
+import {
+  HiTag,
+  HiCurrencyDollar,
+  HiBarsArrowDown,
+  HiBarsArrowUp,
+} from "react-icons/hi2";
+import { FilterHeader } from '../filter';
+export const expenseGroupSorts = [
+  {
+    label: "New to Old",
+    icon: (
+      <HiBarsArrowDown
+        size={18}
+        className="text-[#3b82f6]"
+      />
+    ),
+  },
 
+  {
+    label: "Old to New",
+    icon: (
+      <HiBarsArrowUp
+        size={18}
+        className="text-[#a855f7]"
+      />
+    ),
+  },
+
+  {
+    label: "Most Expenses",
+    icon: (
+      <HiCurrencyDollar
+        size={18}
+        className="text-[#14b8a6]"
+      />
+    ),
+  },
+];
+export const expenseGroupFilters = [
+  {
+    label: "Category",
+    icon: (
+      <HiTag
+        size={18}
+        className="text-[#ec4899]"
+      />
+    ),
+  },
+];
 export const Expenses = () => {
   const Navigate = useNavigate()
   const { Groupid } = useParams();
   const [popup, setpopup] = useState(false)
   const Expenses = useSelector(state => GroupExpenses(state, Groupid));
   const [CurrentExpenseid, setCurrentExpenseid] = useState("")
-
+  const [isFilteropen, setisFilteropen] = useState(false)
   const Openmodel = () => setpopup(true)
   const Closemodel = () => setpopup(false)
 
@@ -52,9 +100,9 @@ export const Expenses = () => {
           <Input variant={"Expense"} />
           <Button />
         </div>
-        <div className="filter card-b p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex">
+        <button className="filter bg-white shadow-md  p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex" onClick={()=>setisFilteropen(true)}>
           <CiFilter className='size-5' />
-        </div>
+        </button>
       </motion.div>
       <motion.div variants={cardVariants} className="Expense-container mx-auto container mt-4">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-fit'>
@@ -62,9 +110,9 @@ export const Expenses = () => {
         </h2>
 
         {Expenses.length > 0 ? (
-          <motion.div variants={pageContainerVariants} className="expenses grid grid-cols-3 gap-3 overflow-auto">
+          <motion.div variants={pageContainerVariants} className="expenses grid grid-cols-3 gap-3">
             {Expenses.map((expense, index) => (
-              <motion.div key={index} variants={cardVariants}>
+              <motion.div key={index} variants={cardVariants} >
                 <ExpenseCard
                   expense={expense}
                   Openmodel={() => {
@@ -91,6 +139,9 @@ export const Expenses = () => {
       <Basemodel isOpen={popup} Closemodel={Closemodel} title="Expense Details">
         <Expensedetails expenseid={CurrentExpenseid} />
       </Basemodel>
+        <Basemodel isOpen={isFilteropen} Closemodel={() => setisFilteropen(false)} title="Expense Filters">
+          <FilterHeader Sorts={expenseGroupSorts} Filters={expenseGroupFilters} ActiveSort={"New to Old"} type="expense" />
+        </Basemodel>
     </motion.div>
   )
 }

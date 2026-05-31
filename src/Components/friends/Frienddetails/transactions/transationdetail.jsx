@@ -6,10 +6,11 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { categories } from '../../../../pages/Expenses/Expenses';
 import { Memberdetails } from '../../../../utils/Memberdetails';
 import { indicators } from '../../../../pages/friends/Friendslist';
+import { FaBan } from "react-icons/fa";
 export const Transationdetail = ({ Currentbalancewith, setisdetailopen, isdetailopen, CurrentFriend }) => {
     const trans = isdetailopen.trans
-    const Paidby = trans.Members.filter(m=> (m.id === Currentbalancewith || m.id === CurrentFriend.id) && m.spent !=="" )
-    const Sharedby = trans.Members.filter(m=> (m.id === Currentbalancewith || m.id === CurrentFriend.id) )
+    const Paidby = trans.Members.filter(m => (m.id === Currentbalancewith || m.id === CurrentFriend.id) && m.spent !== "")
+    const Sharedby = trans.Members.filter(m => (m.id === Currentbalancewith || m.id === CurrentFriend.id))
     const Settlement = trans.Settlements.find(s =>
         (s.from === CurrentFriend.id && s.to === Currentbalancewith) ||
         (s.from === Currentbalancewith && s.to === CurrentFriend.id)
@@ -30,7 +31,7 @@ export const Transationdetail = ({ Currentbalancewith, setisdetailopen, isdetail
             <div className="transaction-info w-[60%] mx-auto mt-2 py-4 bg-white rounded-xl h-fit shadow-md center-flex flex-col">
                 <div className="expense-info center-flex gap-2 flex-col">
                     <div className="expense-logo size-15 rounded-full  center-flex shadow-md" style={{ background: categories[trans.Category]?.gradient }}>
-                         <Icon className="size-5 text-white" />
+                        <Icon className="size-5 text-white" />
                     </div>
                     <p className='expense-name'>{trans.Name}</p>
                 </div>
@@ -48,15 +49,19 @@ export const Transationdetail = ({ Currentbalancewith, setisdetailopen, isdetail
                 </div>
                 <div className="paidby-list mt-2 space-y-2 px-3 h-fit bg-white rounded-xl shadow-md w-[80%] mx-auto overflow-y-auto  py-2">
                     {Paidby.map((person, index) => {
+                        const member = Memberdetails(person.id);
                         return (
                             <div key={index} className="paidby-item flex justify-between items-center border-b border-b-light  pb-2 ">
                                 <div className="about center-flex gap-3">
-                                    <div className="logo size-10 rounded-full border-b-light shadow-md border overflow-hidden center-flex">
-                                        <img src={Memberdetails(person.id)?.Image} alt="person-logo" className='Img-c border-none' />
+                                    <div className={`logo size-10 rounded-full ${member?.isBanned ? "border-red-500" : "border-primary"} shadow-md border center-flex relative`}>
+                                        <img src={member?.Image} alt="person-logo" className='Img-c border-none' />
+                                        <div className={`absolute top-9/12 left-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${member?.isBanned ? "block" : "hidden"}`}>
+                                            <FaBan className="size-1" />
+                                        </div>
                                     </div>
-                                    <p className='text-lg'>{Memberdetails(person.id)?.Name}</p>
+                                    <p className=''>{member?.Name}</p>
                                 </div>
-                                <div className="amount text-xl font-semibold text-text-primary">
+                                <div className="amount text-lg font-semibold text-text-primary">
                                     Rs.{Number(person.spent).toLocaleString()}
                                 </div>
                             </div>
@@ -87,19 +92,37 @@ export const Transationdetail = ({ Currentbalancewith, setisdetailopen, isdetail
                         <h4 className='text-md font-semibold text-text-secondary center-flex gap-1'>Split Method: <span className='text-text-primary'>{trans.splitMethod}</span></h4>
                     </div>
                     {Sharedby.map((person, index) => {
+                        const member = Memberdetails(person.id); 
+
                         return (
-                            <div key={index} className="split-item  bg-white p-2 rounded-lg shadow-md flex justify-between items-center">
+                            <div
+                                key={index}
+                                className="split-item bg-white p-2 rounded-lg shadow-md flex justify-between items-center"
+                            >
                                 <div className="about center-flex gap-3">
-                                    <div className="logo size-10 rounded-full border-b-light shadow-md border overflow-hidden center-flex">
-                                        <img src={Memberdetails(person.id)?.Image} alt="person-logo" className='Img-c border-none' />
+                                    <div
+                                        className={`logo size-10 rounded-full ${member?.isBanned ? "border-red-500" : "border-primary"
+                                            } shadow-md border center-flex relative`}
+                                    >
+                                        <img
+                                            src={member?.Image}
+                                            alt="person-logo"
+                                            className="Img-c border-none"
+                                        />
+                                        <div
+                                            className={`absolute top-9/12 left-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${member?.isBanned ? "block" : "hidden"
+                                                }`}
+                                        >
+                                            <FaBan className="size-1" />
+                                        </div>
                                     </div>
-                                    <p className='text-lg'>{ Memberdetails(person.id)?.Name}</p>
+                                    <p className="">{member?.Name}</p>
                                 </div>
-                                <div className="amount text-xl font-semibold text-text-primary">
-                                     Rs.{person.share.toLocaleString()}
+                                <div className="amount text-lg font-semibold text-text-primary">
+                                    Rs.{person.share.toLocaleString()}
                                 </div>
                             </div>
-                        )
+                        );
                     })}
                 </div>
             </div>

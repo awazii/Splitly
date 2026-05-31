@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { indicators } from '../../pages/friends/Friendslist';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateFriend } from '../../store/FriendsSlice';
+import {FaBan} from "react-icons/fa";
 const Card = ({ friend }) => {
   const Navigation = useNavigate()
   const dispatch = useDispatch()
@@ -38,12 +39,15 @@ function handlePin() {
               <div className="h-42 center-flex w-full  flex-col pt-5">
                 <div className="flex items-center py-3 w-full">
                   <div className='about-f center-flex w-80 gap-3 px-5 '>
-                    <div className="profile size-20 rounded-full ">
+                    <div className={`profile size-20 rounded-full relative border-2 ${friend.isBanned ? "border-red-500" : "border-primary"} center-flex`}>
                       <img className='Img-c' src={friend.Image} alt="" />
+                       <div className={`absolute top-9/12 left-1 p-2 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${friend.isBanned ? "block" : "hidden"}`}>
+                                                    <FaBan className="size-2" />
+                                                </div>
                     </div>
                     <div className="info h-10 flex items-start justify-center flex-col flex-1">
                       <h3 className="name text-text-primary font-bold ">{friend.Name} <span className='text-[12px]'>{`${friend.id === "admin_01" ? "(Admin)" : ""}`}</span></h3>
-                      <h4 className="bio text-text-secondary text-sm">{friend.Bio}</h4>
+                      <h4 className={`bio ${friend.isBanned ? "text-red-500 font-semibold" : "text-text-secondary"} text-sm`}>{friend.isBanned ? " (banned)" : friend.Bio}</h4>
                     </div>
                   </div>
                   <div className="actions  w-25 center-flex flex-col items-end gap-2 p-2 flex-1">

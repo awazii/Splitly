@@ -8,6 +8,7 @@ import { Transationdetail } from './transationdetail.jsx';
 import { Settle } from '../settlements/Settle.jsx';
 import { Paymentsuccesful } from '../settlements/payment.jsx';
 import { Memberdetails } from '../../../../utils/Memberdetails.js';
+import {FaBan} from "react-icons/fa";
 export const Balancewith = ({ Currentbalancewith, currentFriend }) => {
   const [isdetailopen, setisdetailopen] = useState({
     open: false, trans: null
@@ -17,13 +18,19 @@ export const Balancewith = ({ Currentbalancewith, currentFriend }) => {
   return (
     <div className='w-130 h-fit'>
       <div className="profiles w-full center-flex gap-5 mt-2 mb-4">
-        <div className="profile size-22 rounded-full center-flex border-primary border-2 p-1">
-          <img src={currentFriend.Image} alt="current-friend-pic" className='Img-c border-none' />
-        </div>
+          <div className={`profile size-22 rounded-full relative border-2 ${currentFriend.isBanned ? "border-red-500" : "border-primary"} center-flex`}>
+                    <img className='Img-c' src={currentFriend.Image} alt="Current-friend-img" />
+                    <div className={`absolute top-9/12 left-1 p-2 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${currentFriend.isBanned ? "block" : "hidden"}`}>
+                      <FaBan className="size-3" />
+                    </div>
+                  </div>
         <GrTransaction className='size-8 text-text-secondary' />
-        <div className="profile size-22 rounded-full center-flex border-primary border-2 p-1">
-          <img src={Memberdetails(Currentbalancewith)?.Image} alt="current-friend-pic" className='Img-c border-none' />
-        </div>
+        <div className={`profile size-22 rounded-full relative border-2 ${Memberdetails(Currentbalancewith)?.isBanned ? "border-red-500" : "border-primary"} center-flex`}>
+                    <img className='Img-c' src={Memberdetails(Currentbalancewith)?.Image} alt="Current-balance-with-img" />
+                    <div className={`absolute top-9/12 left-1 p-2 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${Memberdetails(Currentbalancewith)?.isBanned ? "block" : "hidden"}`}>
+                      <FaBan className="size-3" />
+                    </div>
+                  </div>
       </div>
       {(!isdetailopen.open && !issettlementopen && !ispaymentsuccessful.is) && (
         <Transactions

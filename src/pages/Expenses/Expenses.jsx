@@ -31,6 +31,67 @@ import { RiFileList3Line } from "react-icons/ri";
 import dayjs from 'dayjs';
 import { motion } from "framer-motion";
 import { cardContainerVariants, cardVariants, itemVariants, headerVariants, pageContainerVariants } from "../../utils/animation";
+import { FilterHeader } from '../../Components/filter';
+import {
+  HiFolder,
+  HiTag,
+  HiCurrencyDollar,
+  HiBarsArrowDown,
+  HiBarsArrowUp,
+} from "react-icons/hi2";
+export const expenseSorts = [
+  {
+    label: "New to Old",
+    icon: (
+      <HiBarsArrowDown
+        size={18}
+        className="text-[#3b82f6]"
+      />
+    ),
+  },
+
+  {
+    label: "Old to New",
+    icon: (
+      <HiBarsArrowUp
+        size={18}
+        className="text-[#a855f7]"
+      />
+    ),
+  },
+
+  {
+    label: "Most Expenses",
+    icon: (
+      <HiCurrencyDollar
+        size={18}
+        className="text-[#f59e0b]"
+      />
+    ),
+  },
+];
+export const expenseFilters = [
+  {
+    label: "By Group",
+    icon: (
+      <HiFolder
+        size={18}
+        className="text-[#8b5cf6]"
+      />
+    ),
+  },
+
+  {
+    label: "Category",
+    icon: (
+      <HiTag
+        size={18}
+        className="text-[#ec4899]"
+      />
+    ),
+  },
+];
+
 export const categories = {
   "Food & Snacks": {
     name: "Food & Snacks",
@@ -127,6 +188,7 @@ export const Expense = () => {
   const dailycountComparison = getDailyComparison(Expenses, "count")
   const [popup, setpopup] = useState(false)
   const [CurrentExpenseid, setCurrentExpenseid] = useState("")
+  const [isFilteropen, setisFilteropen] = useState(false)
   const Openmodel = () => {
     setpopup(true)
   }
@@ -208,9 +270,9 @@ export const Expense = () => {
           <Input variant={"Expense"} />
           <Button />
         </div>
-        <div className="filter card-b p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex">
+        <button className="filter bg-white shadow-md p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex" onClick={() => setisFilteropen(true)}>
           <CiFilter className="size-5" />
-        </div>
+        </button>
       </motion.div>
       <motion.div initial="hidden"
         animate="visible" variants={itemVariants} className="Expense-container mx-auto container mt-4">
@@ -247,6 +309,9 @@ export const Expense = () => {
           </UniversalEmptyState>
         )}
       </motion.div>
+      <Basemodel isOpen={isFilteropen} Closemodel={() => setisFilteropen(false)} title="Expense Filters">
+        <FilterHeader Sorts={expenseSorts} Filters={expenseFilters} ActiveSort={"New to Old"} type="expense" />
+      </Basemodel>
       <Basemodel isOpen={popup} Closemodel={Closemodel} title="Expense Details">
         <Expensedetails expenseid={CurrentExpenseid} />
       </Basemodel>

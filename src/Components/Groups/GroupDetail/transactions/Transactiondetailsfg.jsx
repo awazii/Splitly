@@ -7,6 +7,7 @@ import { IoMdPerson } from "react-icons/io";
 import { categories } from '../../../../pages/Expenses/Expenses';
 import { indicators } from '../../../../pages/friends/Friendslist';
 import { Memberdetails } from '../../../../utils/Memberdetails';
+import { FaBan } from "react-icons/fa";
 export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfriend }) => {
     const currentTransaction = isdetailopen.trans
     const Friend = currentTransaction.Members.find(f => f.id === Currentfriend.id)
@@ -47,13 +48,19 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfri
                 <div className="paidby-list my-2 space-y-2 px-3 h-fit bg-white rounded-xl shadow-md w-[70%] mx-auto overflow-y-auto  py-2 ">
                     {currentTransaction.Members.map((member, index) => {
                         if (member.spent == 0) return
+                        const memberDetails = Memberdetails(member.id)
                         return (
                             <div key={index} className="paidby-item flex justify-between items-center border-b border-b-light  pb-2 last:border-b-0">
                                 <div className="about center-flex gap-3">
-                                    <div className="logo size-10 rounded-full border-b-light shadow-md border overflow-hidden center-flex">
-                                        <img src={Memberdetails(member.id)?.Image} alt="person-logo" className='Img-c border-none' />
+                                    <div className={`"logo size-10 rounded-full ${memberDetails?.isBanned ? "border-red-500" : "border-primary"} shadow-md border relative center-flex"`}>
+                                        <img src={memberDetails?.Image} alt="person-logo" className='Img-c border-none' />
+                                        {memberDetails?.isBanned && (
+                                            <div className="absolute top-9/12 left-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg">
+                                                <FaBan className="size-1" />
+                                            </div>
+                                        )}
                                     </div>
-                                    <p className=''>{`${Memberdetails(member.id)?.Name}`}</p>
+                                    <p className=''>{`${memberDetails?.Name}`}</p>
                                 </div>
                                 <div className="amount text-lg font-semibold text-text-primary">
                                     Rs.{Number(member.spent).toLocaleString()}
@@ -68,20 +75,27 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfri
                     <h3 className='text-xl font-semibold'>Split Details</h3>
                     <IoTicket className='size-5' />
                 </div>
-                <div className="split-list my-2 space-y-2">
+                <div className="split-list my-2 space-y-2 ">
                     <div className="split-method">
                         <h4 className='text-md font-semibold text-text-secondary center-flex gap-1'>Split Method: <span className='text-text-primary'>{currentTransaction.splitMethod}</span></h4>
                     </div>
-                    <div className="split-items mt-2 space-y-2 px-3 max-h-40  w-[70%] mx-auto overflow-y-auto ">
+                    <div className="split-items mt-2 space-y-2 px-3 max-h-40  w-[73%] mx-auto overflow-y-auto ">
                         {currentTransaction.Members.map((member, index) => {
                             if (member.share == 0) return
+                                const memberDetails = Memberdetails(member.id)
                             return (
                                 <div key={index} className="paidby-item flex justify-between items-center pb-2 shadow rounded-md bg-white p-2">
                                     <div className="about center-flex gap-3">
-                                        <div className="logo size-10 rounded-full border-b-light shadow-md border overflow-hidden center-flex">
-                                            <img src={Memberdetails(member.id)?.Image} alt="person-logo" className='Img-c border-none' />
+                                        <div className={`logo size-10 rounded-full ${memberDetails?.isBanned ? "border-red-500" : "border-primary"} shadow-md border relative center-flex`}>
+                                            <img src={memberDetails?.Image} alt="person-logo" className='Img-c border-none' />
+                                            {memberDetails?.isBanned && (
+                                                <div className="absolute top-9/12 left-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg">
+                                                    <FaBan className="size-1" />
+                                                </div>
+                                            )}
+
                                         </div>
-                                        <p className=''>{`${Memberdetails(member.id)?.Name}`}</p>
+                                        <p className=''>{`${memberDetails?.Name}`}</p>
                                     </div>
                                     <div className="amount text-lg font-semibold text-text-primary">
                                         Rs.{Number(member.share).toLocaleString()}
@@ -101,13 +115,15 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfri
                     {(currentTransaction.Settlements.length !== 0 && netbalance !== 0)
                         ? <>
                             {currentTransaction.Settlements.map((settlement, index) => {
+                                const fromMember = Memberdetails(settlement.from);
+                                const toMember = Memberdetails(settlement.to);
                                 return (
                                     <div key={index} className="settlement-item  bg-white p-2 rounded-lg shadow-md flex justify-between items-center">
                                         <div className="about center-flex gap-3">
                                             <div className={`logo size-9 center-flex  rounded-full ${settlement.to === Currentfriend.id ? "bg-green-600" : "bg-red-600"}`}>
                                                 <FaMoneyBillTransfer className='size-5 text-white' />
                                             </div>
-                                            <p className=''>{`${Memberdetails(settlement.from)?.Name} owes ${Memberdetails(settlement.to)?.Name}`}</p>
+                                            <p className=''>{`${fromMember?.Name} owes ${toMember?.Name}`}</p>
                                         </div>
                                         <div className={`amount text-lg font-semibold ${settlement.to === Currentfriend.id ? "text-green-600" : "text-red-600"}`}>
                                             Rs.{settlement.amount.toLocaleString()}

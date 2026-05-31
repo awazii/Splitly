@@ -6,7 +6,7 @@ export const Basemodel = ({ isOpen, Closemodel, title, children }) => {
     const modalContent = (
         <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer"
-            onClick={Closemodel}
+            // onClick={Closemodel}
         >
             <div
                 className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl  max-w-fit overflow-hidden relative animate-fade-in-up "

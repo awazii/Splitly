@@ -5,13 +5,15 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 import { Memberdetails } from "../../utils/Memberdetails";
 import { UniversalEmptyState } from "../../Components/UniversalEmptyState";
 import { RiLineChartLine } from "react-icons/ri";
+import { FaBan } from "react-icons/fa";
 export const MultiPaidVsOwes = () => {
   const data = useSelector(FriendsSpendings).map(d => (
     {
       name: Memberdetails(d.id)?.Name,
       Img : Memberdetails(d.id)?.Image,
       spent : d.spent,
-      share:d.share
+      share:d.share,
+      isBanned: Memberdetails(d.id)?.isBanned
     }))
 
   return (
@@ -29,16 +31,19 @@ export const MultiPaidVsOwes = () => {
               const imgSrc = item?.Img
               return (
                 <foreignObject x={x - 20} y={y + 10} width={40} height={40}>
-                  <img
-                    src={imgSrc}
-                    alt={payload.value}
-                    style={{
-                      width: 30,
-                      height: 30,
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
-                  />
+                  <>
+                    <div className={`${item?.isBanned ? "border-red-500" : "border-primary"} border rounded-full size-8 relative`} >  <img
+                      src={imgSrc}
+                      alt={payload.value}
+                      className={` Img-c rounded-full`}
+                      />
+                      {item?.isBanned && (
+                        <div className="absolute top-8/11 right-4 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg">
+                          <FaBan className="size-1" />
+                        </div>
+                      )}
+                    </div>
+                  </>
                 </foreignObject>
               );
             }} hide={data.length > 10}

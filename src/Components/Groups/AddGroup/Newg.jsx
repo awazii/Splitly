@@ -12,17 +12,21 @@ import { selectAllFriends, selectPinnedFriends } from '../../../store/FriendsSli
 import { useForm, Controller } from 'react-hook-form'
 import { useDispatch  } from 'react-redux'
 import { addGroup ,selectAllGroups ,deleteGroup } from '../../../store/GroupSlice'
+import {FaBan} from "react-icons/fa"
 const RenderSelectfriends = React.memo(({ Friends, setSelectedfriends, Selectedfriends }) => {
   return (<div className="friend-lists w-165 h-60 overflow-auto  grid grid-cols-5  gap-3  border-b-light px-2 border p-2 rounded-lg">
     {Friends.map((friend, index) => {
       return (
-        <label key={index} className='select-friend rounded-lg shadow-md h-30 bg-neutral-100 flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans'>
-          <div className="friend-img-container size-16">
+        <label key={index} className={`select-friend rounded-lg shadow-md h-30 bg-neutral-100 flex flex-col items-center justify-center gap-1 pt-1 relative trans ${friend.isBanned ? 'cursor-not-allowed opacity-50 ' : 'cursor-pointer'}`}>
+          <div className={`friend-img-container size-16 relative rounded-full center-flex ${friend.isBanned ? "border-red-500" : "border-primary"} border-2`}>
             <img src={friend.Image} className='Img-c' alt="friend-img" />
+           
           </div>
           <div className="friend-info center-flex flex-col">
             <h2 className='text-sm'>{friend.Name}</h2>
-            <p className='text-[12px] text-text-secondary'>{friend.Bio}</p>
+            <p className={`text-[12px] ${friend.isBanned ? 'text-red-500 font-semibold' : 'text-text-secondary'}`}>
+              {friend.isBanned ? '(Banned)' : friend.Bio}
+            </p>
           </div>
           <div className='absolute top-2 right-1'>
             <Gcheckbox setSelected={setSelectedfriends} Selected={Selectedfriends} id={friend.id} />

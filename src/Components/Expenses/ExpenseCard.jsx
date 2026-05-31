@@ -5,11 +5,17 @@ import { categories } from '../../pages/Expenses/Expenses';
 import { useSelector } from 'react-redux';
 import { selectGroupById } from '../../store/GroupSlice';
 import { selectFriendById } from '../../store/FriendsSlice';
+import {FaBan} from "react-icons/fa"
  const MemberAvatars = ({ id }) => {
     const friend = useSelector(state => selectFriendById(state, id));
     return (
-        <div className="member size-7  rounded-lg shadow-md">
+        <div className={`member size-7  rounded-lg shadow-md ${friend?.isBanned ? "border-red-500" : "border-primary"} border relative`}>
             <img src={friend?.Image || ""} alt="" className='Img-c rounded-lg' />
+            {friend?.isBanned && (
+                <div className="absolute top-9/12 left-4 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg">
+                    <FaBan className="size-1" />
+                </div>
+            )}
         </div>
     )
 }

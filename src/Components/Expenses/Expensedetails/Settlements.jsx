@@ -8,7 +8,7 @@ import { Memberdetails } from '../../../utils/Memberdetails';
 import { UniversalEmptyState } from '../../UniversalEmptyState';
 import { RiHandCoinLine } from "react-icons/ri";
 import { pageContainerVariants, cardVariants, headerVariants } from "../../../utils/animation";
-
+import { FaBan } from "react-icons/fa";
 export const Settlements = ({ Expense }) => {
   const Settlements = [];
   Expense.Settlements.forEach(settlement => {
@@ -50,25 +50,30 @@ export const Settlements = ({ Expense }) => {
               key={index}
               className="debt w-full min-h-30 center-flex justify-between px-5 gap-2"
             >
-              <motion.div  variants={cardVariants} className="Debtor w-80 rounded-lg h-25 center-flex gap-2 border-l relative">
+              <motion.div variants={cardVariants} className="Debtor w-80 rounded-lg h-25 center-flex gap-2 border-l relative">
                 <div className="flag absolute top-2 right-2 scale-x-[-1]">
                   <GiPayMoney className='text-red-600 size-5' />
                 </div>
-                <div className="logo size-13 rounded-full">
+                <div className={`logo size-13 rounded-full relative ${Memberdetails(settlement.from)?.isBanned ? "border-red-500" : "border-primary"} border center-flex`}>
                   {GetTemp(settlement.from)?.type === "temporary" ? (
                     <div className="friend-img-container size-12 bg-neutral-300 rounded-full center-flex">
                       <IoPerson className='size-5 text-neutral-500' />
                     </div>
                   ) : (
-                    <img src={Memberdetails(settlement.from)?.Image} className='Img-c' alt="friend-img" />
+                    <>
+                      <img src={Memberdetails(settlement.from)?.Image} className='Img-c' alt="friend-img" />
+                      <div className={` absolute top-9/12 left-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${Memberdetails(settlement.from)?.isBanned ? "block" : "hidden"}`}>
+                        <FaBan className="size-2" />
+                      </div>
+                    </>
                   )}
                 </div>
                 <div className="info w-35">
                   <div className="name font-semibold text-sm">
                     {Memberdetails(settlement.from)?.Name || GetTemp(settlement.from)?.Name}
                   </div>
-                  <div className="description text-[12px] text-text-secondary">
-                    {Memberdetails(settlement.from)?.Bio || "temporary"}
+                  <div className={`description text-[12px]  ${Memberdetails(settlement.from)?.isBanned ? "text-red-600 font-semibold" : "text-text-secondary"}`}>
+                    {Memberdetails(settlement.from)?.isBanned ? "(Banned) " : Memberdetails(settlement.from)?.Bio ? Memberdetails(settlement.from)?.Bio : "temporary"}
                   </div>
                   <p className='font-semibold text-right text-red-600'>
                     Rs. {settlement.totalAmount.toLocaleString()}
@@ -78,27 +83,33 @@ export const Settlements = ({ Expense }) => {
               <div className="marker w-20 h-10 rounded-2xl center-flex">
                 <FaArrowRightLong className='text-primary size-10' />
               </div>
-              <motion.div  variants={cardVariants} className="creditors w-75 space-y-2 my-2">
+              <motion.div variants={cardVariants} className="creditors w-75 space-y-2 my-2">
                 {settlement.to.map((to, idx) => (
                   <div key={idx} className="creditor rounded-lg h-25 center-flex gap-2 border-l relative">
                     <div className="flag absolute top-2 right-2">
                       <GiReceiveMoney className='text-green-600 size-5' />
                     </div>
-                    <div className="logo size-13 rounded-full">
+                    <div className={`logo size-13 rounded-full relative ${Memberdetails(to.id)?.isBanned ? "border-red-500" : "border-primary"} border center-flex`}>
                       {GetTemp(to.id)?.type === "temporary" ? (
                         <div className="friend-img-container size-12 bg-neutral-300 rounded-full center-flex">
                           <IoPerson className='size-5 text-neutral-500' />
                         </div>
                       ) : (
-                        <img src={Memberdetails(to.id)?.Image} className='Img-c' alt="friend-img" />
+                        <>      
+                        <img src={Memberdetails(to.id)?.Image} className='Img-c' alt="friend-img" />         
+                        <div className={` absolute top-9/12 left-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${Memberdetails(to.id)?.isBanned ? "block" : "hidden"}`}>
+                          <FaBan className="size-2" />
+                        </div>
+                        </>
+
                       )}
                     </div>
                     <div className="info w-35">
                       <div className="name font-semibold text-sm">
                         {Memberdetails(to.id)?.Name || GetTemp(to.id)?.Name}
                       </div>
-                      <p className="description text-[12px] text-text-secondary">
-                        {Memberdetails(to.id)?.Bio || "temporary"}
+                      <p className={`description text-[12px] ${Memberdetails(to.id)?.isBanned ? "text-red-600 font-semibold" : "text-text-secondary"}`}>
+                        {Memberdetails(to.id)?.isBanned ? "(Banned) " : Memberdetails(to.id)?.Bio ? Memberdetails(to.id)?.Bio : "temporary"}
                       </p>
                       <p className='font-semibold text-right text-green-600'>
                         Rs. {to.amount.toLocaleString()}

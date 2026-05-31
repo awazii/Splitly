@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 import { UniversalEmptyState } from "../../Components/UniversalEmptyState";
 import { RiBarChart2Line } from "react-icons/ri";
+import { FaBan } from "react-icons/fa";
 export const FriendsByGroupChart = () => {
   const friends = useSelector(selectAllFriends)
   const Groups = useSelector(selectAllGroups)
@@ -12,11 +13,12 @@ export const FriendsByGroupChart = () => {
     return {
       name: friend.Name,
       groups: friend.crews.groupCount,
-      img: friend.Image
+      img: friend.Image,
+      isBanned: friend.isBanned
     }
   })
   return (
-    <div style={{ width: "100%", height: 300  }}>
+    <div style={{ width: "100%", height: 300 }}>
       {Groups.length > 0 ?
         <ResponsiveContainer>
           <BarChart
@@ -30,17 +32,21 @@ export const FriendsByGroupChart = () => {
                 const item = data.find(d => d.name === payload.value);
                 const imgSrc = item?.img
                 return (
-                  <foreignObject x={x - 20} y={y + 10} width={40} height={40}>
-                    <img
-                      src={imgSrc}
-                      alt={payload.value}
-                      style={{
-                        width: 30,
-                        height: 30,
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                      }}
-                    />
+                  <foreignObject x={x - 20} y={y  + 5} width={40} height={40}>
+                    <>
+                      <div className={`${item?.isBanned ? "border-red-500" : "border-primary"} border rounded-full size-8 relative`} >  <img
+                        src={imgSrc}
+                        alt={payload.value}
+                        className={` Img-c rounded-full`}
+
+                      />
+                        {item?.isBanned && (
+                          <div className="absolute top-8/11 right-4 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg">
+                            <FaBan className="size-1" />
+                          </div>
+                        )}
+                      </div>
+                    </>
                   </foreignObject>
                 );
               }}

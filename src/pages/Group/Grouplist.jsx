@@ -1,4 +1,4 @@
-import React, { useRef ,useEffect } from 'react'
+import React, { useRef, useEffect ,useState } from 'react'
 import Input from '../../Components/Common/Input'
 import Button from '../../Components/Common/searchbtn'
 import { HiMiniUserGroup } from "react-icons/hi2";
@@ -13,11 +13,84 @@ import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
 import { RiGroupLine, RiPushpinLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import { pageContainerVariants, itemVariants, cardVariants } from "../../utils/animation";
+import { Basemodel } from '../../Components/basemodel';
+import { FilterHeader } from '../../Components/filter';
 import mountain from "../../assets/groups/mountain.jpg"
 import beach from "../../assets/groups/Sea.jpg"
 import concert from "../../assets/groups/concert.jpg"
 import Restaurant from "../../assets/groups/Restaurant.jpg"
 import Other from "../../assets/groups/default.jpg"
+import {
+  HiFire,
+  HiCheckBadge,
+  HiUsers,
+  HiCurrencyDollar,
+  HiBarsArrowDown,
+  HiBarsArrowUp,
+} from "react-icons/hi2";
+export const groupSorts = [
+  {
+    label: "New to Old",
+    icon: (
+      <HiBarsArrowDown
+        size={18}
+        className="text-[#3b82f6]"
+      />
+    ),
+  },
+
+  {
+    label: "Old to New",
+    icon: (
+      <HiBarsArrowUp
+        size={18}
+        className="text-[#a855f7]"
+      />
+    ),
+  },
+
+  {
+    label: "Most Members",
+    icon: (
+      <HiUsers
+        size={18}
+        className="text-[#06b6d4]"
+      />
+    ),
+  },
+
+  {
+    label: "Most Amounts",
+    icon: (
+      <HiCurrencyDollar
+        size={18}
+        className="text-[#22c55e]"
+      />
+    ),
+  },
+];
+export const groupFilters = [
+  {
+    label: "Active",
+    icon: (
+      <HiFire
+        size={18}
+        className="text-[#f97316]"
+      />
+    ),
+  },
+
+  {
+    label: "Finished",
+    icon: (
+      <HiCheckBadge
+        size={18}
+        className="text-[#10b981]"
+      />
+    ),
+  },
+];
+
 export const Groupcategories = [
   { id: "grp-001", variant: "Mountains", Img: mountain },
   { id: "grp-002", variant: "Beach", Img: beach },
@@ -30,7 +103,9 @@ export const Grouplist = () => {
   const PinnedGroups = useSelector(selectPinnedGroups);
   const Groupsrefs = useRef({});
   const dispatch = useDispatch();
-
+  const Openmodel = () => setpopup(true)
+    const Closemodel = () => setpopup(false)
+    const [popup, setpopup] = useState(false)
   function Setref(el, i) {
     Groupsrefs.current[i] = el;
   }
@@ -46,18 +121,6 @@ export const Grouplist = () => {
   function UnPin(group) {
     dispatch(updateGroup({ id: group.id, changes: { isPinned: false } }));
   }
-useEffect(() => {
-  console.log(PinnedGroups)
-
-}, [PinnedGroups])
-useEffect(() => {
-  console.log('Component mounted ')
-
-  return () => {
-    console.log('Component unmounted ')
-  }
-},)
-
   return (
     <motion.div
       variants={pageContainerVariants}
@@ -70,9 +133,9 @@ useEffect(() => {
           <Input variant={"Group"} />
           <Button />
         </div>
-        <div className="filter card-b p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex">
+        <button className="filter bg-white shadow-md  p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex" onClick={Openmodel}>
           <CiFilter className='size-5' />
-        </div>
+        </button>
       </motion.div>
       <motion.div variants={itemVariants} className="pinned-groups-container mt-2 p-2">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>
@@ -146,6 +209,9 @@ useEffect(() => {
           </UniversalEmptyState>
         )}
       </motion.div>
+      <Basemodel isOpen={popup} Closemodel={Closemodel} title="Group Filters">
+        <FilterHeader Sorts={groupSorts} Filters={groupFilters} ActiveSort={"New to Old"} type="group" />
+        </Basemodel>
     </motion.div>
   )
 }

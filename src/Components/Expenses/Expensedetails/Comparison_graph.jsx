@@ -2,6 +2,7 @@ import React from "react";
 import { selectFriendById } from "../../../store/FriendsSlice";
 import { useSelector } from "react-redux";
 import { IoPerson } from "react-icons/io5";
+import { FaBan } from "react-icons/fa";
 import {
     BarChart,
     Bar,
@@ -25,6 +26,7 @@ export const Comparisongraph = ({ Expense }) => {
                 img: friend?.Image,
                 spent: member?.spent,
                 share: member?.share,
+                isBanned: friend?.isBanned
             }
         }
         else {
@@ -34,6 +36,7 @@ export const Comparisongraph = ({ Expense }) => {
                 type: temp?.type,
                 spent: member?.spent,
                 share: member?.share,
+                isBanned: member?.isBanned || false
             }
         }
         return obj
@@ -56,15 +59,20 @@ export const Comparisongraph = ({ Expense }) => {
                             return (
                                 <foreignObject x={x - 40} y={y - 15} width={40} height={40}>
                                     {
-                                        imgSrc ? <img
-                                            src={imgSrc}
-                                            alt={payload.value} 
-                                            className="size-8"
-                                            style={{
-                                                borderRadius: "50%",
-                                                objectFit: "cover",
-                                            }}
-                                        /> :
+                                        imgSrc ? <>
+                                            <div className={`${item?.isBanned ? "border-red-500" : "border-primary"} border rounded-full size-8 relative`} >  <img
+                                                src={imgSrc}
+                                                alt={payload.value}
+                                                className={` Img-c rounded-full`}
+                                               
+                                            />
+                                                {item?.isBanned && (
+                                                    <div className="absolute top-8/11 right-4 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg">
+                                                        <FaBan className="size-1" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </> :
                                             <div className="friend-img-container size-8 bg-neutral-300 rounded-full center-flex">
                                                 <IoPerson className='size-3 text-neutral-500' />
                                             </div>

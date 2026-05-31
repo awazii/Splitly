@@ -8,6 +8,7 @@ import { selectGroupById } from '../../../store/GroupSlice';
 import { selectAllFriends } from '../../../store/FriendsSlice';
 import { useSelector } from 'react-redux';
 import { useFormContext, Controller } from 'react-hook-form';
+import { FaBan } from "react-icons/fa";
 export const Stepone = () => {
     const { Groupid } = useParams();
     const currentGroup = useSelector(state => selectGroupById(state, Groupid))
@@ -133,14 +134,20 @@ export const Stepone = () => {
                     <div className='select-friends mx-auto mt-3'>  
                    <div className="friend-lists h-60 overflow-auto  grid grid-cols-6  gap-3  border-b-light px-2 border-l p-2 ">
                         {Groupmembers.map((friend, index) => {
-                            return (<label key={index} className='select-friend rounded-lg shadow-md  bg-neutral-100 flex flex-col items-center justify-center gap-1 pt-1 relative cursor-pointer trans h-38'>
-                                <div className="friend-img-container size-16">
+                            return (<label key={index} className={`select-friend rounded-lg shadow-md  bg-neutral-100 flex flex-col items-center justify-center gap-1 pt-1 relative trans h-38 ${friend?.isBanned ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}  center-flex`}>
+                                <div className={`logo size-13 rounded-full relative ${friend?.isBanned ? "border-red-500" : "border-primary"} border center-flex`}>
                                     <img src={friend.Image} className='Img-c' alt="friend-img" />
+                                    {friend?.isBanned && (
+                                        <div className="absolute top-9/12 left-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg">
+                                            <FaBan className="size-2" />
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="friend-info center-flex flex-col">
                                     <h2 className='text-sm'>{friend.Name}</h2>
-                                    <p className='text-[12px] text-text-secondary'>
-                                        {friend.Bio}</p>
+                                    <p className={`text-[12px] ${friend?.isBanned ? "text-red-600 font-semibold" : "text-text-secondary"}`}>
+                                        {friend?.isBanned ? "(Banned) " : friend.Bio || "temporary"}
+                                    </p>
                                 </div>
                                 <div className='absolute top-2 right-1'>
                                     <Expensecheck id={friend.id} setSelected={setSelectedFriends} Selected={SelectedFriends}  />

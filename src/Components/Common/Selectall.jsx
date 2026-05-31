@@ -6,10 +6,20 @@ const Checkbox = ({ children, Selected, setSelected, members }) => {
 
   function Selectall() {
     !ischecked ?
-      setSelected(members.map(member => member.id)) : setSelected([])
+      setSelected(members.map(member => {
+        if (!member.isBanned) {
+          return member.id
+        }
+      })) : setSelected([])
   }
   useEffect(() => {
-    const allCurrentSelected = members.length > 0 && members.every(member => Selected.includes(member.id));
+    const allCurrentSelected = members.length > 0 && members.every(member => {
+      if (!member.isBanned) {
+        return Selected.includes(member.id)
+      }
+      return true; 
+    }
+    );
     if (allCurrentSelected && !ischecked) {
       setischecked(true);
     }

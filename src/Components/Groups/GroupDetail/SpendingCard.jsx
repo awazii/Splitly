@@ -5,6 +5,7 @@ import { IoTicket } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { FriendGroupSpendings } from '../../../store/ExpenseSlice';
+import {FaBan} from "react-icons/fa"
 export const SpendingCard = ({ friend, Openmodel, setCurrentfriend }) => {
     const { Groupid } = useParams()
     const actionbtns = [{ svg: TbListDetails, bg: "bg-primary", label: "Details" }]
@@ -24,12 +25,17 @@ export const SpendingCard = ({ friend, Openmodel, setCurrentfriend }) => {
         <div className={`friend-balance border-l rounded-lg shadow-md h-fit p-3`}>
             <div className="about-f-cotainer flex items-center gap-2 ">
                 <div className="about-f flex-1 center-flex gap-3">
-                    <div className="logo size-18 rounded-full ">
+                    <div className={`logo size-18 rounded-full relative  ${friend.isBanned ? "border-red-500" : "border-primary"} border-2`}> 
                         <img src={friend.Image} className='Img-c border-none' alt="friend-img" />
+                         <div className={`absolute top-9/12 right-1 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${friend.isBanned ? "block" : "hidden"}`}>
+                                          <FaBan className="size-2" />
+                                      </div>
                     </div>
                     <div className="info">
                         <h3 className='font-semibold'>{friend.Name} </h3>
-                        <p className='text-[13px] text-text-secondary'>{friend.Bio}</p>
+                        <p className={`text-[13px] ${friend.isBanned ? 'text-red-500 font-semibold' : 'text-text-secondary'}`}>
+                            {friend.isBanned ? '(Banned)' : friend.Bio}
+                        </p>
                     </div>
                 </div>
                 <div className="extra  w-fit h-20 center-flex">

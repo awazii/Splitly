@@ -13,66 +13,73 @@ import { UniversalEmptyState } from '../../UniversalEmptyState'
 import { RiUserHeartLine } from "react-icons/ri";
 import { headerVariants, cardVariants, pageContainerVariants } from "../../../utils/animation";
 import { motion } from "framer-motion";
+import { FaBan } from "react-icons/fa";
 const actionbtns = [{ svg: TbListDetails, bg: "bg-primary", label: "Details" }]
 const RelationshipCard = ({ friend, Friend, setCurrentbalancewith, Openmodel }) => {
-    return (
-        <motion.div
+  console.log(Friend, friend)
+  return (
+    <motion.div
       variants={cardVariants} className={`friend-balance bg-white rounded-lg shadow-md h-fit p-3`}>
-            <div className="about-f-container flex items-center gap-2 ">
-                <div className="about-f w-90 center-flex gap-3">
-                    <div className="logo size-18 rounded-full ">
-                        <img src={Friend.Image} className='Img-c border-none' alt="friend-img" />
-                    </div>
-                    <div className="info flex-1">
-                        <h3 className='font-semibold'>{Friend.Name} </h3>
-                        <p className='text-[12px] text-text-secondary'>{Friend.Bio}</p>
-                    </div>
-                </div>
-                <div className="extra  flex-1 h-20 center-flex">
-                    <div className="actions w-20 center-flex flex-col items-end gap-2">
-                        {actionbtns.map((button, index) => (
-                            <button key={index} className={`group flex items-center  h-8 min-w-8 px-1.5 rounded-lg cursor-pointer ${button.bg}`} onClick={() => {
-                                index === 0 && Openmodel()
-                                setCurrentbalancewith(friend.id)
-                            }}>
-                                <span className="max-w-0 overflow-hidden opacity-0 group-hover:max-w-xs group-hover:opacity-100 group-hover:mr-2 trans whitespace-nowrap text-white text-sm">
-                                    {button.label}
-                                </span>
-                                <button.svg className='text-white size-5' />
-                            </button>
-                        ))}
-                    </div>
-                </div>
+      <div className="about-f-container flex items-center gap-2 ">
+        <div className="about-f w-90 center-flex gap-3">
+          <div className={`profile size-18 rounded-full relative border-2 ${Friend.isBanned ? "border-red-500" : "border-primary"} center-flex`}>
+            <img className='Img-c' src={Friend.Image} alt="" />
+            <div className={`absolute top-9/12 left-1 p-2 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${Friend.isBanned ? "block" : "hidden"}`}>
+              <FaBan className="size-2" />
+            </div>
+          </div>
+          <div className="info flex-1">
+            <h3 className='font-semibold'>{Friend.Name} </h3>
+            <p className={`text-[12px] ${Friend.isBanned ? "text-red-500 font-semibold" : "text-text-secondary"}`}>
+              {Friend.isBanned ? "(Banned)" : Friend.Bio}
+            </p>
+          </div>
+        </div>
+        <div className="extra  flex-1 h-20 center-flex">
+          <div className="actions w-20 center-flex flex-col items-end gap-2">
+            {actionbtns.map((button, index) => (
+              <button key={index} className={`group flex items-center  h-8 min-w-8 px-1.5 rounded-lg cursor-pointer ${button.bg}`} onClick={() => {
+                index === 0 && Openmodel()
+                setCurrentbalancewith(friend.id)
+              }}>
+                <span className="max-w-0 overflow-hidden opacity-0 group-hover:max-w-xs group-hover:opacity-100 group-hover:mr-2 trans whitespace-nowrap text-white text-sm">
+                  {button.label}
+                </span>
+                <button.svg className='text-white size-5' />
+              </button>
+            ))}
+          </div>
+        </div>
 
-            </div>
-            <div className="balance h-20 mt-2  border-l w-60 p-2 mx-auto center-flex flex-col ">
-                <div className="center-flex gap-3"
-                >
-                    <div className={`logo size-10 rounded-full center-flex ${friend.netBalance < 0 ? indicators.debtor.balancebgClass : friend.netBalance > 0 ? indicators.creditor.balancebgClass : indicators.settled.balancebgClass}`}>
-                        <FaMoneyBillTransfer className='size-5 text-white' />
-                    </div>
-                    <div className="amount">
-                        <h3 className={`font-semibold`}>
-                            Rs.{Math.abs(friend.netBalance).toLocaleString()}
-                        </h3>
-                        <p className="font-semibold text-[13px]">Net Balance</p>
-                    </div>
-                </div>
-                <p className="note text-text-secondary font-semibold text-[12px] ml-5 mt-1">{friend.netBalance < 0 ? `(You owed ${Memberdetails(friend.id)?.Name})` : friend.netBalance > 0 ? `(${Memberdetails(friend.id)?.Name} owes you)` : "(All setteled)"}</p>
-            </div>
-        </motion.div>
-    )
+      </div>
+      <div className="balance h-20 mt-2  border-l w-60 p-2 mx-auto center-flex flex-col ">
+        <div className="center-flex gap-3"
+        >
+          <div className={`logo size-10 rounded-full center-flex ${friend.netBalance < 0 ? indicators.debtor.balancebgClass : friend.netBalance > 0 ? indicators.creditor.balancebgClass : indicators.settled.balancebgClass}`}>
+            <FaMoneyBillTransfer className='size-5 text-white' />
+          </div>
+          <div className="amount">
+            <h3 className={`font-semibold`}>
+              Rs.{Math.abs(friend.netBalance).toLocaleString()}
+            </h3>
+            <p className="font-semibold text-[13px]">Net Balance</p>
+          </div>
+        </div>
+        <p className="note text-text-secondary font-semibold text-[12px] ml-5 mt-1">{Friend.netBalance < 0 ? `(You owed ${Memberdetails(Friend.id)?.Name})` : Friend.netBalance > 0 ? `(${Memberdetails(Friend.id)?.Name} owes you)` : "(All setteled)"}</p>
+      </div>
+    </motion.div>
+  )
 }
 export const Balancef = ({ currentFriend }) => {
-    const [popup, setpopup] = useState(false)
-    const [Currentbalancewith, setCurrentbalancewith] = useState("")
-    const Openmodel = () => {
-        setpopup(true)
-    }
-    const Closemodel = () => [
-        setpopup(false)
-    ]
-   return (
+  const [popup, setpopup] = useState(false)
+  const [Currentbalancewith, setCurrentbalancewith] = useState("")
+  const Openmodel = () => {
+    setpopup(true)
+  }
+  const Closemodel = () => [
+    setpopup(false)
+  ]
+  return (
     <div className='p-5 flex flex-col h-full overflow-auto'>
       <motion.div
         variants={headerVariants}

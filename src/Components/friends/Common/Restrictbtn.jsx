@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IoPersonRemoveSharp } from "react-icons/io5";
-const Button = () => {
+import { FaBan } from "react-icons/fa";
+import { TbUserCheck } from "react-icons/tb";
+const Button = ({isnew, isbanned, onClick}) => {
   return (
-    <StyledWrapper>
-      <button className="cssbuttons-io-button">
-        Remove
+    <StyledWrapper $isbanned={isbanned}>
+      <button className="cssbuttons-io-button" onClick={onClick}>
+        {isnew ? "Remove" : isbanned ? "Unban" : "Ban"}
         <div className="icon">
-         <IoPersonRemoveSharp className=' size-6' />
+         {isnew ? <IoPersonRemoveSharp className=' size-6' /> : isbanned ? <TbUserCheck className=' size-6' /> : <FaBan className=' size-6' />}
         </div>
       </button>
     </StyledWrapper>
@@ -16,7 +18,7 @@ const Button = () => {
 
 const StyledWrapper = styled.div`
   .cssbuttons-io-button {
-    background: #dd131d;
+    background: ${props => props.$isbanned ? '#059669' : '#dd131d'};
     color: white;
     font-family: inherit;
     padding: 0.35em;
@@ -28,12 +30,13 @@ const StyledWrapper = styled.div`
     letter-spacing: 0.05em;
     display: flex;
     align-items: center;
-    box-shadow: inset 0 0 1.6em -0.6em #cc5329;
+    box-shadow: inset 0 0 1.6em -0.6em ${props => props.$isbanned ? '#047857' : '#cc5329'};
     overflow: hidden;
     position: relative;
     height: 2.8em;
     padding-right: 3.3em;
     cursor: pointer;
+    transition: background 0.3s; /* Smooth transition if state changes */
   }
 
   .cssbuttons-io-button .icon {
@@ -56,8 +59,8 @@ const StyledWrapper = styled.div`
 
   .cssbuttons-io-button .icon svg {
     width: 1.1em;
-    transition: transform 0.3s;
-    color: #dd131d;
+    transition: transform 0.3s, color 0.3s;
+    color: ${props => props.$isbanned ? '#059669' : '#dd131d'};
   }
 
   .cssbuttons-io-button:hover .icon svg {
@@ -66,6 +69,6 @@ const StyledWrapper = styled.div`
 
   .cssbuttons-io-button:active .icon {
     transform: scale(0.95);
-  }`;
-
+  }
+`;
 export default Button;

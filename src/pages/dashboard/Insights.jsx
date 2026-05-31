@@ -33,7 +33,8 @@ export const Insights = () => {
   const topGroup = useSelector(TopGroup)
   const AllFriends = useSelector(selectAllFriends)
   const HighesContributor = [...AllFriends].sort((a, b) => b.spendings - a.spendings)[0]
-  const HighestDebtor = [...AllFriends].sort((a, b) => a.netBalance.total - b.netBalance.total)[0]
+  const HighestDebtor = [...AllFriends].sort((a, b) => a.netBalance.total - b.netBalance.total)[0] 
+  const debtornetbalance = Math.abs(HighestDebtor?.netBalance.total)
   const insightsData = [
     {
       id: 1,
@@ -52,8 +53,8 @@ export const Insights = () => {
     {
       id: 3,
       title: "Highest Debtor",
-      description: `${HighestDebtor?.Name}`,
-      value: `Rs. ${Math.abs(HighestDebtor?.netBalance.total).toLocaleString()}`,
+      description: debtornetbalance > 0 ? `${HighestDebtor?.Name}`: 'No data yet',
+      value:  debtornetbalance > 0 ? `Rs. ${debtornetbalance.toLocaleString()}` : 'All settled',
       icon: <IoPerson className="text-[#e53935] text-xl" />,
     },
     {

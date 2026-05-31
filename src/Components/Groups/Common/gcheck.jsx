@@ -1,6 +1,6 @@
 import React ,{useState} from 'react';
 import styled from 'styled-components';
-
+import { Memberdetails } from '../../../utils/Memberdetails';
 const Checkbox = ({children , setSelected, Selected , id }) => {
   function Toggleselect(){
     Selected.includes(id) ?
@@ -11,7 +11,7 @@ const Checkbox = ({children , setSelected, Selected , id }) => {
   return (
     <StyledWrapper>
       <label className='cursor-pointer center-flex gap-1'>
-   <input type="checkbox" className="ui-checkbox"  checked={Selected?.includes(id)} onChange={Toggleselect}/>
+   <input type="checkbox" disabled={Memberdetails(id)?.isBanned} className="ui-checkbox"  checked={Selected?.includes(id)} onChange={Toggleselect}/>
          {children}
       </label>
     </StyledWrapper>
