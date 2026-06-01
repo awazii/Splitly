@@ -7,7 +7,6 @@ import Loader from '../../Common/loader';
 import { HiCheck } from "react-icons/hi2";
 import { TbIdBadge, TbFeather, TbEdit } from "react-icons/tb";
 import { uploadToCloudinary } from '../../../utils/Uploadimg';
-import { current } from '@reduxjs/toolkit';
 export const Updatef = ({ friendId, Closemodel }) => {
     const Currentfriend = useSelector((state) => selectFriendById(state, friendId));
     const [showSuccess, setshowSuccess] = useState(false);

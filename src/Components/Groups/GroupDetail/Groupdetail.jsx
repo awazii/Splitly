@@ -18,10 +18,12 @@ import { motion } from 'framer-motion'
 import { Basemodel } from '../../basemodel';
 import {GroupActionDialog} from './GroupActionDialog'
 import { MdGroupOff } from "react-icons/md";
+import {Updateg} from './Updateg'
 export const Groupdetail = () => {
   const Navigate = useNavigate()
   const { Groupid } = useParams();
   const [restrictpopup, setrestrictpopup] = useState(false)
+  const [updatepopup, setupdatepopup] = useState(false)
   const CurrentGroup = useSelector((state) => selectGroupById(state, Groupid));
   const GExpenses = useSelector((state) => GroupExpenses(state, Groupid));
   const MembersSpendings = useSelector(state => FriendsGroupSpendings(state, Groupid))
@@ -62,9 +64,9 @@ export const Groupdetail = () => {
         </div>
        {CurrentGroup.statusid!== "Freeze" && <div className="actions center-flex gap-3">
           <Actionbtn isnew={isnew} onClick={() => setrestrictpopup(true)} />
-          <div className="settingbtn card-b size-11 rounded-lg center-flex group trans hover:scale-102 active:scale-95 cursor-pointer">
+          <button className="settingbtn card-b size-11 rounded-lg center-flex group trans hover:scale-102 active:scale-95 cursor-pointer" onClick={() => setupdatepopup(true)}>
             <IoSettingsOutline className='size-5 group-hover:text-primary' />
-          </div>
+          </button>
         </div>}
       </div>
       <div className='grid container mx-auto grid-cols-12 grid-rows-6 gap-3'>
@@ -152,6 +154,9 @@ export const Groupdetail = () => {
      <Basemodel isOpen={restrictpopup} Closemodel={() => setrestrictpopup(false)}>
         <GroupActionDialog groupId={CurrentGroup?.id} isnew={isnew} Closemodel={() => setrestrictpopup(false)} />
      </Basemodel> 
+      <Basemodel isOpen={updatepopup} Closemodel={() => setupdatepopup(false)} title="Update Group Info">
+        <Updateg groupId={CurrentGroup?.id} />
+     </Basemodel>
     </div>
   )
 }
