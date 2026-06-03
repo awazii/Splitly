@@ -4,7 +4,7 @@ import { Transactions } from './Transactionsfg'
 import {FaBan} from "react-icons/fa"
 export const Friendgdetails = ({ Currentfriend }) => {
   return (
-    <div className='w-190 h-185 grid grid-cols-8 grid-rows-6 gap-2 mt-2'>
+    <div className='w-190 h-185 grid grid-cols-8 grid-rows-6 gap-2 mt-2 overflow-hidden'>
          <div className='Overview card-b rounded-lg col-span-5 row-span-1'>
             <Fgoverview Currentfriend={Currentfriend} />
          </div>

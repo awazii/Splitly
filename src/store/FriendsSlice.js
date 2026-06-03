@@ -1,6 +1,6 @@
 import { createSlice, nanoid, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
-import { addGroup } from "./GroupSlice"
+import { addGroup ,deleteGroup ,updateGroup } from "./GroupSlice"
 import { addExpense, selectAllExpenses } from "./ExpenseSlice"
 const friendsAdapter = createEntityAdapter()
 const initialState = friendsAdapter.getInitialState();
@@ -60,6 +60,28 @@ const FriendsSlice = createSlice({
                     friend.crews.groups.push(group.id)
                 }
 
+            })
+        });
+            builder.addCase(deleteGroup, (state, action) => {
+            const groupId = action.payload
+            Object.values(state.entities).forEach(friend => {
+                if (friend.crews.groups.includes(groupId)) {
+                    friend.crews.groupCount -= 1
+                    friend.crews.groups = friend.crews.groups.filter(id => id !== groupId)
+                }
+            })
+        }
+        );
+        builder.addCase(updateGroup, (state, action) => {
+            const { id, changes } = action.payload;
+            changes.Members?.forEach(member => {
+                let friend = state.entities[member]
+                if (friend) {
+                    if (!friend.crews.groups.includes(id)) {
+                        friend.crews.groupCount += 1
+                        friend.crews.groups.push(id)
+                    }
+                }
             })
         });
         builder.addCase(addExpense, (state, action) => {

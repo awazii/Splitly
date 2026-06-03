@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IoMdPersonAdd } from "react-icons/io";
-const Button = () => {
+const Button = ({ onClick }) => {
   return (
     <StyledWrapper>
-      <button className="button">
+      <button className="button" onClick={onClick}>
         <span className="span"><IoMdPersonAdd className='size-5 text-white svg-icon' /></span>
         <span className="lable">Add</span>
       </button>

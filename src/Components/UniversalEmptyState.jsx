@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export const UniversalEmptyState = ({ title, description,textsize ,children ,button}) => {
     const Navigate = useNavigate()
     return (
-        <div className="flex flex-col items-center justify-center h-full p-12 pt-6  text-center space-y-4">
+        <div className="flex flex-col items-center justify-center h-full p-12   text-center space-y-4">
             {children}
             <div> 
                 <div className={`${children}`}>

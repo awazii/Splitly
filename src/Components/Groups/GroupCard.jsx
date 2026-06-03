@@ -33,6 +33,7 @@ textColor: "#0369A1",
 };
 
 const Card = ({ group }) => {
+  console.log(group)
   const [flip, setflip] = useState(false)
   const [pin, setpin] = useState(group.isPinned)
   const dispatch = useDispatch()

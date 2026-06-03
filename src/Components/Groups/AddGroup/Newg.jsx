@@ -13,14 +13,14 @@ import { useForm, Controller } from 'react-hook-form'
 import { useDispatch  } from 'react-redux'
 import { addGroup ,selectAllGroups ,deleteGroup } from '../../../store/GroupSlice'
 import {FaBan} from "react-icons/fa"
-const RenderSelectfriends = React.memo(({ Friends, setSelectedfriends, Selectedfriends }) => {
-  return (<div className="friend-lists w-165 h-60 overflow-auto  grid grid-cols-5  gap-3  border-b-light px-2 border p-2 rounded-lg">
+export const RenderSelectfriends = React.memo(({ Friends, setSelectedfriends, Selectedfriends ,styles}) => {
+  return (<div className={`friend-lists ${styles} h-60 overflow-auto  grid gap-3  border-b-light px-2 border p-2 rounded-lg`}>
     {Friends.map((friend, index) => {
       return (
         <label key={index} className={`select-friend rounded-lg shadow-md h-30 bg-neutral-100 flex flex-col items-center justify-center gap-1 pt-1 relative trans ${friend.isBanned ? 'cursor-not-allowed opacity-50 ' : 'cursor-pointer'}`}>
           <div className={`friend-img-container size-16 relative rounded-full center-flex ${friend.isBanned ? "border-red-500" : "border-primary"} border-2`}>
             <img src={friend.Image} className='Img-c' alt="friend-img" />
-           
+            {friend.isBanned && <div className='absolute p-1 rounded-full center-flex bg-red-500/90 left-1 top-9/12'><FaBan className='text-white size-3' /></div>}
           </div>
           <div className="friend-info center-flex flex-col">
             <h2 className='text-sm'>{friend.Name}</h2>
@@ -143,7 +143,7 @@ export const Newg = React.memo(() => {
             </div>
           </div>
           <div className='select-friends   mx-auto mt-3  '>
-            <RenderSelectfriends Friends={Friends} setSelectedfriends={setSelectedfriends} Selectedfriends={Selectedfriends} />
+            <RenderSelectfriends Friends={Friends} setSelectedfriends={setSelectedfriends} Selectedfriends={Selectedfriends} styles="w-165 grid-cols-5  " />
           </div>
           {errors.Members && <p className='text-red-500 text-sm text-center mt-2'>{errors.Members.message}</p>}
         </div>

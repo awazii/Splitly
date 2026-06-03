@@ -10,9 +10,10 @@ const Checkbox = ({ children, Selected, setSelected, members }) => {
         if (!member.isBanned) {
           return member.id
         }
-      })) : setSelected([])
+      }).filter(id => id)) : setSelected([])
   }
   useEffect(() => {
+    console.log(Selected)
     const allCurrentSelected = members.length > 0 && members.every(member => {
       if (!member.isBanned) {
         return Selected.includes(member.id)

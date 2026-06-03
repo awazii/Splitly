@@ -52,7 +52,7 @@ export const Stepthreehelper = ({ Friends, Splits }) => {
                     <div className="friends-splits-list grid grid-cols-3 gap-3  overflow-auto   h-85">
                         {Friends.map((friend, index) => {
                             return (
-                                <div key={index} className='friend-split  rounded-lg shadow-md  bg-neutral-100 flex flex-col items-center justify-center gap-2 pt-1 relative cursor-pointer trans h-43'>
+                                <div key={index} className='friend-split  rounded-lg shadow-md  bg-neutral-100 flex flex-col items-center justify-center gap-2 pt-1 relative cursor-pointer trans h-48'>
                                     <div className="info center-flex flex-col">
                                         <div className="friend-img-container size-16">
                                             {friend.type === "temporary" ? (

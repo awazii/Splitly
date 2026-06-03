@@ -8,10 +8,11 @@ import { useSelector } from 'react-redux';
 import { selectAllFriends } from '../../../store/FriendsSlice';
 import { SpendingCard } from './SpendingCard';
 import { headerVariants, cardVariants, pageContainerVariants } from "../../../utils/animation";
-
+import {Addmember} from './Addmember'
 export const Balance = ({ CurrentGroup }) => {
   const [popup, setpopup] = useState(false)
   const [Currentfriend, setCurrentfriend] = useState(null)
+  const [addpopup, setaddpopup] = useState(false)
   const Members = useSelector(selectAllFriends).filter(friend => CurrentGroup.Members.includes(friend.id))
 
   const Openmodel = () => setpopup(true)
@@ -35,7 +36,7 @@ export const Balance = ({ CurrentGroup }) => {
           </p>
         </div>
       {CurrentGroup.statusid !== "Freeze"  && <div className="add-friend mr-3">
-          <Addbtn />
+          <Addbtn onClick={() => setaddpopup(true)} />
         </div>}
       </motion.div>
       <motion.div
@@ -57,14 +58,19 @@ export const Balance = ({ CurrentGroup }) => {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* Modal */}
       <Basemodel
         isOpen={popup}
         Closemodel={Closemodel}
         title={`Member Group Activity`}
       >
         <Friendgdetails Currentfriend={Currentfriend} />
+      </Basemodel>
+      <Basemodel
+        isOpen={addpopup}
+        Closemodel={() => setaddpopup(false)}
+        title={`Add Members to ${CurrentGroup.Name}`}
+      >
+        <Addmember CurrentGroup={CurrentGroup} Closemodel={() => setaddpopup(false)} />
       </Basemodel>
     </div>
   )
