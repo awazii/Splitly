@@ -84,8 +84,8 @@ export const Addmember = ({ CurrentGroup, Closemodel }) => {
                     description="You’ve already added all your available friends to this group. To add more people, Add them to your friends list first."
                     textsize=""
                 >
-                    <div className="p-10 shadow-md bg-gray-50 rounded-full">
-                        <TbMoodHappy className="size-10 text-primary" />
+                    <div className="p-8 shadow-md bg-gray-50 rounded-full">
+                        <TbMoodHappy className="size-12 text-primary" />
                     </div>
                 </UniversalEmptyState>}
 
