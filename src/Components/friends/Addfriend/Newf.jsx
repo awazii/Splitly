@@ -1,4 +1,4 @@
-import React, { useEffect ,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaUserPlus } from "react-icons/fa";
 import Newbtn from "../Common/Newfbtn";
 import Checkbox from "../../Common/Check";
@@ -8,6 +8,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { uploadToCloudinary } from '../../../utils/Uploadimg';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFriend, selectAllFriends } from '../../../store/FriendsSlice';
+import { addActivity } from '../../../store/ActivitySlice';
 export const Newfriend = () => {
   const friends = useSelector(selectAllFriends);
   const dispatch = useDispatch();
@@ -29,23 +30,45 @@ export const Newfriend = () => {
 
   const usernamePattern = /^[A-Za-z][0-9A-Za-z_\s]*$/;
   const bioPattern = /^[A-Za-z][A-Za-z\s.,'-]*$/;
-async function  uploadImage (image) {
+  async function uploadImage(image) {
     const imageUrl = await uploadToCloudinary(image);
     return imageUrl
-}
+  }
   const Onsubmit = async (data) => {
-  const imageUrl = await  uploadImage(data.Image) 
-  setissubmitted(true)
-       dispatch(addFriend(
-        data.Name,
-        data.Bio,
-        imageUrl,
-        data.isPinned
-      ));  
-      setTimeout(() => {
-        setissubmitted(false);
-      }, 2000);
-      reset();
+    const imageUrl = await uploadImage(data.Image)
+    setissubmitted(true)
+    dispatch(addFriend(
+      data.Name,
+      data.Bio,
+      imageUrl,
+      data.isPinned
+    ));
+    setTimeout(() => {
+      setissubmitted(false);
+    }, 2000);
+    dispatch(addActivity({
+       title: `New friend: ${data.Name}`,
+                      selfTitle: false,
+                      description: {
+                          title: "Friendship Started",
+                          desIcon: "add",
+                          details: null
+                      },
+                      icon: null,
+                      visibility: {
+                          global: true,
+                          friend: false,
+                          group: false
+                      },
+                      groupid: null,
+                      groupinfo: null,
+                      friends: ["newfriend"],
+                      friendImages: {
+                          newfriend: imageUrl
+                      },
+                      category: "friend",
+    }))
+    reset();
   };
   return (
     <div className='container bg-white shadow-lg rounded-2xl mx-auto h-fit w-100 my-20 p-3'>
@@ -143,8 +166,8 @@ async function  uploadImage (image) {
           )}
         />
         <Newbtn isSubmitting={isSubmitting} />
-          {isSubmitting && <p className="text-gray-500 mt-2">Adding friend...</p>}
-        {issubmitted &&  <p className='text-green-500'>Friend Added Successfully!</p>}
+        {isSubmitting && <p className="text-gray-500 mt-2">Adding friend...</p>}
+        {issubmitted && <p className='text-green-500'>Friend Added Successfully!</p>}
       </form>
     </div>
   );

@@ -5,6 +5,7 @@ import { MdGroupRemove } from "react-icons/md";
 import { TbSnowflake } from "react-icons/tb";
 import { pageContainerVariants, cardVariants, headerVariants } from "../../../utils/animation";
 import { motion } from "framer-motion";
+import { addActivity } from "../../../store/ActivitySlice"
 const ConfirmAction = ({ group, isnew, Closemodel, setIsConfirmed }) => {
   const dispatch = useDispatch();
   const groupParagraphs = {
@@ -16,10 +17,48 @@ const ConfirmAction = ({ group, isnew, Closemodel, setIsConfirmed }) => {
 
   function handleAction() {
     if (isnew) {
-      dispatch(deleteGroup(group.id));
+       dispatch(addActivity({
+        title: "Group Removed",   
+        selfTitle: false,         
+        description: null,
+        icon: "groupRemoved",
+        visibility: {
+          global: true,
+          friend: false,
+          group: false
+        },
+        friends: null,
+        friendImages: null,
+        groupid: group.id,
+        groupinfo: {
+          name: group.Name,
+          Category: group.Category
+        },
+        category: "group",
+      }));
+      dispatch(deleteGroup(group.id)); 
     }
     else {
       dispatch(updateGroup({ id: group.id, changes: { statusid: "Freeze" } }));
+      dispatch(addActivity({
+        title: "Group Frozen",   
+        selfTitle: false,
+        description: null,
+        icon: "frozen",
+        visibility: {
+          global: true,
+          friend: false,
+          group: true
+        },
+        friends: null,
+        friendImages: null,
+        groupid: group.id,
+        groupinfo: {
+          name: group.Name,
+          Category: group.Category
+        },
+        category: "group",
+      }));
     }
     setIsConfirmed(true);
   }

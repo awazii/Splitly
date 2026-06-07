@@ -7,18 +7,24 @@ import Loader from '../../Common/loader';
 import { HiCheck } from "react-icons/hi2";
 import { TbIdBadge, TbFeather, TbEdit } from "react-icons/tb";
 import { uploadToCloudinary } from '../../../utils/Uploadimg';
+import { addActivity } from "../../../store/ActivitySlice"
+import { title } from 'framer-motion/client';
 export const Updatef = ({ friendId, Closemodel }) => {
     const Currentfriend = useSelector((state) => selectFriendById(state, friendId));
     const [showSuccess, setshowSuccess] = useState(false);
+    const [UpdateTracker, setUpdateTracker] = useState({
+        images: false,
+        name: false,
+        bio: false
+    })
     const dispatch = useDispatch();
-      const [hasInteracted, setHasInteracted] = useState(false); 
+    const [hasInteracted, setHasInteracted] = useState(false);
     const [CurrentImage, setCurrentImage] = useState(
         {
             Image: Currentfriend.Image || null,
             file: null
         }
     );
-        
     const fileInputRef = useRef(null);
     const usernamePattern = /^[A-Za-z][0-9A-Za-z_\s]*$/;
     const bioPattern = /^[A-Za-z][A-Za-z\s.,'-]*$/;
@@ -44,12 +50,32 @@ export const Updatef = ({ friendId, Closemodel }) => {
                 file
             });
         }
-        if (!hasInteracted) setHasInteracted(true);
+        if (!hasInteracted) setHasInteracted(true)
+        setUpdateTracker(prev => ({ ...prev, image: true }))
     };
+    function Updatedetails() {
+        const desdetails = {
+            image: {
+                title: "Image Updated",
+                desIcon: "image"
+            },
+            name: {
+                title: "Name Updated",
+                desIcon: "name"
+            },
+            bio: {
+                title: "Bio Updated",
+                desIcon: "bio"
+            }
+        };
+        return Object.entries(UpdateTracker)
+            .filter(([_, flag]) => flag)
+            .map(([label]) => desdetails[label])
+    }
     const onSubmit = async (data) => {
         try {
             const imageUrl = await uploadToCloudinary(CurrentImage.file);
-            await new Promise((resolve) => setTimeout(resolve, 1000));         
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             await dispatch(updateFriend({
                 id: friendId, changes: {
                     Name: data.Name,
@@ -57,6 +83,26 @@ export const Updatef = ({ friendId, Closemodel }) => {
                     Image: imageUrl ? imageUrl : Currentfriend.Image,
                 }
             }));
+            dispatch(addActivity({
+                title: `Profile Edited : ${data.Name} `,
+                selfTitle: false,
+                description: {
+                    title: "profile update",
+                    desIcon: "edit",
+                    details: Updatedetails()
+                },
+                icon: null,
+                visibility: {
+                    global: true,
+                    friend: true,
+                    group: false
+                },
+                friends: [friendId],
+                friendImages: { [friendId]: imageUrl ? imageUrl : Currentfriend.Image },
+                groupid: null,
+                groupinfo: null,
+                category: "friend"
+            }))
             setshowSuccess(true);
             setTimeout(() => {
                 setshowSuccess(false);
@@ -111,7 +157,8 @@ export const Updatef = ({ friendId, Closemodel }) => {
                                     onChange={(e) => {
                                         field.onChange(e);
                                         trigger("Name");
-                                        if (!hasInteracted) setHasInteracted(true);
+                                        if (!hasInteracted) setHasInteracted(true)
+                                        setUpdateTracker(prev => ({ ...prev, name: true }))
                                     }}
                                 />
                             </div>
@@ -145,7 +192,8 @@ export const Updatef = ({ friendId, Closemodel }) => {
                                     onChange={(e) => {
                                         field.onChange(e);
                                         trigger("Bio");
-                                        if (!hasInteracted) setHasInteracted(true);
+                                        if (!hasInteracted) setHasInteracted(true)
+                                        setUpdateTracker(prev => ({ ...prev, bio: true }))
                                     }}
                                 />
                             </div>
@@ -157,9 +205,9 @@ export const Updatef = ({ friendId, Closemodel }) => {
                 />
             </div>
             <button
-            disabled={!hasInteracted}
+                disabled={!hasInteracted}
                 type='submit'
-                className={`w-30 mt-4 px-4 py-3 bg-primary hover:bg-orange-600 text-white font-bold rounded-2xl shadow-xl shadow-blue-100 flex items-center justify-center gap-2 disabled:opacity-50 ${(isSubmitting || !hasInteracted)  ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                className={`w-30 mt-4 px-4 py-3 bg-primary hover:bg-orange-600 text-white font-bold rounded-2xl shadow-xl shadow-blue-100 flex items-center justify-center gap-2 disabled:opacity-50 ${(isSubmitting || !hasInteracted) ? 'cursor-not-allowed' : 'cursor-pointer'}`}
             >
                 {isSubmitting && <Loader />}
                 {!isSubmitting && <>Update <TbEdit className='size-5' /></>}

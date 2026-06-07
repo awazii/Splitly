@@ -17,6 +17,7 @@ export const FriendsByGroupChart = () => {
       isBanned: friend.isBanned
     }
   })
+  console.log("Data for chart:", data);
   return (
     <div style={{ width: "100%", height: 300 }}>
       {Groups.length > 0 ?

@@ -79,7 +79,7 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfri
                     <div className="split-method">
                         <h4 className='text-md font-semibold text-text-secondary center-flex gap-1'>Split Method: <span className='text-text-primary'>{currentTransaction.splitMethod}</span></h4>
                     </div>
-                    <div className="split-items mt-2 space-y-2 px-3 max-h-40  w-[73%] mx-auto overflow-y-auto ">
+                    <div className="split-items mt-2 space-y-2 px-3 max-h-60  w-[73%] mx-auto overflow-y-auto ">
                         {currentTransaction.Members.map((member, index) => {
                             if (member.share == 0) return
                                 const memberDetails = Memberdetails(member.id)
@@ -111,7 +111,7 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfri
                     <h3 className='text-xl font-semibold'>Settelemnts</h3>
                     <FaMoneyBillTransfer className='size-5' />
                 </div>
-                <div className={`settelemnts-list mt-2 space-y-2 ${(currentTransaction.Settlements.length !== 0 && netbalance !== 0) ? "h-30" : "h-fit"}  w-[70%] mx-auto overflow-y-auto`}>
+                <div className={`settelemnts-list mt-2 space-y-2 ${(currentTransaction.Settlements.length !== 0 && netbalance !== 0) ? "min-h-30 max-h-60" : "h-fit"}  w-[70%] mx-auto overflow-y-auto`}>
                     {(currentTransaction.Settlements.length !== 0 && netbalance !== 0)
                         ? <>
                             {currentTransaction.Settlements.map((settlement, index) => {

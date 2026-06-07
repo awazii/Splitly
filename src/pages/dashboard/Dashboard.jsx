@@ -4,7 +4,7 @@ import {
   sectionVariants,
 } from "../../utils/animation";
 import { Overview } from './Overview';
-import { Recent } from './Recent';
+import { Recent } from '../../Components/Recent';
 import { Insights } from './Insights';
 import { Analystic } from './Analystic';
 import Addgroup from "./Newgroupbtn"
@@ -12,9 +12,11 @@ import { selectAllExpenses } from '../../store/ExpenseSlice';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { selectFriendById } from "../../store/FriendsSlice";
-
+import {selectAllActivities} from "../../store/ActivitySlice"
 export const Dashboard = () => {
   const allexpense = useSelector(selectAllExpenses);
+  const allactivities = useSelector(selectAllActivities);
+  const renderActivities = allactivities.slice(0,20)
   const admin = useSelector(state => selectFriendById(state, "admin_01"));
 
   return (
@@ -52,6 +54,8 @@ export const Dashboard = () => {
           <Recent
             h={`h-[310px]`}
             d="Start using Splitly to see your activity. All group, friend, and expense updates are logged here."
+            activities={renderActivities}
+            location="dashboard"
           />
         </div>
 

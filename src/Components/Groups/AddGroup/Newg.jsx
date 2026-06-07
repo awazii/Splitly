@@ -10,10 +10,10 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { useSelector } from 'react-redux'
 import { selectAllFriends, selectPinnedFriends } from '../../../store/FriendsSlice'
 import { useForm, Controller } from 'react-hook-form'
-import { useDispatch  } from 'react-redux'
-import { addGroup ,selectAllGroups ,deleteGroup } from '../../../store/GroupSlice'
-import {FaBan} from "react-icons/fa"
-export const RenderSelectfriends = React.memo(({ Friends, setSelectedfriends, Selectedfriends ,styles}) => {
+import { useDispatch } from 'react-redux'
+import { addGroup, selectAllGroups, deleteGroup } from '../../../store/GroupSlice'
+import { FaBan } from "react-icons/fa"
+export const RenderSelectfriends = React.memo(({ Friends, setSelectedfriends, Selectedfriends, styles }) => {
   return (<div className={`friend-lists ${styles} h-60 overflow-auto  grid gap-3  border-b-light px-2 border p-2 rounded-lg`}>
     {Friends.map((friend, index) => {
       return (
@@ -53,9 +53,9 @@ export const Newg = React.memo(() => {
     },
   })
   const GroupnamePattern = /^[A-Za-z][A-Za-z0-9\s,._-]*$/;
- const Friends = useMemo(() => {
-         return isPinselected ? PinnedFriends : AllFriends;
-     }, [isPinselected, AllFriends, PinnedFriends]);
+  const Friends = useMemo(() => {
+    return isPinselected ? PinnedFriends : AllFriends;
+  }, [isPinselected, AllFriends, PinnedFriends]);
   const onsubmit = async (data) => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     dispatch(addGroup(

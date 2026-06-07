@@ -1,7 +1,7 @@
 import React ,{useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Insights } from '../../Expenses/Expensedetails/Insights'
-import { Recent } from '../../../pages/dashboard/Recent'
+import { Recent } from '../../Recent'
 import { Overview } from './Overview'
 import { Balance } from './Spendings'
 import Actionbtn from "../Common/Actionbtn"
@@ -19,12 +19,14 @@ import { Basemodel } from '../../basemodel';
 import {GroupActionDialog} from './GroupActionDialog'
 import { MdGroupOff } from "react-icons/md";
 import {Updateg} from './Updateg'
+import { GroupActivities } from '../../../store/ActivitySlice'
 export const Groupdetail = () => {
   const Navigate = useNavigate()
   const { Groupid } = useParams();
   const [restrictpopup, setrestrictpopup] = useState(false)
   const [updatepopup, setupdatepopup] = useState(false)
   const CurrentGroup = useSelector((state) => selectGroupById(state, Groupid));
+  const activities = useSelector(state=>GroupActivities(state,CurrentGroup))
   const GExpenses = useSelector((state) => GroupExpenses(state, Groupid));
   const MembersSpendings = useSelector(state => FriendsGroupSpendings(state, Groupid))
   const isnew = GExpenses.length === 0 && MembersSpendings.length === 0
@@ -117,9 +119,12 @@ export const Groupdetail = () => {
 
           <div className="Recent-container rounded-lg flex-1 bg-white shadow-md">
             <div className="recent h-[540px] border-l m-2">
-              <Recent h={`h-[400px]`} d={
+              <Recent h={`h-[440px]`} d={
                 <>No recent activity in <span className="font-semibold text-gray-800">{CurrentGroup.Name}</span>. All expenses, settlements, and updates for this group will appear here.</>
-              } />
+              }
+              activities={activities}
+              location={"Group"}
+              />
             </div>
             <div className='btn-container w-full center-flex flex-col gap-3 mt-2'>
               <button

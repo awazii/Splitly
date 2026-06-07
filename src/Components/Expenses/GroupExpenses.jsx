@@ -97,7 +97,7 @@ export const Expenses = () => {
           <Addexpensebtn />
         </div>}
       </motion.div>
-      <motion.div variants={itemVariants} className='flex items-center justify-between mt-3 mx-9'>
+      <motion.div variants={itemVariants} className='flex items-center justify-between mt-3 mx-auto container'>
         <div className="search flex gap-4 py-2 items-center mt-4">
           <Input variant={"Expense"} />
           <Button />

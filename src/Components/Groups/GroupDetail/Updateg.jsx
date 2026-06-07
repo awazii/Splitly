@@ -7,6 +7,7 @@ import Loader from '../../Common/loader';
 import { Groupcategories } from '../../../pages/Group/Grouplist'
 import { IoCheckmark } from "react-icons/io5";
 import { HiChevronDown } from "react-icons/hi2";
+import { addActivity } from "../../../store/ActivitySlice"
 export const Updateg = ({ groupId }) => {
     const CurrentGroup = useSelector((state) => selectGroupById(state, groupId));
     const [showSuccess, setshowSuccess] = React.useState(false);
@@ -25,6 +26,25 @@ export const Updateg = ({ groupId }) => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             await dispatch(updateGroup({ id: groupId, changes: { Name: data.Name, Category: selectedOption } }));
+            dispatch(addActivity({
+                title: "Group Info Updated",
+                selfTitle: false,
+                description: null,
+                icon: "groupUpdate",
+                visibility: {
+                    global: true,
+                    friend: false,
+                    group: true
+                },
+                friends: null,
+                friendImages: null,
+                groupid: groupId,
+                groupinfo: {
+                    name: data.Name,
+                    Category: selectedOption
+                },
+                category: "group",
+            }));
             setshowSuccess(true);
               setTimeout(() => {
                 setshowSuccess(false);

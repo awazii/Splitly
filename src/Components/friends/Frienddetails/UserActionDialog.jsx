@@ -8,6 +8,7 @@ import { FaBan } from "react-icons/fa";
 import { TbUserCheck } from "react-icons/tb";
 import { pageContainerVariants, cardVariants, headerVariants } from "../../../utils/animation";
 import { motion } from "framer-motion";
+import { addActivity } from "../../../store/ActivitySlice"
 const ConfirmAction = ({ friend, isnew, isbanned, Closemodel, setIsConfirmed }) => {
     const dispatch = useDispatch();
     const paragraphs = {
@@ -20,10 +21,53 @@ const ConfirmAction = ({ friend, isnew, isbanned, Closemodel, setIsConfirmed }) 
     };
     function handleAction() {
         if (isnew) {
+            dispatch(addActivity({
+                title: `Removed : ${friend.Name}`,
+                 selfTitle: false,
+                description: {
+                    title: "Friendship Ended",
+                    desIcon: "remove",
+                    details: null
+                },
+                icon: null,
+                visibility: {
+                    global: true,
+                    friend: false,
+                    group: false
+                },
+                groupid: null,
+                friends: [friend.id],
+                friendImages: {       
+                    [friend.id]: friend.Image
+                },
+                category: "friend",
+            }));
             dispatch(deleteFriend(friend.id));
         }
         else {
             dispatch(updateFriend({ id: friend.id, changes: { isBanned: !isbanned } }));
+            dispatch(addActivity({
+                title: `${isbanned ? "Unbanned" : "Banned"} : ${friend.Name}`,
+                selfTitle: false,
+                description: {
+                    title: isbanned ? "User Unbanned" : "User Banned",
+                    desIcon: isbanned ? "unban" : "ban",
+                    details: null
+                },
+                icon: null,
+                visibility: {
+                    global: true,
+                    friend: true,
+                    group: true
+                },
+                groupid: null,
+                groupinfo: null,
+                friends: [friend.id],
+                friendImages: {
+                    [friend.id]: friend.Image
+                },
+                category: "friend",
+            }));
         }
         setIsConfirmed(true);
     }

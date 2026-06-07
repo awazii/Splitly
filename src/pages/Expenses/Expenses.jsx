@@ -265,7 +265,7 @@ export const Expense = () => {
       </div>
 
       <motion.div initial="hidden"
-        animate="visible" variants={itemVariants} className="flex items-center justify-between mt-3 mx-9">
+        animate="visible" variants={itemVariants} className="flex items-center justify-between mt-3 mx-9 container mx-auto">
         <div className="search flex gap-4 py-2 items-center mt-4">
           <Input variant={"Expense"} />
           <Button />

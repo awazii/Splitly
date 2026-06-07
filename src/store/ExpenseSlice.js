@@ -3,10 +3,14 @@ import { REHYDRATE } from "redux-persist";
 import dayjs from "dayjs";
 import { useSelector, useDispatch } from "react-redux";
 import { CategoryColors } from "../pages/dashboard/Analystic";
-const ExpensesAdapter = createEntityAdapter( {
-        sortComparer:(a,b)=> b.Time - a.Time
-    })
-const initialState = ExpensesAdapter.getInitialState(  
+const ExpensesAdapter = createEntityAdapter({
+    sortComparer: (a, b) => {
+        const aDateTime = dayjs(`${a.joinedDate} ${a.Time}`, "YYYY-MM-DD HH:mm:ss");
+        const bDateTime = dayjs(`${b.joinedDate} ${b.Time}`, "YYYY-MM-DD HH:mm:ss");
+        return bDateTime.valueOf() - aDateTime.valueOf();
+    }
+})
+const initialState = ExpensesAdapter.getInitialState(
 );
 const ExpenseSlice = createSlice({
     name: "Expenses",
@@ -72,9 +76,10 @@ export const GroupTotalExpenses = createSelector(
 export const TotalExpenses = createSelector(
     selectAllExpenses,
     (expenses) => {
-        const ExpensesWithoutsettlement = expenses.filter(e=>e.Category!== "Settlement")
-        
-      return  ExpensesWithoutsettlement.reduce((total, expense) => total + Number(expense.totalAmount || 0), 0)}
+        const ExpensesWithoutsettlement = expenses.filter(e => e.Category !== "Settlement")
+
+        return ExpensesWithoutsettlement.reduce((total, expense) => total + Number(expense.totalAmount || 0), 0)
+    }
 )
 function aggregateFriendSpendings(expenses) {
     const map = new Map();
@@ -112,7 +117,7 @@ export const ExpenseAnalystics = createSelector(
     selectAllExpenses,
     (expenses) => {
         const map = new Map();
-        const CategoryData = expenses.filter(r=>r.Category!=="Settlement")
+        const CategoryData = expenses.filter(r => r.Category !== "Settlement")
         CategoryData.forEach(expense => {
             const key = expense.Category;
             const current = map.get(key);
@@ -172,9 +177,9 @@ export function aggregatesettlements(Members) {
     return Settlements
 }
 export const MingleExpenses = createSelector(
-    [selectAllExpenses,  (state, CurrentFriend, Currentbalancewith) => CurrentFriend.id,
-    (state, CurrentFriend, Currentbalancewith) => Currentbalancewith],
-    (expenses, CurrentFriend, Currentbalancewith ) => expenses.filter(e=> e.Settlements.some(s =>
+    [selectAllExpenses, (state, CurrentFriend, Currentbalancewith) => CurrentFriend.id,
+        (state, CurrentFriend, Currentbalancewith) => Currentbalancewith],
+    (expenses, CurrentFriend, Currentbalancewith) => expenses.filter(e => e.Settlements.some(s =>
         (s.from === CurrentFriend && s.to === Currentbalancewith) ||
         (s.from === Currentbalancewith && s.to === CurrentFriend)
     )

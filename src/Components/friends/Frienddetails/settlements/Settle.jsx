@@ -7,6 +7,8 @@ import { useForm, Controller, Watch } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { addExpense } from '../../../../store/ExpenseSlice';
 import { updateFriend } from '../../../../store/FriendsSlice';
+import { addActivity } from '../../../../store/ActivitySlice';
+import { title } from 'framer-motion/client';
 export const Settle = ({ CurrentFriend, Currentbalancewith, setissettlementopen, setispaymentsuccessful }) => {
   const CurrentDebt = Math.abs(CurrentFriend.Relationship.find(r => r.id === Currentbalancewith).netBalance)
   const dispatch = useDispatch()
@@ -20,45 +22,89 @@ export const Settle = ({ CurrentFriend, Currentbalancewith, setissettlementopen,
   let remaining = CurrentDebt - currentAmount
   let percentage = Math.round(remaining / CurrentDebt * 100)
   const Onsubmit = async (data) => {
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  const expenseName = `Payment to ${balancewith.Name}`;
-  const amount = Number(data.amount);
-  dispatch(addExpense(
-    "",
-    expenseName,
-    amount,
-    "",
-    [
-      { id: CurrentFriend.id, spent: '', share: '' },
-      { id: Currentbalancewith, spent: '', share: '' }
-    ],
-    "Settlement",
-    [{ from: CurrentFriend.id, to: Currentbalancewith, amount: amount }]
-  ));
-  const debtorBalance = CurrentFriend.netBalance.total + amount;
-  dispatch(updateFriend({
-    id: CurrentFriend.id,
-    changes: {
-      netBalance: {
-        total: debtorBalance,
-        indicatorid: debtorBalance < 0 ? "debtor" : debtorBalance > 0 ? "creditor" : "settled"
-      },
+    await new Promise(resolve => setTimeout(resolve, 1800));
+    const expenseName = `Payment to ${balancewith.Name}`;
+    const amount = Number(data.amount);
+    dispatch(addExpense(
+      "",
+      expenseName,
+      amount,
+      "",
+      [
+        { id: CurrentFriend.id, spent: '', share: '' },
+        { id: Currentbalancewith, spent: '', share: '' }
+      ],
+      "Settlement",
+      [{ from: CurrentFriend.id, to: Currentbalancewith, amount: amount }]
+    ));
+    const debtorBalance = CurrentFriend.netBalance.total + amount;
+    dispatch(updateFriend({
+      id: CurrentFriend.id,
+      changes: {
+        netBalance: {
+          total: debtorBalance,
+          indicatorid: debtorBalance < 0 ? "debtor" : debtorBalance > 0 ? "creditor" : "settled"
+        },
+      }
+    }));
+    const creditorBalance = balancewith.netBalance.total - amount;
+    dispatch(updateFriend({
+      id: Currentbalancewith,
+      changes: {
+        netBalance: {
+          total: creditorBalance,
+          indicatorid: creditorBalance > 0 ? "creditor" : debtorBalance < 0 ? "debtor" : "settled"
+        },
+      }
+    }));
+    if (remaining === 0) {
+      dispatch(addActivity({
+        title: `${CurrentFriend.Name} & ${balancewith?.Name} settled up`,
+        selfTitle: false,
+        description: {
+          title: "settlement",
+          desIcon: "transaction",
+          details: null
+        }
+        ,
+        icon: "settled",
+        visibility: {
+          global: true,
+          friend: true,
+          group: false
+        },
+        friends: [Currentbalancewith, CurrentFriend.id],
+        friendImages: null,
+        groupid: null,
+        groupinfo: null,
+        category: "settlement",
+      }));
     }
-  }));
-  const creditorBalance = balancewith.netBalance.total - amount;
-  dispatch(updateFriend({
-    id: Currentbalancewith,
-    changes: {
-      netBalance: {
-        total: creditorBalance,
-        indicatorid: creditorBalance > 0 ? "creditor" : debtorBalance < 0 ? "debtor" : "settled"
+    dispatch(addActivity({
+      title: `${CurrentFriend.Name} paid Rs. ${amount} to ${balancewith?.Name}`,
+      selfTitle: false,
+      description: {
+        title: "settlement",
+        desIcon: "transaction",
+        details: null
+      }
+      ,
+      icon: "transaction",
+      visibility: {
+        global: true,
+        friend: true,
+        group: false
       },
-    }
-  }));
-  setispaymentsuccessful({ is: true, amount: amount });
-  setissettlementopen(false);
-  reset();
-};
+      friends: [Currentbalancewith, CurrentFriend.id],
+      friendImages: null,
+      groupid: null,
+      groupinfo: null,
+      category: "settlement",
+    }));
+    setispaymentsuccessful({ is: true, amount: amount });
+    setissettlementopen(false);
+    reset();
+  };
   return (
     <form onSubmit={handleSubmit(Onsubmit)}>
       <div className="h-76 p-2 space-y-2">

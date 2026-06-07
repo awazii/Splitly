@@ -13,6 +13,9 @@ import { Basemodel } from '../../basemodel';
 import { useDispatch } from 'react-redux';
 import { aggregatesettlements, addExpense } from '../../../store/ExpenseSlice';
 import { motion, AnimatePresence } from 'framer-motion';
+import { addActivity, selectActivityById } from "../../../store/ActivitySlice"
+import { useSelector } from 'react-redux';
+import { selectGroupById } from '../../../store/GroupSlice';
 export const handleNext = async (step, setstep, methods) => {
     let isStepValid = false;
     const { trigger, getValues, setValue, setError, clearErrors } = methods;
@@ -84,6 +87,7 @@ export const Addexpense = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { Groupid } = useParams();
+    const group = useSelector(state=>selectGroupById(state,Groupid))
     const [popup, setpopup] = useState(false)
     const Openmodel = () => {
         setpopup(true)
@@ -143,6 +147,25 @@ export const Addexpense = () => {
             data.Category,
             aggregatesettlements(finalmembers)
         ))
+        dispatch(addActivity({
+            title: `New Expense: Rs. ${data.totalAmount}`,
+            selfTitle: false,
+            description: null,
+            icon: "expense",
+            visibility: {
+                global: true,
+                friend: false,
+                group: true
+            },
+            friends:null,
+            friendImages: null,
+            groupid: Groupid,
+            groupinfo: {
+                name: group.Name,
+                Category: group.Category
+            },
+            category: "group",
+        }));
         await new Promise(resolve => setTimeout(resolve, 2000));
         Openmodel();
         reset();

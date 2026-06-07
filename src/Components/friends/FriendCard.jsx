@@ -14,7 +14,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateFriend } from '../../store/FriendsSlice';
 import {FaBan} from "react-icons/fa";
 const Card = ({ friend }) => {
-  console.log(friend)
   const Navigation = useNavigate()
   const dispatch = useDispatch()
   const [flip, setflip] = useState(false)

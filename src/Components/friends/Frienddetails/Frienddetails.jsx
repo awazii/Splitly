@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { IoReturnUpBack, IoSettingsOutline } from "react-icons/io5";
 import Restrictbtn from "../Common/Restrictbtn"
 import { Balancef } from './Balancef';
-import { Recent } from '../../../pages/dashboard/Recent';
+import { Recent } from '../../Recent';
 import { Aboutf } from './Aboutf';
 import { useSelector } from 'react-redux';
 import { selectFriendById } from '../../../store/FriendsSlice';
@@ -14,9 +14,11 @@ import { UserActionDialog } from './UserActionDialog'
 import { UniversalEmptyState } from '../../UniversalEmptyState'
 import { pageContainerVariants, cardVariants } from "../../../utils/animation";
 import { TbUserX } from "react-icons/tb";
+import { FriendActivities } from '../../../store/ActivitySlice';
 export const Frienddetails = () => {
   const Navigate = useNavigate()
   const { Friend } = useParams();
+  const Activities = useSelector(state => FriendActivities(state, Friend))
   const [updatepopup, setupdatepopup] = useState(false)
   const [restrictpopup, setrestrictpopup] = useState(false)
   const CurrentFriend = useSelector((state) => selectFriendById(state, Friend));
@@ -38,12 +40,12 @@ export const Frienddetails = () => {
             setrestrictpopup(true)
           }} />}
           {
-            (CurrentFriend.id !=="admin_01" && !CurrentFriend.isBanned) && 
-              <button className="settingbtn card-b size-11 rounded-lg center-flex group trans hover:scale-102 active:scale-95 cursor-pointer" onClick={() => setupdatepopup(true)}>
-            <IoSettingsOutline className='size-5 group-hover:text-primary' />
-          </button>
+            (CurrentFriend.id !== "admin_01" && !CurrentFriend.isBanned) &&
+            <button className="settingbtn card-b size-11 rounded-lg center-flex group trans hover:scale-102 active:scale-95 cursor-pointer" onClick={() => setupdatepopup(true)}>
+              <IoSettingsOutline className='size-5 group-hover:text-primary' />
+            </button>
           }
-  
+
         </div>
       </div>
         <div className="friend-container grid container mx-auto grid-cols-3 h-205 gap-3 grid-rows-6">
@@ -64,6 +66,8 @@ export const Frienddetails = () => {
                   All their transactions, group updates, and settlements across the app will appear here.
                 </>
               }
+              activities={Activities}
+              location="friendpage"
             />
           </div>
         </div></> : (
@@ -76,8 +80,8 @@ export const Frienddetails = () => {
               title="This User has been removed or does not exist."
               textsize="text-sm"
               button={{
-                type:"Friends",
-                Link:"/Friends"
+                type: "Friends",
+                Link: "/Friends"
               }}
             >
               <div className="p-8 shadow-md border-l rounded-full">

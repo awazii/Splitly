@@ -1,10 +1,14 @@
 import { createSlice, nanoid, createEntityAdapter, createSelector } from "@reduxjs/toolkit";
-import { addExpense  ,selectAllExpenses } from "./ExpenseSlice"
+import { addExpense, selectAllExpenses } from "./ExpenseSlice"
 import dayjs from "dayjs";
 const GroupsAdapter = createEntityAdapter({
-        sortComparer:(a,b)=> b.Time - a.Time
-    })
-const initialState = GroupsAdapter.getInitialState(    
+    sortComparer: (a, b) => {
+        const aDateTime = dayjs(`${a.joinedDate} ${a.Time}`, "YYYY-MM-DD HH:mm:ss");
+        const bDateTime = dayjs(`${b.joinedDate} ${b.Time}`, "YYYY-MM-DD HH:mm:ss");
+        return bDateTime.valueOf() - aDateTime.valueOf();
+    }
+})
+const initialState = GroupsAdapter.getInitialState(
 );
 const GroupsSlice = createSlice({
     name: "Groups",
@@ -23,7 +27,7 @@ const GroupsSlice = createSlice({
                         statusid: "Active",
                         totalAmount: 0,
                         joinedDate: dayjs().format("YYYY-MM-DD"),
-                       Time: dayjs().format("HH:mm:ss")
+                        Time: dayjs().format("HH:mm:ss")
                     }
                 }
             }
@@ -32,7 +36,7 @@ const GroupsSlice = createSlice({
         updateGroup: GroupsAdapter.updateOne
     }
     , extraReducers: (builder) => {
-        builder.addCase(addExpense , (state, action) => {
+        builder.addCase(addExpense, (state, action) => {
             const { Groupid, totalAmount } = action.payload;
             const group = state.entities[Groupid];
             if (group) {
@@ -49,9 +53,9 @@ export const selectPinnedGroups = createSelector(
 );
 export const TopGroup = createSelector(
     selectAllGroups,
-    (Groups)=>{
-        const sortedGroups= [...Groups].sort((a,b)=> b.totalAmount-a.totalAmount)
-        return sortedGroups[0]    
+    (Groups) => {
+        const sortedGroups = [...Groups].sort((a, b) => b.totalAmount - a.totalAmount)
+        return sortedGroups[0]
     }
 )
 export default GroupsSlice.reducer;

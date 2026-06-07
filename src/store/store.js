@@ -4,7 +4,8 @@ import storage from "redux-persist/lib/storage";
 import FriendsReducer from "./FriendsSlice";
 import GroupReducer from "./GroupSlice";
 import ExpenseReducer from "./ExpenseSlice";
-import SpliterReducer from './SpliterSlice'
+import SpliterReducer from './SpliterSlice';
+import ActivityReducer from "./ActivitySlice";
 import { Spliter } from "../Components/Spliter/Spliterform/Spliter";
 import userReducer from "./UserSlice";
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   Expenses: ExpenseReducer,
   Spliter:SpliterReducer,
   user: userReducer,
+  Activity: ActivityReducer
 });
 const persistConfig = {
   key: "root",
