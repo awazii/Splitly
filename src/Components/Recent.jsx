@@ -59,7 +59,7 @@ export const Recent = ({ h, d, activities, location }) => {
     groupAdd: {
       label: "Group Added",
       svg: <MdGroupAdd className="text-white size-7" />,
-      backgroundColor: "#8bc34a"
+      backgroundColor: "#4caf50"
     },
     groupRemoved: {
       label: "Group Removed",

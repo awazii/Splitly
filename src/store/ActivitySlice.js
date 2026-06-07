@@ -70,10 +70,10 @@ export const GroupActivities = createSelector(
     [selectAllActivities, (state, group) => group],
     (activities, group) => {
                    const joinedindex = activities.findIndex(
-            activity => activity.groupid === group.id && activity.title ==="You created New group"
+            activity => activity.groupid === group?.id && activity.title ==="You created New group"
         );
         const frozenindex = activities.findIndex(
-            activity => activity.groupid === group.id && activity.title ==="Group Frozen"
+            activity => activity.groupid === group?.id && activity.title ==="Group Frozen"
         );
         console.log(joinedindex , frozenindex)
         if (joinedindex !== -1) {

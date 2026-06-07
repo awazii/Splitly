@@ -111,7 +111,7 @@ export const Transactiondetailsfg = ({ isdetailopen, setisdetailopen, Currentfri
                     <h3 className='text-xl font-semibold'>Settelemnts</h3>
                     <FaMoneyBillTransfer className='size-5' />
                 </div>
-                <div className={`settelemnts-list mt-2 space-y-2 ${(currentTransaction.Settlements.length !== 0 && netbalance !== 0) ? "min-h-30 max-h-60" : "h-fit"}  w-[70%] mx-auto overflow-y-auto`}>
+                <div className={`settelemnts-list mt-2 space-y-2 ${(currentTransaction.Settlements.length !== 0 && netbalance !== 0) ? "min-h-20 max-h-60" : "h-fit"}  w-[70%] mx-auto overflow-y-auto`}>
                     {(currentTransaction.Settlements.length !== 0 && netbalance !== 0)
                         ? <>
                             {currentTransaction.Settlements.map((settlement, index) => {
