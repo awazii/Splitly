@@ -15,6 +15,7 @@ export const Stepthreehelper = ({ Friends, Splits }) => {
     const Share = useWatch({ name: "Share", control });
     let currentpercentage = Object.values(Share["By Percentage"] || {}).reduce((sum, value) => sum + Number(value || 0), 0);
     const Splitopt = useWatch({ name: "splitMethod", control });
+    console.log(Splitopt,Share)
     let currentamount = Object.values(Share["Unequally"] || {}).reduce((sum, value) => sum + Number(value || 0), 0);
     return (
         <div className=' h-fit mt-2 grid grid-cols-5  rounded-lg gap-3  p-2'>
@@ -23,11 +24,11 @@ export const Stepthreehelper = ({ Friends, Splits }) => {
                     <h3 className='font-semibold text-text-secondary'>Total Expense Amount</h3>
                     {Splitopt === "By Percentage" ? <>
                         <div className="amounts flex justify-between mt-2">
-                            <div className="remaining font-bold ">{100 - currentpercentage}%</div>
+                            <div className="remaining font-bold ">{(100 - currentpercentage) < 0 ? 0 : 100 - currentpercentage}%</div>
                             <div className="font-bold ">Rs.{Number(TotalAmount).toLocaleString()}</div>
                         </div></> :
                         <div className="amounts flex justify-between mt-2">
-                            <div className="remaining font-bold ">Rs. {Splitopt !== "Equally" ? `${Number(TotalAmount - currentamount).toLocaleString()}` : "0"}</div>
+                            <div className="remaining font-bold ">Rs. {Splitopt !== "Equally" ? `${Number((TotalAmount - currentamount) < 0 ? 0 :TotalAmount - currentamount ).toLocaleString()}` : "0"}</div>
                             <div className="font-bold ">Rs.{Number(TotalAmount).toLocaleString()}</div>
                         </div>}
                     <div className="progress-bar-container relative">
@@ -68,7 +69,7 @@ export const Stepthreehelper = ({ Friends, Splits }) => {
                                             <p className='text-[12px] text-text-secondary'>{
                                                 friend.type === "temporary" ? "Temporary Friend" :
                                                     friend.Bio}</p>
-                                            {(Splitopt === "By Percentage" && Share[Splitopt][friend.id] != "" && Share[Splitopt][friend.id] != null) && <p className='text-sm text-text-secondary'> {`${Share[Splitopt][friend.id]}% = ${Math.round(Number((Share[Splitopt][friend.id] / 100) * TotalAmount)).toLocaleString()}`} </p>}
+                                            {(Splitopt === "By Percentage" && Share[Splitopt][friend.id] != "" && Share[Splitopt][friend.id] != null && Share[Splitopt][friend.id] <= 100 ) && <p className='text-sm text-text-secondary'> {`${Share[Splitopt][friend.id]}% = ${Math.round(Number((Share[Splitopt][friend.id] / 100) * TotalAmount)).toLocaleString()}`} </p>}
                                             {errors.Share?.[Splitopt]?.[friend.id] && (
                                                 <p className='text-red-500 text-xs mt-1 '>{errors.Share[Splitopt][friend.id].message}</p>
                                             )}

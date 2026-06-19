@@ -20,8 +20,8 @@ export const Steptwo = ({ allfriends }) => {
   const Collected = livemembers.reduce((sum, member) => sum + Number(member.spent || 0), 0);
   const Total = Number(getValues("totalAmount"));
  const paymentdata = [
-     { label: "Amount Collected", amount: Collected, logo: <TiTick className='text-white size-4' /> },
-     { label: "Amount Left", amount: Total - Collected, logo: <GiBullseye className='text-primary size-6' /> },
+     { label: "Amount Collected", amount: Collected > Total ? Total :Collected, logo: <TiTick className='text-white size-4' /> },
+     { label: "Amount Left", amount: (Total - Collected ) <0 ? 0 : Total - Collected  , logo: <GiBullseye className='text-primary size-6' /> },
      { label: "Total Amount", amount: Total, logo: < IoMdFlag className='text-neutral-500 size-6' /> },
    ];
   return (
