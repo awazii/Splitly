@@ -1,22 +1,67 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoCheckmark } from "react-icons/io5";
 import { HiChevronDown } from "react-icons/hi2";
-export const FilterHeader = ({ Sorts, Filters, ActiveSort , type }) => {
-    const [activeFilter, setActiveFilter] = useState("");
-    const [activeSort, setActiveSort] = useState(ActiveSort);
-     const [isOpen, setIsOpen] = useState(false);
+import { selectAllGroups, selectGroupById } from "../store/GroupSlice";
+import { categories } from "../pages/Expenses/Expenses";
+import { useSelector } from "react-redux";
+import { filter } from "framer-motion/client";
+export const FilterHeader = ({ Sorts, Filters, queryOptions, setqueryOptions, type, defaultSort }) => {
+    const [activeFilter, setactiveFilter] = useState(queryOptions.Filter.type);
+    const [activeSort, setactiveSort] = useState(queryOptions.Sort.type);
+    const [isOpen, setIsOpen] = useState(false);
+    const Allgroups = useSelector(selectAllGroups)
+    const [isInteracted, setisInteracted] = useState(false)
+    const [status, setStatus] = useState("");
     const [selectedOption, setSelectedOption] =
-        useState("Choose option");
-    const options = [
-        "Option 1",
-        "Option 2",
-        "Option 3",
-        "Option 4",
-        "Option 5",
-        "Option 6",
-    ];
+        useState(
+            { Name: "Choose option" }
+        );
+    const [options, setoptions] = useState([])
+    useEffect(() => {
+        if (activeFilter === "By Group") {
+            setoptions(Allgroups)
+            let currentgroup= Allgroups.find(g=>g.id === queryOptions.Filter.details?.value)
+            if (queryOptions.Filter.details?.label === "Group") {
+                setSelectedOption(currentgroup)
+
+            }
+            else {
+                setSelectedOption({ Name: "Choose option" })
+            }
+
+        }
+        else {
+            let options = Object.keys(categories).map((Category, index) => {
+                return {
+                    id: index,
+                    Name: Category
+                }
+            })
+            setoptions(options)
+            if (queryOptions.Filter.details?.label === "Category") {
+                setSelectedOption({
+                    id: 1,
+                    Name: queryOptions.Filter.details?.value
+                })
+
+            }
+            else {
+                setSelectedOption({ Name: "Choose option" })
+            }
+        }
+    }, [activeFilter])
+    useEffect(() => {
+        if (status !== "") {
+            const timer = setTimeout(() => {
+                setStatus("");
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [status]);
+
+
     return (
-        <div className="w-[430px] rounded-[32px] max-h-120 bg-surface p-6 shadow-xl border border-[#ececec]">
+        <div className="w-[430px] rounded-[32px] max-h-120 bg-surface p-6 pb-4 shadow-xl border border-[#ececec]">
             <div>
                 <p className="mb-2 text-sm text-text-secondary">
                     How should we organize your list?
@@ -24,7 +69,7 @@ export const FilterHeader = ({ Sorts, Filters, ActiveSort , type }) => {
             </div>
 
             <div className="Sort border-b-light border-t mb-3">
-                <p className="my-1 text-sm text-[#8a8a8a]">
+                <p className="my-1 text-sm text-text-secondary">
                     Sort Options
                 </p>
 
@@ -35,7 +80,11 @@ export const FilterHeader = ({ Sorts, Filters, ActiveSort , type }) => {
                         return (
                             <button
                                 key={Sort.label}
-                                onClick={() => setActiveSort(Sort.label)}
+                                onClick={() => {
+                                    if (!isInteracted) setisInteracted(true)
+                                    setactiveSort(Sort.label)
+                                }
+                                }
                                 className={`flex items-center justify-between rounded-2xl border bg-white px-3 py-3 shadow-md text-sm font-medium transition-all cursor-pointer ${isActive
                                     ? "border-[#ff7a3d] text-[#ff7a3d]"
                                     : "border-[#ebebeb] text-[#555] hover:border-[#ff7a3d]"
@@ -56,7 +105,7 @@ export const FilterHeader = ({ Sorts, Filters, ActiveSort , type }) => {
             </div>
 
             <div className="filters border-b-light border-t">
-                <p className="my-1 text-sm text-[#8a8a8a]">
+                <p className="my-1 text-sm text-text-secondary">
                     Filter Options
                 </p>
 
@@ -70,11 +119,11 @@ export const FilterHeader = ({ Sorts, Filters, ActiveSort , type }) => {
                                 key={filter.label}
                                 onClick={() => {
                                     if (isActive) {
-                                        setActiveFilter("")
-                                        isActive = false;
+                                        setactiveFilter("")
                                         return
                                     }
-                                    setActiveFilter(filter.label)
+                                    if (!isInteracted) setisInteracted(true)
+                                    setactiveFilter(filter.label)
                                 }
                                 }
                                 className={`flex items-center justify-between rounded-2xl border bg-white px-3 py-3 shadow-md text-sm font-medium transition-all ${isActive
@@ -94,65 +143,122 @@ export const FilterHeader = ({ Sorts, Filters, ActiveSort , type }) => {
                         );
                     })}
                 </div>
-            {(type === "expense" && activeFilter) && ( <div className="mt-4">
-                    <label className="mb-2 block text-sm text-[#8a8a8a]">
-                        Selected Filter Option
-                    </label>
-                    <div className="relative w-full">
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="flex w-full items-center justify-between rounded-2xl border border-[#ebebeb] bg-white px-4 py-3 text-sm text-[#555] shadow-md transition-all hover:border-[#ff7a3d] cursor-pointer"
-                        >
-                            <span>{selectedOption}</span>
+                {(type === "expense" && activeFilter) &&
+                    (
+                        <div className="mt-4">
+                            <label className="mb-2 block text-sm text-text-secondary">
+                                Selected Filter Option
+                            </label>
+                            <div className="relative w-full">
+                                <button
+                                    onClick={() => setIsOpen(!isOpen)}
+                                    className="flex w-full items-center justify-between rounded-2xl border border-[#ebebeb] bg-white px-4 py-3 text-sm text-[#555] shadow-md transition-all hover:border-[#ff7a3d] cursor-pointer"
+                                >
+                                    <span>{selectedOption.Name}</span>
+                                    <HiChevronDown
+                                        size={18}
+                                        className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                                            }`}
+                                    />
+                                </button>
+                                {isOpen && (
+                                    <div className="absolute left-0 z-50  w-full h-25 overflow-y-auto rounded-2xl border border-[#ebebeb] bg-white p-2 shadow-xl mt-1">
+                                        {options.map((option, index) => {
+                                            const isSelected = selectedOption.Name === option.Name
+                                            return (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => {
+                                                         if (!isInteracted) setisInteracted(true)
+                                                        setSelectedOption(
+                                                            option
+                                                        );
 
-                            <HiChevronDown
-                                size={18}
-                                className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""
-                                    }`}
-                            />
-                        </button>
-                        {isOpen && (
-                            <div className="absolute left-0 z-50  w-full h-25 overflow-y-auto rounded-2xl border border-[#ebebeb] bg-white p-2 shadow-xl mt-1">
-                                {options.map((option) => {
-                                    const isSelected =
-                                        selectedOption === option;
+                                                        setIsOpen(false);
+                                                    }}
+                                                    className={`mb-1 flex w-full items-center justify-between rounded-xl px-3 py-3 text-sm transition-all cursor-pointer ${isSelected
+                                                        ? "bg-[#fff2eb] text-[#ff7a3d]"
+                                                        : "text-[#555] hover:bg-[#f8f8f8]"
+                                                        }`}
+                                                >
+                                                    <span>{option.Name}</span>
 
-                                    return (
-                                        <button
-                                            key={option}
-                                            onClick={() => {
-                                                setSelectedOption(
-                                                    option
-                                                );
-
-                                                setIsOpen(false);
-                                            }}
-                                            className={`mb-1 flex w-full items-center justify-between rounded-xl px-3 py-3 text-sm transition-all cursor-pointer ${isSelected
-                                                    ? "bg-[#fff2eb] text-[#ff7a3d]"
-                                                    : "text-[#555] hover:bg-[#f8f8f8]"
-                                                }`}
-                                        >
-                                            <span>{option}</span>
-
-                                            {isSelected && (
-                                                <IoCheckmark
-                                                    size={16}
-                                                />
-                                            )}
-                                        </button>
-                                    );
-                                })}
+                                                    {isSelected && (
+                                                        <IoCheckmark
+                                                            size={16}
+                                                        />
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
-                </div>)}
+                        </div>)
+
+                }
             </div>
 
-            <div className="center-flex">
-                <button className="mt-5 w-50 rounded-2xl bg-[#ff7a3d] py-3 text-sm font-semibold text-white shadow-md transition hover:opacity-90 cursor-pointer">
-                    Apply Filter
+            <div className="center-flex gap-3 mt-5 ">
+                <button
+                    disabled={queryOptions.Filter.type === "" && queryOptions.Sort.type === defaultSort}
+                    className={` border-transparent border py-3 text-sm font-semibold w-25 shadow bg-white trans ${queryOptions.Filter.type === "" && queryOptions.Sort.type === defaultSort ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:border-primary"
+                        }  rounded-xl `} onClick={() => {
+                            setStatus("reset");
+                            setqueryOptions(prev => (
+                                {
+                                    ...prev,
+                                    Filter: {
+                                        active: false,
+                                        type: "",
+                                        details: type === "expense" ? {
+                                            label: "",
+                                            value: "",
+                                        } : null
+                                    }
+                                    ,
+                                    Sort: {
+                                        type: defaultSort,
+                                    }
+                                }
+                            ))
+                            setactiveFilter("")
+                            setactiveSort(defaultSort)
+
+                        }}>
+                    Reset
+                </button>
+                <button
+                    disabled={!isInteracted || (activeFilter !== "" && (selectedOption.Name === "Choose option" && type === "expense"))}
+                    className={`w-30 rounded-xl bg-[#ff7a3d] py-3 text-sm font-semibold text-white shadow-md transition  ${!isInteracted || (activeFilter !== "" && (selectedOption.Name === "Choose option" && type === "expense")) ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:opacity-90"}`} onClick={() => {
+                        setStatus("updated");
+                        setqueryOptions(prev => (
+                            {
+                                ...prev, Sort: {
+                                    type: activeSort
+                                },
+                                Filter: {
+                                    active: activeFilter === '' ? false : true,
+                                    type: activeFilter,
+                                    details: type === "expense" ? {
+                                        label: activeFilter === 'By Group' ? 'Group' : "Category",
+                                        value: activeFilter === 'By Group' ? selectedOption.id : selectedOption.Name,
+                                    } : null
+                                }
+                            }))
+                    }}>
+                    Apply
                 </button>
             </div>
+            {status !== "" && (
+                <p
+                    className={`${status === "updated" ? "text-emerald-600" : "text-orange-500"
+                        } mt-3 text-center font-medium`}
+                >
+                    Filter {status === "updated" ? "Updated" : "Reset"}
+                </p>
+            )}
+
         </div>
     );
 };

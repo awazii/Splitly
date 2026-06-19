@@ -1,16 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { MdClear } from "react-icons/md";
+const Input = React.memo(({ variant, queryOptions, setqueryOptions }) => {
+  const [searchInput, setSearchInput] = useState("");
+  useEffect(() => {
+    const timer = setTimeout(() => {  
+        setqueryOptions(prev => ({
+          ...prev,
+          Search: {
+            value: searchInput.trim()===""? '': searchInput,
+          }
+        }));
+    }, 300);
 
-const Input = ({variant}) => {
+    return () => clearTimeout(timer);
+  }, [searchInput]);
   return (
     <StyledWrapper>
-      <div className="form ">
-        <input className="input" placeholder={`Search ${variant} `} required type="text" />
+      <div className="form border-b-1 border-b-light">
+        <input className="input" placeholder={`Search ${variant} `} required type="text" value={searchInput} onChange={(e) => {
+          setSearchInput(e.target.value)
+        }} />
         <span className="input-border" />
+        {searchInput.trim() !== '' && <button className='cursor-pointer absolute top-2 left-[95%]' title='Clear' onClick={() => {
+          setSearchInput('')
+        }}>
+          <MdClear className='size-5 text-text-secondary' /></button>}
       </div>
     </StyledWrapper>
   );
-}
+})
 
 const StyledWrapper = styled.div`
   .form {
@@ -26,12 +45,10 @@ const StyledWrapper = styled.div`
    color:  #484848;
    font-size: 0.9rem;
    background-color: transparent;
-   width: 100%;
+   width: 95%;
    box-sizing: border-box;
    padding-inline: 0.5em;
    padding-block: 0.4em;
-   border: none;
-   border-bottom: var(--border-height) solid var(--border-before-color);
   }
    input::placeholder {
    color:  #6B7280;}

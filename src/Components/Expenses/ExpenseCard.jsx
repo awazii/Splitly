@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectGroupById } from '../../store/GroupSlice';
 import { selectFriendById } from '../../store/FriendsSlice';
 import {FaBan} from "react-icons/fa"
- const MemberAvatars = ({ id }) => {
+ const MemberAvatars = React.memo(({ id }) => {
     const friend = useSelector(state => selectFriendById(state, id));
     return (
         <div className={`member size-7  rounded-lg shadow-md ${friend?.isBanned ? "border-red-500" : "border-primary"} border relative`}>
@@ -18,8 +18,8 @@ import {FaBan} from "react-icons/fa"
             )}
         </div>
     )
-}
-export const ExpenseCard = ({ expense, Openmodel, ForGroup }) => {
+})
+export const ExpenseCard =React.memo(({ expense, Openmodel, ForGroup }) => {
     const group = useSelector(state => selectGroupById(state, expense.Groupid));
       const Icon = categories[expense.Category].icon;
     return (
@@ -67,4 +67,4 @@ export const ExpenseCard = ({ expense, Openmodel, ForGroup }) => {
                 </div>
             </div>
         </div>)
-}
+})

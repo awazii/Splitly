@@ -107,7 +107,7 @@
   }
 
   .unpin {
-    @apply absolute top-[-30px] right-0 min-w-30 whitespace-nowrap text-[12px] z-20 border-b-light shadow-md border bg-neutral-100 p-1 opacity-0 rounded-xl text-center font-bold;
+    @apply absolute top-[-30px] right-0 min-w-30 whitespace-nowrap text-[12px] z-20 border-b-light border bg-white py-1 px-2 opacity-0 rounded-xl text-center font-bold;
   }
 
   .unpin-btn:hover~span {

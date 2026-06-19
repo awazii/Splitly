@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import Input from '../../Components/Common/Input'
-import Button from '../../Components/Common/searchbtn'
 import { GiExpense } from "react-icons/gi";
 import { FaMoneyCheck } from "react-icons/fa6";
 import { CiFilter } from "react-icons/ci";
@@ -32,63 +31,38 @@ import dayjs from 'dayjs';
 import { motion } from "framer-motion";
 import { cardContainerVariants, cardVariants, itemVariants, headerVariants, pageContainerVariants } from "../../utils/animation";
 import { FilterHeader } from '../../Components/filter';
+import { MdSort } from "react-icons/md";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import { IoMdCloseCircle } from "react-icons/io";
+import { SortIcons, FilterIcons } from '../../utils/SortFiltersvgs';
+import { FilterSortPanel } from '../../Components/FilterSortPanel';
+import { FilterHandlers } from '../../utils/FilterHandler';
 import {
-  HiFolder,
-  HiTag,
-  HiCurrencyDollar,
-  HiBarsArrowDown,
-  HiBarsArrowUp,
-} from "react-icons/hi2";
+  IoSearchOutline,
+} from "react-icons/io5";
 export const expenseSorts = [
   {
     label: "New to Old",
-    icon: (
-      <HiBarsArrowDown
-        size={18}
-        className="text-[#3b82f6]"
-      />
-    ),
+    icon: SortIcons["New to Old"],
   },
-
   {
     label: "Old to New",
-    icon: (
-      <HiBarsArrowUp
-        size={18}
-        className="text-[#a855f7]"
-      />
-    ),
+    icon: SortIcons["Old to New"],
   },
-
   {
     label: "Most Expenses",
-    icon: (
-      <HiCurrencyDollar
-        size={18}
-        className="text-[#f59e0b]"
-      />
-    ),
+    icon: SortIcons["Most Expenses"],
   },
 ];
+
 export const expenseFilters = [
   {
     label: "By Group",
-    icon: (
-      <HiFolder
-        size={18}
-        className="text-[#8b5cf6]"
-      />
-    ),
+    icon: FilterIcons["By Group"],
   },
-
   {
-    label: "Category",
-    icon: (
-      <HiTag
-        size={18}
-        className="text-[#ec4899]"
-      />
-    ),
+    label: "By Category",
+    icon: FilterIcons["By Category"],
   },
 ];
 
@@ -166,29 +140,106 @@ const getDailyComparison = (expenses, type) => {
     isIncreasing: diff >= 0
   };
 };
-export const Expense = () => {
+export const Expense = React.memo(() => {
   const Raw = useSelector(selectAllExpenses);
   const Expenses = Raw.filter(r => r.Category !== "Settlement")
   const Totalexpensesamount = useSelector(TotalExpenses)
-  const SevenDayExpenseData = getSevenDayChartData(Expenses)
-  const SevenDayExpenseAmount = SevenDayExpenseData.map(e => (
-    {
-      date: e.date,
-      amount: e.amount
-    }
-  ))
-  const SevenDayExpensecount = SevenDayExpenseData.map(e => (
-    {
-      date: e.date,
-      count: e.count
-    }
-  )
-  )
-  const dailyamountComparison = getDailyComparison(Expenses, "amount")
-  const dailycountComparison = getDailyComparison(Expenses, "count")
+  const { SevenDayExpenseAmount, SevenDayExpensecount } = useMemo(() => {
+    const baseData = getSevenDayChartData(Expenses);
+
+    return {
+      SevenDayExpenseAmount: baseData.map(e => ({ date: e.date, amount: e.amount })),
+      SevenDayExpensecount: baseData.map(e => ({ date: e.date, count: e.count }))
+    };
+  }, [Expenses]);
+  const dailyamountComparison = useMemo(() => {
+    return getDailyComparison(Expenses, "amount");
+  }, [Expenses]);
+
+  const dailycountComparison = useMemo(() => {
+    return getDailyComparison(Expenses, "count");
+  }, [Expenses]);
   const [popup, setpopup] = useState(false)
   const [CurrentExpenseid, setCurrentExpenseid] = useState("")
   const [isFilteropen, setisFilteropen] = useState(false)
+  const [queryOptions, setqueryOptions] = useState({
+    Search: {
+      value: "",
+    },
+    Filter: {
+      active: false,
+      type: "",
+      details: {
+        label: "",
+        value: "",
+      }
+    }
+    ,
+    Sort: {
+      type: "New to Old",
+    }
+  })
+  const renderedData = useMemo(() => {
+    let result = [...Expenses];
+    switch (queryOptions.Sort.type) {
+      case "New to Old":
+        result.sort((a, b) => {
+          const aDateTime = dayjs(`${a.createdDate} ${a.Time}`, "YYYY-MM-DD HH:mm:ss");
+          const bDateTime = dayjs(`${b.createdDate} ${b.Time}`, "YYYY-MM-DD HH:mm:ss");
+          return bDateTime.valueOf() - aDateTime.valueOf();
+        });
+        break;
+
+      case "Old to New":
+        result.sort((a, b) => {
+          const aDateTime = dayjs(`${a.createdDate} ${a.Time}`, "YYYY-MM-DD HH:mm:ss");
+          const bDateTime = dayjs(`${b.createdDate} ${b.Time}`, "YYYY-MM-DD HH:mm:ss");
+          return aDateTime.valueOf() - bDateTime.valueOf();
+        });
+        break;
+      case "Most Expenses":
+        result.sort((a, b) => {
+          return b.totalAmount - a.totalAmount
+        });
+        break;
+      default:
+        break;
+    }
+    if (queryOptions.Filter.active) {
+      const value = queryOptions.Filter.details?.value ?? null;
+      result = FilterHandlers[queryOptions.Filter.type](result, value);
+    }
+    if (queryOptions.Search.value.trim() !== '') {
+      const search = queryOptions.Search.value.toLowerCase().trim();
+
+      result = result.filter((card) =>
+        card.Name?.toLowerCase().includes(search)
+      );
+    }
+
+    return result;
+  }, [
+    queryOptions
+  ]);
+  const emptyStates = {
+    noData: {
+      title: "No expenses found",
+      description: "Your global expense history is empty. Add a new expense to get started.",
+      icon: <RiFileList3Line className="size-10 text-primary" />,
+    },
+    noSearchResults: {
+      title: "No results found",
+      description: "Try using different keywords or adjust your search.",
+      icon: <IoSearchOutline className="size-10 text-primary" />,
+    },
+
+    noFilterResults: {
+      title: "No matches found",
+      description:
+        "Try changing or clearing your filters to see results.",
+      icon: <CiFilter className="size-10 text-primary" />,
+    },
+  };
   const Openmodel = () => {
     setpopup(true)
   }
@@ -216,7 +267,6 @@ export const Expense = () => {
       icon: <GiExpense className='text-white size-10' />,
       gradient: 'linear-gradient(135deg, #3F51B5 0%, #2196F3 50%, #00BCD4 100%)',
     }
-
   ];
   return (
     <div className="Expense-main h-full overflow-auto scrollbar-hide relative">
@@ -267,25 +317,52 @@ export const Expense = () => {
       <motion.div initial="hidden"
         animate="visible" variants={itemVariants} className="flex items-center justify-between mt-3 mx-9 container mx-auto">
         <div className="search flex gap-4 py-2 items-center mt-4">
-          <Input variant={"Expense"} />
-          <Button />
+          <Input variant={"Expense"} queryOptions={queryOptions} setqueryOptions={setqueryOptions} />
         </div>
-        <button className="filter bg-white shadow-md p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex" onClick={() => setisFilteropen(true)}>
-          <CiFilter className="size-5" />
-        </button>
+        <div className='center-flex gap-5'>
+          {!(queryOptions.Filter.type === "" && queryOptions.Sort.type === "New to Old") &&
+            <button
+              className='cursor-pointer text-primary font-semibold underline'
+              onClick={() => {
+                setqueryOptions(prev => (
+                  {
+                    ...prev,
+                    Filter: {
+                      active: false,
+                      type: "",
+                      details: {
+                        label: "",
+                        value: "",
+                      }
+                    }
+                    ,
+                    Sort: {
+                      type: "New to Old",
+                    }
+                  }
+                ))
+              }}
+            >Clear all</button>}
+          <button className="filter bg-white shadow-md p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex" onClick={() => setisFilteropen(true)} title='Sort & Filters'>
+            <CiFilter className="size-5" />
+          </button>
+        </div>
       </motion.div>
       <motion.div initial="hidden"
         animate="visible" variants={itemVariants} className="Expense-container mx-auto container mt-4">
         <h2 className="text-xl font-semibold mb-2 center-flex gap-1 w-fit">
           Expenses <span><GiExpense /></span>
         </h2>
-
-        {Expenses.length > 0 ? (
+        <FilterSortPanel queryOptions={queryOptions} type="expense" />
+        {queryOptions.Search.value !== '' && <h2 className='text-text-secondary my-2'>Showing : <span className='font-semibold'> {`${renderedData.length} 
+        ${renderedData.length > 1 ? "Results" : "Result"}
+        for ${queryOptions.Search.value}`} </span></h2>}
+        {renderedData.length > 0 ? (
           <motion.div
             variants={cardContainerVariants}
             className="grid grid-cols-3 gap-3 pb-5"
           >
-            {Expenses.map((expense, index) => (
+            {renderedData.map((expense, index) => (
               <motion.div key={index} variants={cardVariants}>
                 <ExpenseCard
                   expense={expense}
@@ -299,21 +376,21 @@ export const Expense = () => {
           </motion.div>
         ) : (
           <UniversalEmptyState
-            title="No expenses found"
-            description="Your global expense history is empty. Add a new expense to get started."
+            title={queryOptions.Search.value.trim() !== '' ? emptyStates.noSearchResults.title : queryOptions.Filter.active ? emptyStates.noFilterResults.title : emptyStates.noData.title}
+            description={queryOptions.Search.value.trim() !== '' ? emptyStates.noSearchResults.description : queryOptions.Filter.active ? emptyStates.noFilterResults.description : emptyStates.noData.description}
             textsize=""
           >
             <div className="p-10 shadow-md bg-gray-50 rounded-full">
-              <RiFileList3Line className="size-10 text-primary" />
+              {queryOptions.Search.value.trim() !== '' ? emptyStates.noSearchResults.icon : queryOptions.Filter.active ? emptyStates.noFilterResults.icon : emptyStates.noData.icon}
             </div>
           </UniversalEmptyState>
         )}
       </motion.div>
       <Basemodel isOpen={isFilteropen} Closemodel={() => setisFilteropen(false)} title="Expense Filters">
-        <FilterHeader Sorts={expenseSorts} Filters={expenseFilters} ActiveSort={"New to Old"} type="expense" />
+        <FilterHeader Sorts={expenseSorts} Filters={expenseFilters} queryOptions={queryOptions} setqueryOptions={setqueryOptions} defaultSort="New to Old" type="expense" />
       </Basemodel>
       <Basemodel isOpen={popup} Closemodel={Closemodel} title="Expense Details">
         <Expensedetails expenseid={CurrentExpenseid} />
       </Basemodel>
     </div>)
-}
+})

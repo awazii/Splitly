@@ -23,7 +23,6 @@ import { Memberdetails } from '../utils/Memberdetails';
 export const Recent = ({ h, d, activities, location }) => {
     const { Friend } = useParams();
   const [expandedId, setExpandedId] = useState(null);
-  console.log(activities)
   const DescIconConfig = {
     add: <IoPersonAddSharp className="text-[#4caf50] size-5" />,
     image: <FaImages className="text-[#f68340] size-5" />,

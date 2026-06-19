@@ -1,6 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, memo, useMemo } from 'react'
 import Input from '../../Components/Common/Input'
-import Button from '../../Components/Common/searchbtn'
 import { TbPinnedFilled } from "react-icons/tb";
 import { FaChevronDown, FaUserFriends } from "react-icons/fa";
 import { CiFilter } from "react-icons/ci";
@@ -11,15 +10,38 @@ import { motion } from "framer-motion";
 import { pageContainerVariants, itemVariants, cardVariants } from "../../utils/animation";
 import { FilterHeader } from '../../Components/filter';
 import { Basemodel } from "../../Components/basemodel";
-import {FaBan} from "react-icons/fa";
-import {
-  HiArrowTrendingUp,
-  HiArrowTrendingDown,
-  HiCheckBadge,
-  HiBarsArrowDown,
-  HiBarsArrowUp,
-} from "react-icons/hi2";
+import { FaBan } from "react-icons/fa";
+import { SortIcons, FilterIcons } from "../../utils/SortFiltersvgs";
+import { FilterSortPanel } from '../../Components/FilterSortPanel';
+import { FilterHandlers } from '../../utils/FilterHandler';
+import { IoSearchOutline, } from "react-icons/io5";
+import { UniversalEmptyState } from '../../Components/UniversalEmptyState';
+import dayjs from 'dayjs';
+export const friendsSorts = [
+  {
+    label: "New to Old",
+    icon: SortIcons["New to Old"],
+  },
+  {
+    label: "Old to New",
+    icon: SortIcons["Old to New"],
+  },
+];
 
+export const friendsFilters = [
+  {
+    label: "All Settled",
+    icon: FilterIcons["All Settled"],
+  },
+  {
+    label: "Positive Balance",
+    icon: FilterIcons["Positive Balance"],
+  },
+  {
+    label: "Negative Balance",
+    icon: FilterIcons["Negative Balance"],
+  },
+];
 export const indicators = {
   settled: {
     balancetextClass: "text-text-secondary",
@@ -34,60 +56,7 @@ export const indicators = {
     balancebgClass: "bg-green-600",
   }
 }
-export const friendsSorts = [
-  {
-    label: "New to Old",
-    icon: (
-      <HiBarsArrowDown
-        size={18}
-        className="text-[#3b82f6]"
-      />
-    ),
-  },
-
-  {
-    label: "Old to New",
-    icon: (
-      <HiBarsArrowUp
-        size={18}
-        className="text-[#a855f7]"
-      />
-    ),
-  },
-];
-export const friendsFilters = [
-  {
-    label: "All Settled",
-    icon: (
-      <HiCheckBadge
-        size={18}
-        className="text-[#9ca3af]"
-      />
-    ),
-  },
-
-  {
-    label: "Positive Balance",
-    icon: (
-      <HiArrowTrendingUp
-        size={18}
-        className="text-[#22c55e]"
-      />
-    ),
-  },
-
-  {
-    label: "Negative Balance",
-    icon: (
-      <HiArrowTrendingDown
-        size={18}
-        className="text-[#ef4444]"
-      />
-    ),
-  },
-];
-
-export const Friendslist = () => {
+export const Friendslist = memo(() => {
   const Friends = useSelector(selectAllFriends);
   const pinnedFriends = useSelector(selectPinnedFriends);
   const dispatch = useDispatch();
@@ -95,6 +64,68 @@ export const Friendslist = () => {
   const Openmodel = () => setpopup(true)
   const Closemodel = () => setpopup(false)
   const [popup, setpopup] = useState(false)
+  const [queryOptions, setqueryOptions] = useState({
+    Search: {
+      value: "",
+    },
+    Filter: {
+      active: false,
+      type: "",
+      details: null
+    }
+    ,
+    Sort: {
+      type: "Old to New",
+    }
+  })
+  const renderedData = useMemo(() => {
+    let result = [...Friends];
+    switch (queryOptions.Sort.type) {
+      case "New to Old":
+        result.sort((a, b) => {
+          return dayjs(b.joinedDate).valueOf() - dayjs(a.joinedDate).valueOf();
+        });
+        break;
+
+      case "Old to New":
+        result.sort((a, b) => {
+          return dayjs(a.joinedDate).valueOf() - dayjs(b.joinedDate).valueOf();
+        });
+        break;
+
+      default:
+        break;
+    }
+    if (queryOptions.Filter.active) {
+      const value = queryOptions.Filter.details?.value ?? null;
+      result = FilterHandlers[queryOptions.Filter.type](result, value);
+    }
+    if (queryOptions.Search.value.trim() !== '') {
+      const search = queryOptions.Search.value.toLowerCase().trim();
+
+      result = result.filter((card) =>
+        card.Name?.toLowerCase().includes(search)
+      );
+    }
+
+    return result;
+  }, [
+    queryOptions
+  ]);
+  const emptyStates = {
+    noSearchResults: {
+      title: "No results found",
+      description: "Try using different keywords or adjust your search.",
+      icon: <IoSearchOutline className="size-10 text-primary" />,
+    },
+
+    noFilterResults: {
+      title: "No matches found",
+      description:
+        "Try changing or clearing your filters to see results.",
+      icon: <CiFilter className="size-10 text-primary" />,
+    },
+  };
   function Setref(el, i) {
     Friendsrefs.current[i] = el;
   }
@@ -107,7 +138,7 @@ export const Friendslist = () => {
     setTimeout(() => el.classList.remove("highlight-glow"), 3000);
   };
   function UnPin(friend) {
-    dispatch(updatefriend({ id: friend.id, changes: { isPinned: false } }));
+    dispatch(updateFriend({ id: friend.id, changes: { isPinned: false } }));
   }
   return (
     <motion.div
@@ -118,14 +149,36 @@ export const Friendslist = () => {
     >
       <motion.div variants={itemVariants} className='flex items-center justify-between mt-3'>
         <div className="search flex gap-4 py-2 items-center">
-          <Input variant={"Friend"} />
-          <Button />
+          <Input variant={"Friend"} queryOptions={queryOptions} setqueryOptions={setqueryOptions} />
         </div>
-        <button className="filter bg-white shadow-md  p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex" onClick={Openmodel}>
-          <CiFilter className='size-5 ' />
-        </button>
+        <div className='center-flex gap-5'>
+          {!(queryOptions.Filter.type === "" && queryOptions.Sort.type === "Old to New") &&
+            <button
+              className='cursor-pointer text-primary font-semibold underline'
+              onClick={() => {
+                setqueryOptions(prev => (
+                  {
+                    ...prev,
+                    Filter: {
+                      active: false,
+                      type: "",
+                      details: null
+                    }
+                    ,
+                    Sort: {
+                      type: "Old to New",
+                    }
+                  }
+                ))
+              }}
+            >Clear all</button>}
+          <button className="filter bg-white shadow-md  p-2 rounded-lg cursor-pointer hover:text-primary hover:scale-105 trans center-flex" onClick={Openmodel} title='sort & filters'>
+            <CiFilter className='size-5 ' />
+          </button>
+        </div>
+
       </motion.div>
-      <motion.div variants={itemVariants} className="pinned-friends mt-2 p-2">
+      {(!queryOptions.Filter.active && queryOptions.Search.value === '') && <motion.div variants={itemVariants} className="pinned-friends mt-2 p-2">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>
           Pinned <span><TbPinnedFilled className='rotate-45' /></span>
         </h2>
@@ -168,22 +221,36 @@ export const Friendslist = () => {
             </motion.div>
           ))}
         </motion.div>)}
-      </motion.div>
+      </motion.div>}
       <motion.div variants={itemVariants} className="friendslist-container min-h-60 border-b-light p-2">
         <h2 className='text-xl font-semibold mb-2 center-flex gap-1 w-20'>
           Friends <span><FaUserFriends /></span>
         </h2>
-        {Friends.length > 0 && <motion.div variants={pageContainerVariants} className="friendslist grid grid-cols-4 gap-x-2 gap-y-2 mb-5">
-          {Friends.map((friend) => (
+        <FilterSortPanel queryOptions={queryOptions} type="friend" />
+        {queryOptions.Search.value !== '' && <h2 className='text-text-secondary my-2'>Showing : <span className='font-semibold'> {`${renderedData.length} 
+        ${renderedData.length > 1 ? "Results" : "Result"}
+        for ${queryOptions.Search.value}`} </span></h2>}
+        {renderedData.length > 0 && <motion.div variants={pageContainerVariants} className="friendslist grid grid-cols-4 gap-x-2 gap-y-2 mb-5">
+          {renderedData.map((friend) => (
             <motion.div key={friend.id} variants={cardVariants} ref={(el) => Setref(el, friend.id)}>
               <FriendCard friend={friend} />
             </motion.div>
           ))}
         </motion.div>}
+        {renderedData.length === 0 && <UniversalEmptyState
+          title={queryOptions.Search.value.trim() !== '' ? emptyStates.noSearchResults.title : queryOptions.Filter.active ? emptyStates.noFilterResults.title : ''}
+          description={queryOptions.Search.value.trim() !== '' ? emptyStates.noSearchResults.description : queryOptions.Filter.active ? emptyStates.noFilterResults.description : ''}
+          textsize=""
+        >
+          <div className="p-10 shadow-md bg-gray-50 rounded-full">
+            {queryOptions.Search.value.trim() !== '' ? emptyStates.noSearchResults.icon : queryOptions.Filter.active ? emptyStates.noFilterResults.icon : ''}
+          </div>
+        </UniversalEmptyState>
+        }
       </motion.div>
       <Basemodel isOpen={popup} Closemodel={Closemodel} title="Friend Filters">
-        <FilterHeader Sorts={friendsSorts} Filters={friendsFilters} ActiveSort={"Old to New"} type="friend" />
+        <FilterHeader Sorts={friendsSorts} Filters={friendsFilters} defaultSort={"Old to New"} type="friend" queryOptions={queryOptions} setqueryOptions={setqueryOptions} />
       </Basemodel>
     </motion.div>
   )
-}
+})

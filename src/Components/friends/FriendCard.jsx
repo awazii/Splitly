@@ -13,7 +13,7 @@ import { indicators } from '../../pages/friends/Friendslist';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateFriend } from '../../store/FriendsSlice';
 import {FaBan} from "react-icons/fa";
-const Card = ({ friend }) => {
+const Card = React.memo(({ friend }) => {
   const Navigation = useNavigate()
   const dispatch = useDispatch()
   const [flip, setflip] = useState(false)
@@ -116,7 +116,7 @@ function handlePin() {
       </div>
     </StyledWrapper>
   );
-}
+})
 
 const StyledWrapper = styled.div`
   .card {
