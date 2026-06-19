@@ -3,11 +3,6 @@ import Input from '../../Components/Common/Input'
 import { GiExpense } from "react-icons/gi";
 import { FaMoneyCheck } from "react-icons/fa6";
 import { CiFilter } from "react-icons/ci";
-import mountain from "../../assets/groups/mountain.jpg"
-import beach from "../../assets/groups/Sea.jpg"
-import concert from "../../assets/groups/concert.jpg"
-import Restaurant from "../../assets/groups/Restaurant.jpg"
-import Other from "../../assets/groups/default.jpg"
 import { LuUtensils } from "react-icons/lu";
 import { RiDrinks2Line } from "react-icons/ri";
 import { MdSmokeFree } from "react-icons/md";
