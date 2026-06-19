@@ -12,6 +12,9 @@
 * **Zero-Lag UI:** Implements custom debounce logic and strict React component memoization (`React.memo`, `useMemo`, `useCallback`) to maintain 60 FPS animations and instant search feedback, even with heavy DOM elements.
 * **Modern Component Architecture:** Integrates custom Tailwind styling alongside premium **Uiverse UI** components for a highly polished, interactive aesthetic.
 * **Fluid Routing & Animations:** Powered by React Router DOM for seamless SPA navigation, paired with Framer Motion for physics-based page transitions and layout animations.
+* **Comprehensive Analytics Dashboard:** A dedicated visualization page utilizing complex array reductions to render real-time, multi-axis line charts and financial summaries over a 7-day trailing period.
+* **On-the-Fly 'Quick Split' Engine:** A standalone temporary splitter utility allowing users to instantly calculate complex, uneven bill splits without requiring them to save the data or create permanent friend groups.
+* **Complex Multi-Step Forms:** Utilizes `react-hook-form` to handle intricate, 3-step form validations and state capture cleanly without unnecessary re-renders.
 
 ## 🛠 Tech Stack
 
