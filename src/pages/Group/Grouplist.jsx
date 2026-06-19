@@ -14,11 +14,11 @@ import { motion } from "framer-motion";
 import { pageContainerVariants, itemVariants, cardVariants } from "../../utils/animation";
 import { Basemodel } from '../../Components/basemodel';
 import { FilterHeader } from '../../Components/filter';
-import mountain from "../../assets/groups/mountain.jpg"
-import beach from "../../assets/groups/Sea.jpg"
-import concert from "../../assets/groups/concert.jpg"
-import Restaurant from "../../assets/groups/Restaurant.jpg"
-import Other from "../../assets/groups/default.jpg"
+import mountain from "../../assets/Groups/mountain.jpg";
+import beach from "../../assets/Groups/Sea.jpg";
+import concert from "../../assets/Groups/concert.jpg";
+import Restaurant from "../../assets/Groups/Restaurant.jpg";
+import Other from "../../assets/Groups/default.jpg";
 import { SortIcons, FilterIcons } from "../../utils/SortFiltersvgs";
 import { FilterSortPanel } from '../../Components/FilterSortPanel';
 import { FilterHandlers } from '../../utils/FilterHandler';
