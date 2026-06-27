@@ -148,7 +148,7 @@ export const Addexpense = () => {
             aggregatesettlements(finalmembers)
         ))
         dispatch(addActivity({
-            title: `New Expense: Rs. ${data.totalAmount}`,
+            title: `New Expense: Rs. ${Number(data.totalAmount).toLocaleString()}`,
             selfTitle: false,
             description: null,
             icon: "expense",

@@ -81,7 +81,7 @@ export const Settle = ({ CurrentFriend, Currentbalancewith, setissettlementopen,
       }));
     }
     dispatch(addActivity({
-      title: `${CurrentFriend.Name} paid Rs. ${amount} to ${balancewith?.Name}`,
+      title: `${CurrentFriend.Name} paid Rs. ${amount.toLocaleString()} to ${balancewith?.Name}`,
       selfTitle: false,
       description: {
         title: "settlement",
@@ -116,13 +116,13 @@ export const Settle = ({ CurrentFriend, Currentbalancewith, setissettlementopen,
         </div>
         <div className="progress h-25 rounded-lg shadow-md  p-4 bg-white ">
           <div className="amounts flex justify-between mt-2">
-            <div className="remaining font-bold ">Rs.{(remaining || 0)}</div>
+            <div className="remaining font-bold ">Rs.{(remaining < 0 ? 0 : remaining)}</div>
             <div className="paid font-bold ">{`Rs.${Math.abs(CurrentDebt).toLocaleString()}`}</div>
           </div>
           <div className="progress-bar-container relative">
             <div className="progress-bar w-full h-3 bg-gray-200 rounded-full mt-1 overflow-hidden">
               <div className={`progress bg-red-600 h-3 rounded-full`} style={{
-                width: `${percentage}%`
+                width: `${remaining < 0 ? 0 : percentage}%`
               }}></div>
             </div>
             <div className="total absolute  right-0  mt-1 text-sm">Total Debt</div>
