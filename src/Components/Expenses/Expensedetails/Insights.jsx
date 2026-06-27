@@ -10,11 +10,15 @@ import { useSelector } from 'react-redux';
 import { pageContainerVariants, cardContentVariants } from "../../../utils/animation";
 import { FaBan } from "react-icons/fa"
 export const Insights = ({ data }) => {
-    const sortedmembers = data && [...data].sort((a, b) => b.spent - a.spent);
+    const sortedmembers = data && [...data].sort((a, b) => {
+        const balanceA = a.spent - a.share;
+        const balanceB = b.spent - b.share;
+        return balanceB - balanceA;
+    });
     const HighesContributor = sortedmembers && sortedmembers[0];
     const rawDebtor = sortedmembers && sortedmembers[data.length - 1];
-    const debtorBalance = rawDebtor ? Math.abs(rawDebtor.spent - rawDebtor.share) : 0;
-    const HighestDebtor = debtorBalance > 0 ? rawDebtor : null;
+    const isActuallyDebtor = rawDebtor && (rawDebtor.spent - rawDebtor.share < 0);
+    const HighestDebtor = isActuallyDebtor ? rawDebtor : null;
 
     function GetTemp(id) {
         const Splits = useSelector(selectAllSplits)[0];
@@ -29,7 +33,7 @@ export const Insights = ({ data }) => {
             color: "#dc2626",
             about: Memberdetails(HighestDebtor?.id) || GetTemp(HighestDebtor?.id),
             totalamount: Math.abs(HighestDebtor?.spent - HighestDebtor?.share),
-            isBanned : HighestDebtor ? Memberdetails(HighestDebtor.id)?.isBanned : false
+            isBanned: HighestDebtor ? Memberdetails(HighestDebtor.id)?.isBanned : false
         },
         {
             label: "Highest Contributor",
@@ -37,7 +41,7 @@ export const Insights = ({ data }) => {
             totalamount: HighesContributor?.spent,
             color: "#16A34A",
             about: Memberdetails(HighesContributor?.id) || GetTemp(HighesContributor?.id),
-            isBanned : HighesContributor ? Memberdetails(HighesContributor.id)?.isBanned : false
+            isBanned: HighesContributor ? Memberdetails(HighesContributor.id)?.isBanned : false
 
         }
     ];
@@ -67,7 +71,7 @@ export const Insights = ({ data }) => {
                                         <>
                                             <img src={insight.about.Image} className='rounded-full Img-c' alt="profile-pic" />
                                             <div className={`absolute top-8/13 right-4 p-1 opacity-90 bg-red-500 rounded-full text-white shadow-lg ${insight.isBanned ? "block" : "hidden"}`}>
-                                                <FaBan className="size-1" /> 
+                                                <FaBan className="size-1" />
                                             </div>
                                         </>
                                     ) : (
